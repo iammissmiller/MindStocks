@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SEBI Trading Simulator — Professional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#ffffff; --text:#0f172a; --muted:#6b7280; --accent:#2563eb; --success:#16a34a; --danger:#dc2626; --glass: rgba(255,255,255,0.6);
+      --radius:12px; --shadow: 0 8px 24px rgba(16,24,40,0.06);
+    }
+    [data-theme='dark']{ --bg:#071021; --card:#071427; --text:#e6eef8; --muted:#9aa6b2; --accent:#58a6ff; --glass: rgba(255,255,255,0.03); }
+
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
+
+    header{position:sticky; top:0; background:linear-gradient(90deg,var(--card),var(--glass)); backdrop-filter: blur(6px); border-bottom:1px solid rgba(0,0,0,0.04); z-index:40}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    .topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand h1{font-size:18px;margin:0}
+    .balance-card{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);border:1px solid rgba(0,0,0,0.04)}
+    .balance-amt{font-weight:700;font-size:18px}
+    .controls{display:flex;align-items:center;gap:8px}
+    button.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:var(--card);cursor:pointer}
+    button.primary{background:var(--accent);color:white;border-color:transparent}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:16px;padding:16px}
+
+    .card{background:var(--card);border-radius:var(--radius);padding:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:var(--shadow)}
+    h2{margin:0 0 10px 0;font-size:16px}
+
+    /* market table */
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px 10px;text-align:left;font-size:13px}
+    thead th{font-weight:700;color:var(--muted);font-size:12px;border-bottom:1px solid rgba(0,0,0,0.04)}
+    tbody tr{border-bottom:1px solid rgba(0,0,0,0.03)}
+    tbody tr:hover{background:rgba(0,0,0,0.02)}
+
+    .small{font-size:12px;color:var(--muted)}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px}
+    .pill.up{background:rgba(34,197,94,0.08);color:var(--success)}
+    .pill.down{background:rgba(239,68,68,0.06);color:var(--danger)}
+
+    .market-actions{display:flex;gap:8px;align-items:center}
+    input[type=number]{width:84px;padding:6px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){.grid{grid-template-columns:1fr;}.right-col {order:-1}}
+
+    /* toast */
+    .toast-wrap{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:80}
+    .toast{background:linear-gradient(180deg,rgba(255,255,255,0.95),var(--card));padding:10px 12px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.2);min-width:240px;border:1px solid rgba(0,0,0,0.06);display:flex;gap:8px;align-items:center}
+    .toast.ok{border-left:4px solid var(--success)}
+    .toast.warn{border-left:4px solid var(--danger)}
+
+    /* small UI bits */
+    .stats-row{display:flex;gap:12px;align-items:center}
+    .stat{padding:10px;border-radius:10px;background:linear-gradient(180deg,var(--glass),transparent);min-width:120px}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.4);display:none;align-items:center;justify-content:center;z-index:90}
+    .modal{width:min(720px,92vw);}
+
+    /* sparkline */
+    .spark{width:80px;height:28px}
+
+    /* highlight animation */
+    .flash{animation:flash 1200ms ease}
+    @keyframes flash{0%{box-shadow:0 0 0 6px rgba(34,197,94,0.12)}100%{box-shadow:none}}
+
+    footer{padding:20px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="color:var(--accent)"><path d="M3 3v18h18" stroke="currentColor" stroke-width="1.6"/></svg>
+        <div>
+          <h1>SEBI Trading Simulator</h1>
+          <div class="small">Educational — No real money involved</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="balance-card" id="balanceCard">
+          <div class="small">Balance</div>
+          <div class="balance-amt" id="balance">₹ 0</div>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="themeToggle">Toggle Theme</button>
+          <button class="btn" id="resetBtn">Reset</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid">
+      <section>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Market</h2>
+            <div class="small">Tick interval: <select id="tickSpeed"><option value="1000">1s</option><option value="3000" selected>3s</option><option value="8000">8s</option></select>
+            <button class="btn" id="pauseBtn">Pause</button>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <div class="stat small">Top Gainer: <span id="topGainer">—</span></div>
+            <div class="stat small">Top Loser: <span id="topLoser">—</span></div>
+            <div class="stat small">Watchlist: <span id="watchCount">0</span></div>
+          </div>
+
+          <div style="margin-top:12px;overflow:auto;" class="table-wrapper">
+            <table id="marketTable">
+              <thead>
+                <tr><th>Stock</th><th>Price</th><th>Move</th><th>Qty</th><th>Trend</th><th style="text-align:right">Action</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h2>Trade History</h2>
+          <div style="overflow:auto;max-height:240px">
+            <table id="historyTable"><thead><tr><th>When</th><th>Type</th><th>Stock</th><th>Qty</th><th>Price</th><th>Charges</th></tr></thead><tbody></tbody></table>
+          </div>
+        </div>
+
+      </section>
+
+      <aside class="right-col">
+        <div class="card">
+          <h2>Portfolio Summary</h2>
+          <div class="stats-row" style="margin-top:8px">
+            <div class="stat"><div class="small">Invested</div><div id="invested">₹ 0</div></div>
+            <div class="stat"><div class="small">Value</div><div id="value">₹ 0</div></div>
+            <div class="stat"><div class="small">Net P/L</div><div id="netpl">₹ 0 (0%)</div></div>
+          </div>
+
+          <div style="margin-top:12px">
+            <canvas id="portfolioChart" width="380" height="200"></canvas>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button class="btn" id="addStockBtn">+ Add Stock</button>
+            <button class="btn" id="pauseMarketBtn">Pause Market</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h2>Portfolio Allocation</h2>
+          <canvas id="allocChart" width="380" height="200"></canvas>
+        </div>
+      </aside>
+    </div>
+
+    <div style="margin-top:16px" class="card">
+      <h2>Portfolio Holdings</h2>
+      <div style="overflow:auto"><table id="portfolioTable"><thead><tr><th>Stock</th><th>Qty</th><th>Avg</th><th>Current</th><th>P/L (%)</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </main>
+
+  <div class="toast-wrap" id="toasts"></div>
+
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal card" role="dialog">
+    <h3 id="modalTitle">Add Stock</h3>
+    <div style="margin-top:10px">
+      <label class="small">Symbol</label>
+      <input id="newSym" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" />
+      <label class="small" style="margin-top:8px">Start Price</label>
+      <input id="newPrice" type="number" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" />
+      <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+        <button class="btn" id="closeModalBtn">Close</button>
+        <button class="btn primary" id="saveStockBtn">Save</button>
+      </div>
+    </div>
+  </div></div>
+
+  <footer>Educational simulator • Brokerage simulated (0.10%) • GST on brokerage (18%) • Data stored locally</footer>
+
+  <script>
+    // ======= Initial data and state =======
+    const DEFAULT_BALANCE = 1000000;
+    const DEFAULT_STOCKS = {
+      RELIANCE: 2500, TCS:3500, INFY:1600, HDFCBANK:1600, SBIN:550, ITC:470, ADANIENT:2700, AIRTEL:920, ASIANPAINT:3100, MARUTI:9500
+    };
+
+    let stocks = {}; // symbol -> {price, history[], trend}
+    let lastPrices = {};
+    let portfolio = {}; // sym -> {qty, avg}
+    let history = []; // trades
+    let balance = DEFAULT_BALANCE;
+    let tickInterval = 3000;
+    let tickTimer = null;
+    let paused = false;
+    let theme = localStorage.getItem('sim_theme')||'light';
+
+    // ======= Utility =======
+    const fmt = n => Number(n).toLocaleString('en-IN', {maximumFractionDigits:2});
+    const nowStr = () => new Date().toLocaleString();
+    function calcCharges(amount){ const brokerage = amount*0.001; const gst = brokerage*0.18; return +(brokerage+gst).toFixed(2); }
+
+    // ======= Persistence =======
+    function saveState(){
+      localStorage.setItem('sim_stocks', JSON.stringify(Object.fromEntries(Object.entries(stocks).map(([s,v])=>[s,{price:v.price,history:v.history,trend:v.trend}] ))));
+      localStorage.setItem('sim_portfolio', JSON.stringify(portfolio));
+      localStorage.setItem('sim_history', JSON.stringify(history));
+      localStorage.setItem('sim_balance', balance);
+      localStorage.setItem('sim_theme', theme);
+    }
+    function loadState(){
+      const s = localStorage.getItem('sim_stocks');
+      if(s){
+        const raw = JSON.parse(s);
+        stocks = {}; for(const k in raw) stocks[k]={price:raw[k].price, history:raw[k].history||[], trend:raw[k].trend||0};
+      } else {
+        stocks = {}; for(const k in DEFAULT_STOCKS) stocks[k]={price:DEFAULT_STOCKS[k], history:[DEFAULT_STOCKS[k]], trend:(Math.random()-0.5)*0.4};
+      }
+      lastPrices = Object.fromEntries(Object.keys(stocks).map(s=>[s,stocks[s].price]));
+      portfolio = JSON.parse(localStorage.getItem('sim_portfolio')||'{}');
+      history = JSON.parse(localStorage.getItem('sim_history')||'[]');
+      balance = +(localStorage.getItem('sim_balance')||DEFAULT_BALANCE);
+      theme = localStorage.getItem('sim_theme')||theme;
+    }
+
+    // ======= Rendering =======
+    const marketTbody = document.querySelector('#marketTable tbody');
+    const historyTbody = document.querySelector('#historyTable tbody');
+    const portfolioTbody = document.querySelector('#portfolioTable tbody');
+
+    function renderMarket(){
+      marketTbody.innerHTML='';
+      const movers = [];
+      Object.keys(stocks).forEach(sym=>{
+        const s = stocks[sym]; const prev = lastPrices[sym]||s.price; const diff = s.price - prev; const pct = (diff/prev)*100;
+        movers.push({sym,diff,pct});
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="min-width:110px"><strong>${sym}</strong> <button class="btn" data-star="${sym}" title="Add to Watchlist">★</button></td>
+          <td>₹ ${fmt(s.price)}</td>
+          <td><span class="pill ${diff>=0?'up':'down'}">${diff>=0?'+':''}${diff.toFixed(2)} (${pct.toFixed(2)}%)</span></td>
+          <td><input type="number" id="qty_${sym}" min="1" value="10" /></td>
+          <td style="width:100px"><canvas class="spark" id="spark_${sym}"></canvas></td>
+          <td style="text-align:right"><div class="market-actions"><button class="btn primary" data-buy="${sym}">Buy</button><button class="btn" data-sell="${sym}">Sell</button></div></td>
+        `;
+        marketTbody.appendChild(tr);
+      });
+      // top movers
+      movers.sort((a,b)=>b.pct-a.pct);
+      const topG = movers[0]; const topL = movers[movers.length-1];
+      document.getElementById('topGainer').textContent = topG? `${topG.sym} ${topG.pct.toFixed(2)}%` : '—';
+      document.getElementById('topLoser').textContent = topL? `${topL.sym} ${topL.pct.toFixed(2)}%` : '—';
+
+      // attach handlers
+      document.querySelectorAll('[data-buy]').forEach(btn=>btn.onclick=()=>buy(btn.getAttribute('data-buy')));
+      document.querySelectorAll('[data-sell]').forEach(btn=>btn.onclick=()=>sell(btn.getAttribute('data-sell')));
+      document.querySelectorAll('[data-star]').forEach(btn=>btn.onclick=()=>toggleWatch(btn.getAttribute('data-star')));
+
+      // draw sparklines
+      Object.keys(stocks).forEach(sym=>drawSpark(sym));
+    }
+
+    function renderHistory(){
+      historyTbody.innerHTML='';
+      history.slice(0,200).forEach(item=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="small">${item.time}</td><td>${item.type}</td><td>${item.stock}</td><td>${item.qty}</td><td>₹ ${fmt(item.price)}</td><td>₹ ${fmt(item.charges)}</td>`;
+        historyTbody.appendChild(tr);
+      });
+    }
+
+    function renderPortfolio(){
+      portfolioTbody.innerHTML='';
+      let invested=0, value=0;
+      Object.keys(portfolio).forEach(sym=>{
+        const pos = portfolio[sym]; const curr = stocks[sym]?stocks[sym].price:0; const currVal = curr*pos.qty; invested += pos.qty*pos.avg; value += currVal;
+        const plPct = pos.avg?((curr-pos.avg)/pos.avg)*100:0;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${sym}</td><td>${pos.qty}</td><td>₹ ${fmt(pos.avg)}</td><td>₹ ${fmt(currVal)}</td><td style="color:${plPct>=0? 'var(--success)':'var(--danger)'}">${plPct.toFixed(2)}%</td>`;
+        portfolioTbody.appendChild(tr);
+      });
+      if(Object.keys(portfolio).length===0){
+        const tr = document.createElement('tr'); tr.innerHTML=`<td colspan="5" class="small">No holdings yet.</td>`; portfolioTbody.appendChild(tr);
+      }
+      document.getElementById('invested').textContent = '₹ '+fmt(invested);
+      document.getElementById('value').textContent = '₹ '+fmt(value);
+      const net = value - invested; const netPct = invested? (net/invested)*100 : 0;
+      document.getElementById('netpl').textContent = `₹ ${fmt(net)} (${netPct.toFixed(2)}%)`;
+
+      // update charts
+      updateAllocationChart();
+      pushPortfolioHistory(value+balance);
+    }
+
+    // ======= Charts =======
+    let allocChart=null, portfolioChart=null; let portfolioHistory=[];
+    function initCharts(){
+      const aCtx = document.getElementById('allocChart');
+      allocChart = new Chart(aCtx,{type:'doughnut',data:{labels:[],datasets:[{data:[],backgroundColor:[]}]},options:{plugins:{legend:{display:true}}}});
+      const pCtx = document.getElementById('portfolioChart');
+      portfolioChart = new Chart(pCtx,{type:'line',data:{labels:[],datasets:[{label:'Net Worth',data:[],tension:0.3,fill:false}]},options:{scales:{y:{beginAtZero:false}},plugins:{legend:{display:false}}}});
+    }
+    function updateAllocationChart(){
+      const labels=[]; const data=[]; const colors=[];
+      Object.keys(portfolio).forEach(sym=>{ labels.push(sym); const val = portfolio[sym].qty*(stocks[sym]?stocks[sym].price:0); data.push(val); colors.push(randomColor(sym)); });
+      allocChart.data.labels = labels; allocChart.data.datasets[0].data = data; allocChart.data.datasets[0].backgroundColor = colors; allocChart.update();
+    }
+    function pushPortfolioHistory(val){
+      const maxPoints = 60; portfolioHistory.push({t:Date.now(),v:val}); if(portfolioHistory.length>maxPoints) portfolioHistory.shift();
+      portfolioChart.data.labels = portfolioHistory.map(p=>new Date(p.t).toLocaleTimeString()); portfolioChart.data.datasets[0].data = portfolioHistory.map(p=>p.v); portfolioChart.update();
+    }
+    function randomColor(seed){
+      let h = 360 * (hashCode(seed) % 100)/100; return `hsl(${h} 70% 55%)`;
+    }
+    function hashCode(s){ let h=0; for(let i=0;i<s.length;i++)h = ((h<<5)-h)+s.charCodeAt(i); return Math.abs(h);
+    }
+
+    // sparkline draw
+    function drawSpark(sym){
+      const el = document.getElementById('spark_'+sym); if(!el) return; const ctx = el.getContext('2d'); ctx.clearRect(0,0,el.width,el.height);
+      const arr = stocks[sym].history.slice(-20); const w=el.width, h=el.height; if(arr.length<2) return;
+      const min = Math.min(...arr), max = Math.max(...arr);
+      ctx.beginPath(); arr.forEach((v,i)=>{ const x = (i/(arr.length-1))*(w-2)+1; const y = h-1 - ((v-min)/(max-min||1))*(h-2); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+      ctx.lineWidth=2; ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent')||'#2563eb'; ctx.stroke();
+    }
+
+    // ======= Trading =======
+    function buy(sym){
+      const qty = parseInt(document.getElementById('qty_'+sym).value||'0',10); if(qty<=0) return toast('Enter valid quantity','warn');
+      const price = stocks[sym].price; const amount = price*qty; const charges = calcCharges(amount); const total = amount+charges; if(balance<total) return toast('Insufficient balance','warn');
+      balance -= total; if(!portfolio[sym]) portfolio[sym]={qty:0,avg:0}; const oldTotal = portfolio[sym].qty*portfolio[sym].avg; const newTotal = oldTotal + amount; portfolio[sym].qty += qty; portfolio[sym].avg = newTotal/portfolio[sym].qty;
+      history.unshift({time:nowStr(),type:'BUY',stock:sym,qty,price,challenges:null,charges});
+      animateBalance(); flashElement('#balanceCard'); toast(`Bought ${qty} ${sym} @ ₹${fmt(price)}`,'ok'); saveState(); renderPortfolio(); renderHistory();
+    }
+    function sell(sym){
+      const qty = parseInt(document.getElementById('qty_'+sym).value||'0',10); if(qty<=0) return toast('Enter valid quantity','warn'); if(!portfolio[sym]||portfolio[sym].qty<qty) return toast('Not enough shares to sell','warn');
+      const price = stocks[sym].price; const amount = price*qty; const charges = calcCharges(amount); const credit = amount - charges; balance += credit; portfolio[sym].qty -= qty; if(portfolio[sym].qty===0) delete portfolio[sym]; history.unshift({time:nowStr(),type:'SELL',stock:sym,qty,price,charges});
+      animateBalance(); flashElement('#balanceCard'); toast(`Sold ${qty} ${sym} @ ₹${fmt(price)}`,'ok'); saveState(); renderPortfolio(); renderHistory();
+    }
+
+    // ======= Simulation =======
+    function tick(){ if(paused) return; Object.keys(stocks).forEach(sym=>{
+      const s = stocks[sym]; lastPrices[sym]=s.price; // trend-based movement
+      const trendFactor = s.trend + (Math.random()-0.5)*0.6; // trend persists but noisy
+      let drift = trendFactor * (s.price*0.02) + (Math.random()-0.5)* (s.price*0.015);
+      // occasional volatility spike
+      if(Math.random()<0.02) drift += (Math.random()>0.5?1:-1) * s.price * (0.05 + Math.random()*0.12);
+      s.price = Math.max(1, +(s.price + drift).toFixed(2));
+      s.history.push(s.price); if(s.history.length>120) s.history.shift();
+      // slowly mean revert trend
+      s.trend *= 0.98; if(Math.random()<0.03) s.trend += (Math.random()-0.5)*0.6;
+    });
+      renderMarket(); renderPortfolio(); saveState();
+    }
+
+    function startTicker(){ stopTicker(); tickTimer = setInterval(tick, tickInterval); }
+    function stopTicker(){ if(tickTimer) clearInterval(tickTimer); tickTimer=null; }
+
+    // ======= UI helpers =======
+    function toast(msg,type='ok'){ const wrap=document.getElementById('toasts'); const t=document.createElement('div'); t.className='toast '+(type==='ok'?'ok':'warn'); t.textContent=msg; wrap.appendChild(t); setTimeout(()=>{ t.style.opacity=0; t.style.transform='translateX(20px)'; setTimeout(()=>t.remove(),400); },3200); }
+    function animateBalance(){ const el=document.getElementById('balance'); const start = +el.dataset.amount||0; const end = balance; const dur=700; const startT=performance.now(); (function step(t){ const p=(t-startT)/dur; if(p<1){ const val = start + (end-start)*easeOutCubic(p); el.textContent = '₹ '+fmt(val); requestAnimationFrame(step);} else { el.textContent = '₹ '+fmt(end); el.dataset.amount=end; } })(); }
+    function easeOutCubic(t){ return (--t)*t*t+1 }
+    function flashElement(sel){ const el = document.querySelector(sel); if(!el) return; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+
+    // watchlist
+    function toggleWatch(sym){ const key='sim_watch'; const raw=JSON.parse(localStorage.getItem(key)||'[]'); const idx=raw.indexOf(sym); if(idx===-1) raw.push(sym); else raw.splice(idx,1); localStorage.setItem(key,JSON.stringify(raw)); document.getElementById('watchCount').textContent = raw.length; toast(idx===-1? 'Added to watchlist':'Removed from watchlist'); }
+
+    // modal add stock
+    document.getElementById('addStockBtn').onclick = ()=>{ document.getElementById('modalBackdrop').style.display='flex'; document.getElementById('newSym').value=''; document.getElementById('newPrice').value=''; }
+    document.getElementById('closeModalBtn').onclick = ()=> document.getElementById('modalBackdrop').style.display='none';
+    document.getElementById('saveStockBtn').onclick = ()=>{
+      const sym = (document.getElementById('newSym').value||'').toUpperCase().trim(); const p = Math.max(1,parseFloat(document.getElementById('newPrice').value||0)); if(!sym) return toast('Enter symbol','warn'); if(stocks[sym]) return toast('Symbol exists','warn'); stocks[sym] = {price:p,history:[p],trend:(Math.random()-0.5)*0.4}; saveState(); renderMarket(); document.getElementById('modalBackdrop').style.display='none'; toast('Stock added');
+    }
+
+    // reset
+    document.getElementById('resetBtn').onclick = ()=>{
+      if(!confirm('Reset simulator to default state?')) return; localStorage.clear(); location.reload();
+    }
+
+    // pause and speed controls
+    document.getElementById('pauseBtn').onclick = ()=>{ paused = !paused; document.getElementById('pauseBtn').textContent = paused? 'Resume': 'Pause'; toast(paused? 'Market paused':'Market resumed'); };
+    document.getElementById('tickSpeed').onchange = (e)=>{ tickInterval = +e.target.value; startTicker(); }
+
+    // theme
+    const root = document.documentElement; function applyTheme(){ root.setAttribute('data-theme', theme==='dark'?'dark':'light'); localStorage.setItem('sim_theme',theme); }
+    document.getElementById('themeToggle').onclick = ()=>{ theme = theme==='dark'?'light':'dark'; applyTheme(); }
+
+    // helper to update balance display
+    function updateBalanceDisplay(){ const el = document.getElementById('balance'); el.textContent = '₹ '+fmt(balance); el.dataset.amount = balance; }
+
+    // history render on load
+    function init(){ loadState(); applyTheme(); initCharts(); updateBalanceDisplay(); renderMarket(); renderPortfolio(); renderHistory(); startTicker();
+      // attach buy/sell from dynamic elements
+      document.addEventListener('keydown', (e)=>{ if(e.key==='/' ){ document.getElementById('newSym').focus(); } });
+    }
+
+    // portfolio history push initially
+    function seedPortfolioHistory(){ portfolioHistory = []; for(let i=0;i<6;i++){ portfolioHistory.push({t:Date.now() - (6-i)*1000, v: balance}); } pushPortfolioHistory(balance); }
+
+    // sparkline canvas autosize
+    function resizeSparks(){ document.querySelectorAll('.spark').forEach(c=>{ const rect=c.getBoundingClientRect(); c.width = Math.max(80,rect.width*devicePixelRatio); c.height = Math.max(28,rect.height*devicePixelRatio); drawSpark(c.id.replace('spark_','')); }); }
+
+    // helper: ensure stocks structure
+    function ensureStocks(){ if(!stocks || Object.keys(stocks).length===0){ stocks = {}; for(const k in DEFAULT_STOCKS) stocks[k] = {price:DEFAULT_STOCKS[k], history:[DEFAULT_STOCKS[k]], trend:(Math.random()-0.5)*0.4}; } }
+
+    // when window resizes
+    window.addEventListener('resize', ()=>{ resizeSparks(); });
+
+    // helper to update alloc & portfolio charts repeatedly
+    function periodicChartUpdate(){ updateAllocationChart(); resizeSparks(); }
+
+    // initial boot
+    ensureStocks(); init(); seedPortfolioHistory(); resizeSparks(); setInterval(periodicChartUpdate,1500);
+
+    // save state periodically
+    setInterval(saveState,5000);
+
+  </script>
+</body>
+</html>

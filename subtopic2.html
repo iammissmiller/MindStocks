@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Role of SEBI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f6f8fa;
+    --navy: #0D1B2A;
+    --accent: #E63946;
+    --teal: #2A9D8F;
+    --card: #fff;
+    --muted: #556677;
+    --soft: #f1faf8;
+    --radius: 12px;
+    --shadow: 0 10px 30px rgba(13,27,42,0.08);
+    --transition: 220ms cubic-bezier(.2,.9,.3,1);
+  }
+
+/* Global reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Consistent default spacing */
+h1, h2, h3 { line-height: 1.25; }
+p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+ul, ol { padding-left: 20px; }
+
+  body{
+    margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background:var(--bg); color:var(--navy); -webkit-font-smoothing:antialiased;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(90deg,var(--navy), #123544);
+    color: #fff;
+    padding: 28px 18px;
+    border-radius: 12px;
+    margin: 18px auto;
+    max-width:1120px;
+    box-shadow: var(--shadow);
+  }
+  .header h1{ margin:0; font-size:1.5rem; font-weight:700; }
+  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
+
+  /* Container */
+  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
+
+  /* Scams list (now for SEBI roles) */
+  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
+  .scam-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(13,27,42,0.06);
+  position: relative;
+  overflow: visible;
+  transition: transform var(--transition);
+  z-index: 1;
+  }
+  .scam-card:hover { transform: translateY(-6px); z-index: 10; }
+  .scam-title h3 { margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 600; }
+  .scam-short { margin-top: 6px; color: var(--muted); font-size: .96rem; line-height: 1.45; }
+  .scam-ex { margin-top: 6px; color: #234a57; font-style: italic; }
+  .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
+
+  .icon {
+    width:56px; height:56px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
+    flex: 0 0 56px;
+  }
+  /* Custom icons for SEBI roles, mapped to new design's color classes */
+  .scam-card:nth-child(1) .icon{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* d2 - teal */
+  .scam-card:nth-child(2) .icon{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* d1 - danger */
+  .scam-card:nth-child(3) .icon{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* d3 - ponzi */
+  .scam-card:nth-child(4) .icon{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* d4 - deepfake */
+  .scam-card:nth-child(5) .icon{ background: linear-gradient(135deg,#457b9d,#73b2c9); } /* d5 - safe asset */
+  .scam-card:nth-child(6) .icon{ background: linear-gradient(135deg,#d1495b,#ff8a7a); } /* d6 - exotic */
+
+  .scam-main { flex:1; }
+  .scam-title { display:flex; align-items:center; gap:10px; }
+  .scam-title h3 { margin:0; font-size:1.05rem; font-weight:600; }
+  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; }
+  .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
+
+/* Hidden source content; shown only inside the modal */
+.avoid-group { display: none; }
+
+.avoid {
+  flex: 0 0 auto;         /* no flex growth */
+  width: fit-content;     /* wrap around content */
+  height: auto;           /* remove fixed square aspect */
+  min-width: auto;        /* allow shrink */
+  background: #0D1B2A;
+  color: white;
+  border-left: 4px solid var(--accent);
+  padding: 12px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+}
+.avoid h4 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
+.avoid ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.avoid li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Color themes for different avoid boxes */
+.avoid-howto {
+  background: #0D1B2A; /* deep navy (original) */
+}
+
+.avoid-dos {
+  background: #1b4332; /* dark green */
+  border-left-color: #2a9d8f; /* teal accent */
+}
+
+.avoid-donts {
+  background: #5c1a1a; /* dark red */
+  border-left-color: #e63946; /* red accent */
+}
+
+
+/* Mobile view */
+@media (max-width:720px) {
+  .avoid-group {
+    flex-direction: column;
+    position: relative;
+  }
+  .avoid {
+    aspect-ratio: unset;
+    min-width: unset;
+    max-width: 100%;
+  }
+}
+
+
+.flow {
+  margin: 22px auto;
+  max-width: 600px;
+  background: linear-gradient(180deg,#fff,#fcfffd);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(13,27,42,0.06);
+}
+
+
+  .flow h2{ margin:0 0 10px 0; color:var(--navy); font-size:1.05rem }
+  .chain { display:flex; flex-direction:column; gap:12px; padding-left:6px; }
+  .chain .node { display:flex; gap:12px; align-items:flex-start; }
+  .node .num {
+    width:36px; height:36px; border-radius:50%; background:#6c7a89; color:white; display:flex; align-items:center; justify-content:center; font-weight:700;
+    flex:0 0 36px; margin-top:4px;
+  }
+  .node .content { background:transparent; padding:6px 8px; border-radius:8px; }
+  .node p { margin:0; color:var(--muted); font-size:0.95rem; }
+
+  /* connector arrow using pseudo element on content */
+  .node:not(:last-child) .content::after {
+    content: "";
+    display:block;
+    margin:10px 0 0 26px;
+    width:2px; height:20px;
+    background: linear-gradient(#cbd5da,#97a6ad);
+  }
+
+  .node.danger .num{ background:var(--accent) }
+  .node.decision .num{ background:#ffb86b; color:#2e1f00 }
+  .node.safe .num{ background:var(--teal) }
+
+  /* Outcomes */
+  .outcomes { display:flex; gap:12px; margin-top:14px; }
+  .outcome { flex:1; padding:12px; border-radius:10px; color:white; font-weight:600; text-align:center }
+  .outcome.fail { background: linear-gradient(135deg,#e63946,#ff6b6b) }
+  .outcome.ok { background: linear-gradient(135deg,#2a9d8f,#6fd6b6) }
+
+  /* Golden rules full width bottom */
+.golden {
+  margin-top: 22px;
+  background: var(--soft);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(13,27,42,0.06);
+}
+  .golden h2{ margin:0 0 10px 0; color:var(--navy) }
+  .cards { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+.card-rule { border: 1px solid rgba(13,27,42,0.06); padding: 12px; border-radius: 8px; display: flex; gap: 8px; align-items: flex-start; }
+  .card-rule .tick { font-size:18px; color:var(--teal); margin-top:2px; }
+
+/* Floating nav */
+.floating{position:fixed;right:1.6%;bottom:1.6%;display:flex;flex-direction:column;gap:.9%;z-index:99999}
+.btn{background:var(--navy);color:white;padding:.9em 1.2em;border-radius:999px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;transition:background var(--transition)}
+.btn:hover{background:var(--accent)}
+.secondary{background:white;color:var(--navy);border:1px solid rgba(13,27,42,0.06)}
+
+  .btn {
+    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
+    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
+  }
+  .btn:hover{
+    background: var(--accent);
+  }
+  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+
+  /* small screen adjustments */
+  @media (max-width:480px){
+    .header{ padding:20px; border-radius:10px }
+    .btn { padding:12px 14px; font-size:1rem }
+  }
+
+  /* ===== Modal (popup) ===== */
+.modal-overlay{
+  position:fixed; inset:0; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,.6); z-index:999999;
+}
+.modal-content{
+  position:relative; background:#fff; width:min(880px,92vw);
+  max-height:90vh; overflow:auto; border-radius:12px;
+  padding: 24px 26px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(13,27,42,0.06);
+}
+.modal-close{
+  position:absolute; top:14px; right:16px; border:0; background:transparent;
+  font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
+}
+.modal-close:hover { color: var(--accent); }
+.modal-header{
+  font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+  padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+}
+
+/* Avoid boxes inside modal */
+.modal-content .avoid-group{
+  position:static; width:100%;
+  padding:0;
+  display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
+}
+.modal-content .avoid{
+  flex:1 1 260px; min-width:240px; border-radius:10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(2,9,23,.08);
+}
+.modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
+.modal-content .avoid ul{ padding-left:20px; margin:0; }
+.modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+
+/* Prevent page scroll when modal is open */
+body.modal-open{ overflow:hidden; }
+
+.click-warning {
+  background: var(--soft);
+  border-left: 4px solid var(--accent);
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--navy);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+
+/* Footer */
+footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
+</style>
+</head>
+<body>
+
+<div class="header" role="banner">
+  <div>
+    <h1>Role of SEBI</h1>
+    <p>Ensuring a fair, transparent, and safe securities market for investors.</p>
+  </div>
+</div>
+
+<main class="container" role="main">
+
+<p class="click-warning">💡 Click on cards to see full details and prevention tips.</p>
+
+<section class="scams" aria-label="SEBI's Roles">
+  <article class="scam-card" data-id="1">
+    <div class="icon">🏛️</div>
+    <div class="scam-main">
+      <div class="scam-title"><h3>What is SEBI?</h3></div>
+      <div class="scam-short">
+        The Securities and Exchange Board of India (SEBI) is the primary regulator of the Indian securities market. It ensures fair, transparent, and efficient trading while safeguarding the interests of investors. SEBI sets the rules that all market participants must follow. (The referee of the Indian securities market)
+      </div>
+    </div>
+    <div class="avoid-group" aria-hidden="true">
+      <div class="avoid avoid-howto">
+        <h4>Details</h4>
+        <ul>
+          <li>Ensures the stock market works fairly and transparently.</li>
+          <li>Protects investors from fraud, scams, and insider trading.</li>
+          <li>Regulates and develops the securities market in India.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="scam-card" data-id="2">
+    <div class="icon">🛡️</div>
+    <div class="scam-main">
+      <div class="scam-title"><h3>Protecting Investors</h3></div>
+      <div class="scam-short">
+        SEBI works to ensure that investors receive accurate and timely information from companies before making decisions. It actively prevents fraud, insider trading, and malpractices that could harm investors. This builds trust and confidence in the market.
+      </div>
+    </div>
+    <div class="avoid-group" aria-hidden="true">
+      <div class="avoid avoid-howto">
+        <h4>Details</h4>
+        <ul>
+          <li>Ensures companies share correct financial reports.</li>
+          <li>Prevents brokers from overcharging or misusing funds.</li>
+          <li>Stops misuse of secret company information.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="scam-card" data-id="3">
+    <div class="icon">⚖️</div>
+    <div class="scam-main">
+      <div class="scam-title"><h3>Regulating the Market</h3></div>
+      <div class="scam-short">
+        SEBI creates and enforces regulations for companies, stock exchanges, and brokers to maintain order in the market. It monitors trading activities to ensure they comply with laws. By doing so, it prevents unfair advantages and market manipulation.
+      </div>
+    </div>
+    <div class="avoid-group" aria-hidden="true">
+      <div class="avoid avoid-howto">
+        <h4>Details</h4>
+        <ul>
+          <li>Ensures trading happens legally and efficiently.</li>
+          <li>Oversees compliance with market regulations.</li>
+          <li>Monitors market behavior for irregularities.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="scam-card" data-id="4">
+    <div class="icon">🚀</div>
+    <div class="scam-main">
+      <div class="scam-title"><h3>Developing the Market</h3></div>
+      <div class="scam-short">
+        SEBI ensures that all market participants follow ethical and professional standards. It takes action against entities involved in malpractice or violations. This helps maintain market integrity and investor trust.
+      </div>
+    </div>
+    <div class="avoid-group" aria-hidden="true">
+      <div class="avoid avoid-howto">
+        <h4>Details</h4>
+        <ul>
+          <li>Encourages new investors to join the market.</li>
+          <li>Introduces new products and technologies.</li>
+          <li>Conducts Investor Awareness Programs.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="scam-card" data-id="5">
+    <div class="icon">📜</div>
+    <div class="scam-main">
+      <div class="scam-title"><h3>Enforcing Fair Practices</h3></div>
+      <div class="scam-short">
+        SEBI ensures that all market participants follow ethical and professional standards. It takes action against entities involved in malpractice or violations. This helps maintain market integrity and investor trust.
+      </div>
+    </div>
+    <div class="avoid-group" aria-hidden="true">
+      <div class="avoid avoid-howto">
+        <h4>Details</h4>
+        <ul>
+          <li>Ensures all market participants follow ethical guidelines.</li>
+          <li>Disciplines entities involved in malpractice.</li>
+          <li>Maintains trust and credibility in the market.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="scam-card" data-id="6">
+    <div class="icon">🤝</div>
+    <div class="scam-main">
+      <div class="scam-title"><h3>Dispute Resolution</h3></div>
+      <div class="scam-short">
+        SEBI provides mechanisms for resolving complaints between investors and market intermediaries. It ensures quick and fair settlements to avoid prolonged disputes. This gives investors a sense of safety and reliability in the market.
+      </div>
+    </div>
+    <div class="avoid-group" aria-hidden="true">
+      <div class="avoid avoid-howto">
+        <h4>Details</h4>
+        <ul>
+          <li>Provides a platform for investor complaints.</li>
+          <li>Ensures quick and fair settlements.</li>
+          <li>Prevents prolonged market disputes.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- FLOWCHART -->
+<section class="flow" aria-label="How a scam works (chain)">
+  <h2>SEBI's Role – Flowchart</h2>
+  <div class="chain" role="list">
+
+    <div class="node safe" role="listitem">
+      <div class="num">1</div>
+      <div class="content"><strong>Protect Investors</strong><p>Ensuring accurate information and preventing fraud.</p></div>
+    </div>
+
+    <div class="node decision" role="listitem">
+      <div class="num">2</div>
+      <div class="content"><strong>Regulate Market</strong><p>Setting rules for companies, exchanges, and brokers.</p></div>
+    </div>
+
+    <div class="node safe" role="listitem">
+      <div class="num">3</div>
+      <div class="content"><strong>Develop Market</strong><p>Encouraging new investors and introducing new products.</p></div>
+    </div>
+
+    <div class="node decision" role="listitem">
+      <div class="num">4</div>
+      <div class="content"><strong>Enforce Fair Practices</strong><p>Ensuring ethical standards and taking action against malpractice.</p></div>
+    </div>
+
+    <div class="node safe" role="listitem">
+      <div class="num">5</div>
+      <div class="content"><strong>Resolve Disputes</strong><p>Providing mechanisms for quick and fair complaint settlements.</p></div>
+    </div>
+
+  </div>
+
+  <div class="outcomes" aria-hidden="true">
+    <div class="outcome ok">SEBI's Actions → Fair & Safe Market</div>
+    <div class="outcome fail">Lack of Regulation → Market Instability & Investor Risk</div>
+  </div>
+</section>
+
+<!-- GOLDEN RULES -->
+<section class="golden" aria-label="Golden rules">
+  <h2>Golden safety rules — save these</h2>
+  <div class="cards">
+    <div class="card-rule"><div class="tick">✅</div><div><strong>Verify official sources</strong><br><small>Check SEBI, exchange filings, and company statements.</small></div></div>
+    <div class="card-rule"><div class="tick">✅</div><div><strong>Don't trust hot tips</strong><br><small>If it’s anonymous, treat it as suspicious.</small></div></div>
+    <div class="card-rule"><div class="tick">✅</div><div><strong>Never share passwords</strong><br><small>Keep account credentials private.</small></div></div>
+    <div class="card-rule"><div class="tick">✅</div><div><strong>Test before trusting</strong><br><small>Use paper/demo accounts to try advice first.</small></div></div>
+    <div class="card-rule"><div class="tick">✅</div><div><strong>Small position sizes</strong><br><small>Limit exposure on tips; don't bet everything on one claim.</small></div></div>
+    <div class="card-rule"><div class="tick">✅</div><div><strong>Report suspicious activity</strong><br><small>Notify SEBI or local cyber cell if you suspect fraud.</small></div></div>
+  </div>
+</section>
+
+</main>
+
+<!-- floating nav buttons -->
+<div class="floating" aria-hidden="false">
+  <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="home.html" style="text-decoration: none; color:#000000;">Home</a></button>
+  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic3.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
+  <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
+</div>
+
+<footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
+  © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank"style="color:#93c5fd;">Contact Us</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* ===== Modal setup ===== */
+  const modal = document.getElementById('scamModal');
+  const modalBody = document.getElementById('modalBody');
+  const modalHeader = modal.querySelector('.modal-header');
+  const closeBtn = modal.querySelector('.modal-close');
+  let lastFocused = null;
+
+  function openModal(card){
+    lastFocused = document.activeElement;
+
+    // title for header
+    const title = card.querySelector('.scam-title h3')?.textContent || 'Details';
+
+    // clone the avoid-group content from this card
+    const avoidGroup = card.querySelector('.avoid-group').cloneNode(true);
+    avoidGroup.removeAttribute('aria-hidden'); // make it accessible
+    avoidGroup.style.display = '';             // let CSS control layout
+
+    // inject into modal
+    modalHeader.textContent = title;
+    modalBody.innerHTML = '';
+    modalBody.appendChild(avoidGroup);
+
+    // show modal
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    closeBtn.focus();
+  }
+
+  function closeModal(){
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    modalBody.innerHTML = '';
+    document.body.classList.remove('modal-open');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  // Open on click of any scam card (title, icon, etc.)
+  document.querySelectorAll('.scam-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+  });
+
+  // Close actions
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
+});
+</script>
+
+<!-- Modal -->
+<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-header"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+</body>
+</html>

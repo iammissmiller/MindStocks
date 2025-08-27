@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Final SEBI Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f6f8fa; --navy:#0D1B2A; --accent:#E63946;
+  --card:#fff; --muted:#556677; --soft:#f1faf8;
+  --radius:12px; --shadow:0 10px 30px rgba(13,27,42,0.08);
+  --transition:220ms cubic-bezier(.2,.9,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Inter,system-ui,sans-serif;
+  background:var(--bg);color:var(--navy);
+  display:flex;flex-direction:column;min-height:100vh;
+}
+
+/* Header */
+.header{
+  background:linear-gradient(90deg,var(--navy),#123544);
+  color:#fff;padding:28px 18px;
+  width:100%;display:flex;align-items:center;gap:14px;
+}
+.header img{width:50px;height:50px;border-radius:50%;background:white;padding:5px}
+.header h1{font-size:1.6rem;font-weight:700}
+.header p{margin-top:4px;color:rgba(255,255,255,0.9);font-size:.95rem}
+
+/* Container */
+.container{width:100%;flex:1;display:flex;justify-content:center;align-items:center;padding:20px;}
+.inner{width:100%;max-width:900px;}
+
+/* Start Screen & Quiz Card */
+.start-screen,.quiz-card{
+  background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:30px;text-align:center;
+}
+.start-screen h2{font-size:1.4rem;margin-bottom:10px}
+.start-screen p{font-size:1rem;color:var(--muted);margin-bottom:20px}
+.start-btn{
+  background:var(--navy);color:white;padding:12px 24px;
+  border:none;border-radius:999px;font-weight:600;font-size:1rem;
+  cursor:pointer;transition:background var(--transition);
+}
+.start-btn:hover{background:var(--accent)}
+
+/* Quiz */
+.linear-progress {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  margin-bottom: 15px;
+}
+.linear-progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg,#ef4444,#facc15,#22c55e);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.quiz-card{opacity:0;transition:opacity 0.4s ease;}
+.quiz-card.show{opacity:1;}
+.quiz-card h3{font-size:1.1rem;font-weight:600;margin-bottom:12px;text-align:left}
+.options{margin-top:10px;text-align:left}
+.options label{
+  display:block;background:var(--soft);margin-bottom:8px;
+  padding:10px;border-radius:8px;cursor:pointer;
+  transition:background var(--transition);
+}
+.options input{margin-right:8px}
+.options label:hover{background:#e8f6f3}
+.options.correct{background:#d1fae5!important;}
+.options.wrong{background:#fee2e2!important;}
+
+/* Buttons */
+.quiz-buttons{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap;justify-content:center;}
+button{
+  background:var(--navy);color:white;padding:10px 18px;
+  border:none;border-radius:999px;font-weight:600;
+  cursor:pointer;transition:background var(--transition);
+}
+button:hover{background:var(--accent)}
+button:disabled{background:#ccc;cursor:not-allowed}
+
+/* Result */
+.result{
+  margin-top:30px;padding:30px;border-radius:var(--radius);
+  background:#fff;text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+.score-counter{font-size:2rem;font-weight:700;margin-bottom:10px}
+.message{font-size:1.2rem;margin-bottom:20px}
+
+/* Progress Circle */
+.progress-container{width:160px;height:160px;margin:20px auto;position:relative;}
+.progress-container svg{transform:rotate(-90deg)}
+.progress-container circle{
+  fill:none;stroke-width:14;stroke-linecap:round;
+}
+.progress-bg{stroke:#eee;}
+.progress-bar{stroke:url(#scoreGradient);stroke-dasharray:440;stroke-dashoffset:440;transition:stroke-dashoffset 1s ease;}
+.progress-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:1.2rem;font-weight:700;
+}
+
+/* Review Section */
+.review-container {
+  margin-top: 25px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+.review-container h3 {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.review-item {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: #f9fafb;
+  border-left: 6px solid #d1d5db;
+}
+.review-item.correct { border-left-color: #16a34a; }
+.review-item.wrong { border-left-color: #dc2626; }
+.review-item h4 { font-size: 1rem; margin-bottom: 6px; }
+.review-item p { margin: 3px 0; font-size: 0.95rem; }
+.explanation { font-style: italic; color: #374151; }
+
+/* Footer */
+footer{background:#111827;color:#fff;text-align:center;padding:16px;font-size:.9rem;width:100%;}
+footer a{color:#93c5fd}
+
+.btn-link {
+  display:inline-block;
+  text-decoration:none;
+  background:var(--navy);
+  color:#fff;
+  padding:12px 24px;
+  border-radius:999px;
+  font-weight:600;
+  font-size:1rem;
+  transition:background var(--transition);
+  text-align:center;
+}
+.btn-link:hover { background:var(--accent); }
+@media(max-width:600px){
+  .btn-link { display:block;width:100%;margin-bottom:10px; }
+  .quiz-card h3{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="https://cdn-icons-png.flaticon.com/512/2583/2583363.png" alt="Quiz">
+  <div>
+    <h1>Final SEBI Quiz</h1>
+    <p>Final Step to becoming the stock market Champion.</p>
+  </div>
+</div>
+
+<div class="container" id="start-screen">
+  <div class="inner">
+    <div class="start-screen">
+      <h2>Welcome to the Stock Market Quiz</h2>
+      <p>Click the button below to begin your quiz and test your knowledge.</p>
+      <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="quiz-container" style="display:none;">
+  <div class="inner">
+    <div class="linear-progress"><div class="linear-progress-fill"></div></div>
+    <div id="quiz-inner"></div>
+  </div>
+</div>
+
+<div class="container" id="quiz-controls" style="display:none;">
+  <div class="inner">
+    <div class="quiz-buttons">
+      <button id="prev-btn" onclick="prevQuestion()">Previous</button>
+      <button id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+    <div id="result" style="display:none;"></div>
+  </div>
+</div>
+
+<footer>
+  © 2025 MindStocks | Built for SEBI Hackathon |
+  <a href="mailto:sebi@sebi.gov.in">Contact Us</a>
+</footer>
+
+<script>
+const quizData = [
+  {question:"Ravi saw an online “stock tip” group promising guaranteed 50% returns in 2 weeks if he buys a small company’s shares. Based on your understanding, which red flag should he notice?",
+  options:["Short time frame with guaranteed returns","Advice from a registered broker","Transparent SEBI disclosure","Long-term portfolio suggestion"],
+  answer:0,
+  explanation:"Fake promises of guaranteed high returns in short time are classic red flags.<br><br> Learn more from: Subtopic1 – Introduction to Stock Market"},
+  {question:"A company spreads fake news to pump its share price. What SEBI function directly applies?",
+  options:["Regulating mutual funds","Curbing insider trading & unfair practices","Promoting financial literacy","Registering credit rating agencies"],
+  answer:1,
+  explanation:"SEBI regulates unfair practices like insider trading and protects investors.<br><br> Learn more from: Subtopic2 – Role of SEBI"},
+  {question:"An investor places a “market order” for 200 shares. Suddenly, prices rise within seconds. What will happen?",
+  options:["Order will be executed at latest market price, possibly higher","SEBI fixes price beforehand","Shares are allotted at yesterday’s closing price","Broker decides any fair price"],
+  answer:0,
+  explanation:"Market orders are executed at the current market price, which may change quickly.<br><br> Learn more from: Subtopic3 – How Trading Works"},
+  {question:"Meena invests her entire savings in one new start-up without checking credentials. Which safe practice did she ignore?",
+  options:["Diversification & risk analysis","Reading golden rules of SEBI","Understanding mutual fund NAV","Avoiding index funds"],
+  answer:0,
+  explanation:"Safe investing emphasizes diversification and risk management.<br><br> Learn more from: Subtopic4 – Safe Investing Practices"},
+  {question:"A friend offers Ajay an “investment plan” where he must recruit 10 others to earn profits. Which scam is this?",
+  options:["Insider trading","Ponzi/Pyramid scheme","Deepfake scam","Legit SIP plan"],
+  answer:1,
+  explanation:"Pyramid/Ponzi schemes rely on recruitment instead of real investments.<br><br> Learn more from: Subtopic5 – Investment Scam Awareness"},
+  {question:"A fund manager tells clients: “This mutual fund guarantees returns above FD.” Which statement is true?",
+  options:["Mutual funds never guarantee fixed returns","Equity mutual funds are risk-free","SEBI guarantees mutual fund profits","SIP removes all risks"],
+  answer:0,
+  explanation:"Mutual funds may provide good returns but they cannot be guaranteed.<br><br> Learn more from: Subtopic6 – Mutual Funds"},
+  {question:"A company’s P/E ratio is extremely high compared to peers. What does it usually indicate?",
+  options:["Stock may be overpriced","Stock is undervalued","SEBI regulation violation","Dividend is guaranteed"],
+  answer:0,
+  explanation:"High P/E ratios often indicate that a stock is overpriced relative to earnings.<br><br> Learn more from: Subtopic7 – Basic Financial Terms"},
+  {question:"If a broker refuses to return an investor’s money after unauthorized trades, what is the first step for the investor?",
+  options:["Complain to SEBI SCORES portal","Contact stock exchange CEO directly","Ask media channels","Accept losses silently"],
+  answer:0,
+  explanation:"SCORES portal is SEBI’s official platform for investor complaints.<br><br> Learn more from: Subtopic8 – Investor Rights and Responsibilities"},
+  {question:"Which of the following is NOT a primary function of SEBI?",
+  options:["Protecting investor interest","Promoting insider trading","Regulating intermediaries","Monitoring market fairness"],
+  answer:1,
+  explanation:"SEBI protects investors, regulates intermediaries, monitors markets—but never promotes insider trading.<br><br> Learn more from: Subtopic2 – Role of SEBI"},
+  {question:"If a mutual fund has an NAV of ₹50 and you invest ₹5000, how many units will you get?",
+  options:["50","100","150","200"],
+  answer:1,
+  explanation:"Units bought = Investment ÷ NAV = 5000 ÷ 50 = 100 units.<br><br> Learn more from: Subtopic6 – Mutual Funds"},
+  {question:"Which is the most effective way to spot a deepfake scam video promoting fake investment advice?",
+  options:["SEBI registers all YouTube channels","Carefully check for unnatural lip sync & verify source","Assume it’s true if viral","Rely on WhatsApp forwards"],
+  answer:1,
+  explanation:"Deepfakes can often be spotted by lip-sync issues and by verifying the source.<br><br> Learn more from: Subtopic5 – Investment Scam Awareness"},
+  {question:"An investor buys shares worth ₹1,00,000 using borrowed money from the broker (margin trading). Suddenly, the stock falls 40%. What happens?",
+  options:["Investor’s loss limited to ₹60,000","Investor may lose more than initial investment","SEBI covers the losses","Broker cancels the trade"],
+  answer:1,
+  explanation:"Margin trading uses borrowed funds, so losses may exceed the initial investment.<br><br> Learn more from: Subtopic3 – How Trading Works"}
+];
+
+let quiz=[],currentQuestion=0,score=0,answers=[];
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuiz(){
+  const shuffledQuestions = shuffleArray(quizData.map(q=>({...q})));
+  return shuffledQuestions.map(q=>{
+    const correctText=q.options[q.answer];
+    const shuffledOptions=shuffleArray([...q.options]);
+    const newAnswerIndex=shuffledOptions.indexOf(correctText);
+    return {...q,options:shuffledOptions,answer:newAnswerIndex};
+  });
+}
+
+function startQuiz(){
+  quiz=buildShuffledQuiz();
+  answers=new Array(quiz.length).fill(null);
+  currentQuestion=0;score=0;
+  document.getElementById("start-screen").style.display="none";
+  document.getElementById("quiz-container").style.display="flex";
+  document.getElementById("quiz-controls").style.display="flex";
+  loadQuestion();
+}
+
+function loadQuestion(){
+  const quizInner=document.getElementById("quiz-inner");
+  quizInner.innerHTML="";
+  const q=quiz[currentQuestion];
+  const card=document.createElement("div");
+  card.className="quiz-card";
+  card.innerHTML=`
+    <h3>Q${currentQuestion+1} of ${quiz.length}. ${q.question}</h3>
+    <div class="options">
+      ${q.options.map((opt,i)=>`
+        <label class="option-label" data-option="${i}">
+          <input type="radio" name="q${currentQuestion}" value="${i}" ${answers[currentQuestion]===i?'checked':''}> ${opt}
+        </label>`).join("")}
+    </div>`;
+  quizInner.appendChild(card);
+  setTimeout(()=>card.classList.add("show"),10);
+
+  document.querySelector(".linear-progress-fill").style.width=`${(currentQuestion+1)/quiz.length*100}%`;
+  document.getElementById("prev-btn").disabled=currentQuestion===0;
+  document.getElementById("next-btn").textContent=currentQuestion===quiz.length-1?"Submit Quiz":"Next";
+
+  document.querySelectorAll(`input[name="q${currentQuestion}"]`).forEach(input=>{
+    input.addEventListener("change",()=>giveInstantFeedback(parseInt(input.value,10)));
+  });
+}
+
+function giveInstantFeedback(selectedValue){
+  const q=quiz[currentQuestion];
+  const labels=document.querySelectorAll(".options-label");
+  labels.forEach((lbl,i)=>{
+    lbl.classList.remove("correct","wrong");
+    if(i===q.answer) lbl.classList.add("correct");
+    else if(i===selectedValue) lbl.classList.add("wrong");
+  });
+}
+
+function nextQuestion(){
+  const selected=document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+  if(!selected){alert("Please select an answer before continuing.");return;}
+  const selectedValue=parseInt(selected.value,10);
+  answers[currentQuestion]=selectedValue;
+  if(currentQuestion<quiz.length-1){currentQuestion++;loadQuestion();}
+  else{showResult();}
+}
+
+function prevQuestion(){if(currentQuestion>0){currentQuestion--;loadQuestion();}}
+
+function animateCounter(el,target){
+  let count=0;
+  const step=Math.ceil(target/50);
+  const interval=setInterval(()=>{
+    count+=step;
+    if(count>=target){count=target;clearInterval(interval);}
+    el.textContent=count;
+  },30);
+}
+function animateProgress(percent){
+  const circle=document.querySelector(".progress-bar");
+  const radius=70;
+  const circumference=2*Math.PI*radius;
+  circle.style.strokeDasharray=circumference;
+  circle.style.strokeDashoffset=circumference;
+  setTimeout(()=>{circle.style.strokeDashoffset=circumference-(percent/100)*circumference;},100);
+}
+
+function showResult(){
+  score = answers.reduce((acc,ans,i) => 
+    ans === quiz[i].answer ? acc+1 : acc, 0
+  );
+  
+  document.getElementById("quiz-container").style.display="none";
+  document.getElementById("prev-btn").style.display="none";
+  document.getElementById("next-btn").style.display="none";
+
+  const resultDiv=document.getElementById("result");
+  resultDiv.style.display="block";
+
+  const percent=Math.round((score/quiz.length)*100);
+  let message="😕 Needs Improvement. Keep practicing!";
+  if(score===quiz.length) message="🎉 Perfect Score! Excellent job!";
+  else if(score>=quiz.length/2) message="🙂 Good work! You're learning well.";
+
+  resultDiv.innerHTML=`
+    <div class="progress-container">
+      <svg width="160" height="160">
+        <defs>
+          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#E63946"/>
+            <stop offset="50%" stop-color="#F1C40F"/>
+            <stop offset="100%" stop-color="#16A34A"/>
+          </linearGradient>
+        </defs>
+        <circle class="progress-bg" cx="80" cy="80" r="70"/>
+        <circle class="progress-bar" cx="80" cy="80" r="70"/>
+      </svg>
+      <div class="progress-text">${percent}%</div>
+    </div>
+    <div class="score-counter" id="scoreCounter">0</div>
+    <div class="message">${message}</div>
+    <a class="btn-link" onclick="restartQuiz()">🔄 Restart Quiz</a>
+    <a class="btn-link" onclick="reviewAnswers()">📖 Review Answers</a>`;
+  animateCounter(document.getElementById("scoreCounter"),score);
+  animateProgress(percent);
+}
+
+function restartQuiz(){
+  document.getElementById("result").style.display="none";
+  document.getElementById("quiz-container").style.display="flex";
+  document.getElementById("prev-btn").style.display="inline-block";
+  document.getElementById("next-btn").style.display="inline-block";
+  startQuiz();
+}
+function reviewAnswers(){
+  const resultDiv=document.getElementById("result");
+  resultDiv.innerHTML=`
+    <div class="review-container">
+      <h3>📖 Review Answers</h3>
+      ${quiz.map((q,i)=>`
+        <div class="review-item ${answers[i]===q.answer?'correct':'wrong'}">
+          <h4>Q${i+1}. ${q.question}</h4>
+          <p><strong>Your Answer:</strong> ${answers[i]!==null?q.options[answers[i]]:'No Answer'}</p>
+          <p><strong>Correct Answer:</strong> ${q.options[q.answer]}</p>
+          <p class="explanation">${q.explanation}</p>
+        </div>
+      `).join("")}
+      <a class="btn-link" onclick="restartQuiz()">🔄 Restart Quiz</a>
+    </div>`;
+}
+</script>
+</body>
+</html>

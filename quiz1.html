@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Stock Market Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f6f8fa; --navy:#0D1B2A; --accent:#E63946;
+  --card:#fff; --muted:#556677; --soft:#f1faf8;
+  --radius:12px; --shadow:0 10px 30px rgba(13,27,42,0.08);
+  --transition:220ms cubic-bezier(.2,.9,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Inter,system-ui,sans-serif;
+  background:var(--bg);color:var(--navy);
+  display:flex;flex-direction:column;min-height:100vh;
+}
+
+/* Header */
+.header{
+  background:linear-gradient(90deg,var(--navy),#123544);
+  color:#fff;padding:28px 18px;
+  width:100%;display:flex;align-items:center;gap:14px;
+}
+.header img{width:50px;height:50px;border-radius:50%;background:white;padding:5px}
+.header h1{font-size:1.6rem;font-weight:700}
+.header p{margin-top:4px;color:rgba(255,255,255,0.9);font-size:.95rem}
+
+/* Container */
+.container{width:100%;flex:1;display:flex;justify-content:center;align-items: center;padding:20px;}
+.inner{width:100%;max-width:900px;}
+
+/* Start Screen & Quiz Card */
+.start-screen,.quiz-card{
+  background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:30px;text-align:center;
+}
+.start-screen h2{font-size:1.4rem;margin-bottom:10px}
+.start-screen p{font-size:1rem;color:var(--muted);margin-bottom:20px}
+.start-btn{
+  background:var(--navy);color:white;padding:12px 24px;
+  border:none;border-radius:999px;font-weight:600;font-size:1rem;
+  cursor:pointer;transition:background var(--transition);
+}
+.start-btn:hover{background:var(--accent)}
+
+/* Quiz */
+.quiz-card h3{font-size:1.1rem;font-weight:600;margin-bottom:12px;text-align:left}
+.options{margin-top:10px;text-align:left}
+.options label{
+  display:block;background:var(--soft);margin-bottom:8px;
+  padding:10px;border-radius:8px;cursor:pointer;
+  transition:background var(--transition);
+}
+.options input{margin-right:8px}
+.options label:hover{background:#e8f6f3}
+
+/* Buttons */
+.quiz-buttons{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap;}
+button{
+  background:var(--navy);color:white;padding:10px 18px;
+  border:none;border-radius:999px;font-weight:600;
+  cursor:pointer;transition:background var(--transition);
+}
+button:hover{background:var(--accent)}
+button:disabled{background:#ccc;cursor:not-allowed}
+
+/* Result */
+.result{
+  margin-top:30px;padding:30px;border-radius:var(--radius);
+  background:#fff;text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+.score-counter{font-size:2rem;font-weight:700;margin-bottom:10px}
+.message{font-size:1.2rem;margin-bottom:20px}
+
+/* Progress Circle */
+.progress-container{width:160px;height:160px;margin:20px auto;position:relative;}
+.progress-container svg{transform:rotate(-90deg)}
+.progress-container circle{
+  fill:none;stroke-width:14;stroke-linecap:round;
+}
+.progress-bg{stroke:#eee;}
+.progress-bar{stroke:url(#scoreGradient);stroke-dasharray:440;stroke-dashoffset:440;transition:stroke-dashoffset 1s ease;}
+.progress-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:1.2rem;font-weight:700;
+}
+
+/* Review Section */
+.review-container {
+  margin-top: 25px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+.review-container h3 {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.review-item {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: #f9fafb;
+  border-left: 6px solid #d1d5db;
+}
+.review-item.correct { border-left-color: #16a34a; } /* green */
+.review-item.wrong { border-left-color: #dc2626; }   /* red */
+.review-item h4 { font-size: 1rem; margin-bottom: 6px; }
+.review-item p { margin: 3px 0; font-size: 0.95rem; }
+.explanation { font-style: italic; color: #374151; }
+
+/* Footer */
+footer{background:#111827;color:#fff;text-align:center;padding:16px;font-size:.9rem;width:100%;}
+footer a{color:#93c5fd}
+
+.btn-link {
+  display:inline-block;
+  text-decoration:none;
+  background:var(--navy);
+  color:#fff;
+  padding:12px 24px;
+  border-radius:999px;
+  font-weight:600;
+  font-size:1rem;
+  transition:background var(--transition);
+  text-align:center;
+}
+.btn-link:hover { background:var(--accent); }
+@media(max-width:600px){
+  .btn-link { display:block;width:100%;margin-bottom:10px; }
+}
+
+/* Responsive */
+@media(max-width:1023px){.header{flex-direction:column;text-align:center}.header img{margin-bottom:10px}.quiz-buttons{justify-content:center}}
+@media(max-width:600px){.header h1{font-size:1.3rem}.header p{font-size:.85rem}.start-screen,.quiz-card{padding:20px}.quiz-card h3{font-size:1rem}button,.start-btn{width:100%;padding:12px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="https://cdn-icons-png.flaticon.com/512/2331/2331947.png" alt="Quiz">
+  <div>
+    <h1>Stock Market Quiz</h1>
+    <p>Test your knowledge on the basics of the stock market.</p>
+  </div>
+</div>
+
+<div class="container" id="start-screen">
+  <div class="inner">
+    <div class="start-screen">
+      <h2>Welcome to the Stock Market Quiz</h2>
+      <p>Click the button below to begin your quiz and test your knowledge.</p>
+      <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="quiz-container" style="display:none;">
+  <div class="inner" id="quiz-inner"></div>
+</div>
+
+<div class="container" id="quiz-controls" style="display:none;">
+  <div class="inner">
+    <div class="quiz-buttons">
+      <button id="prev-btn" onclick="prevQuestion()">Previous</button>
+      <button id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+    <div id="result" style="display:none;"></div>
+  </div>
+</div>
+
+<footer>
+  © 2025 MindStocks | Built for SEBI Hackathon |
+  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank">Contact Us</a>
+</footer>
+
+<script>
+const quizData = [
+  {question:"What is the main purpose of the stock market?",options:["To store money safely","To buy and sell shares of companies","To give loans to businesses","To print currency"],answer:1,explanation:"The stock market exists to buy and sell shares of companies, providing liquidity and raising capital."},
+  {question:"In the stock market, what is a 'share'?",options:["A loan given to a company","A certificate of deposit","A small part of ownership in a company","A bond issued by the government"],answer:2,explanation:"A share represents ownership in a company. Shareholders are partial owners."},
+  {question:"Which market is used for buying and selling existing shares?",options:["Primary market","Secondary market","Money market","Futures market"],answer:1,explanation:"The secondary market allows investors to trade shares that have already been issued."},
+  {question:"What is the primary market used for?",options:["Buying and selling government bonds","Selling new shares to investors for the first time","Trading currency","Lending money to banks"],answer:1,explanation:"Companies raise capital by issuing new shares in the primary market (IPOs)."},
+  {question:"Why do companies sell shares in the stock market?",options:["To reduce taxes","To raise money for growth and expansion","To pay dividends immediately","To regulate inflation"],answer:1,explanation:"Companies issue shares to raise funds for expansion, R&D, or paying off debt."},
+  {question:"Which of the following is an example of a stock exchange in India?",options:["New York Stock Exchange (NYSE)","National Stock Exchange (NSE)","Tokyo Stock Exchange (TSE)","London Stock Exchange (LSE)"],answer:1,explanation:"The National Stock Exchange (NSE) is one of the major exchanges in India."}
+];
+
+let quiz = [];
+let currentQuestion = 0, score = 0, answers = [];
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuiz(){
+  const shuffledQuestions = shuffleArray(quizData.map(q=>({...q})));
+  return shuffledQuestions.map(q=>{
+    const correctText = q.options[q.answer];
+    const shuffledOptions = shuffleArray([...q.options]);
+    const newAnswerIndex = shuffledOptions.indexOf(correctText);
+    return {...q,options:shuffledOptions,answer:newAnswerIndex};
+  });
+}
+
+function startQuiz(){
+  quiz = buildShuffledQuiz();
+  answers = new Array(quiz.length).fill(null);
+  currentQuestion=0; score=0;
+  document.getElementById("start-screen").style.display="none";
+  document.getElementById("quiz-container").style.display="flex";
+  document.getElementById("quiz-controls").style.display="flex";
+  loadQuestion();
+}
+
+function loadQuestion(){
+  const quizInner=document.getElementById("quiz-inner");
+  quizInner.innerHTML="";
+  const q=quiz[currentQuestion];
+  const card=document.createElement("div");
+  card.className="quiz-card";
+  card.innerHTML=`
+    <h3>Q${currentQuestion+1} of ${quiz.length}. ${q.question}</h3>
+    <div class="options">
+      ${q.options.map((opt,i)=>`
+        <label data-option="${i}">
+          <input type="radio" name="q${currentQuestion}" value="${i}" ${answers[currentQuestion]===i?'checked':''}> ${opt}
+        </label>`).join("")}
+    </div>`;
+  quizInner.appendChild(card);
+  document.getElementById("prev-btn").disabled=currentQuestion===0;
+  document.getElementById("next-btn").textContent=currentQuestion===quiz.length-1?"Submit Quiz":"Next";
+}
+
+function nextQuestion(){
+  const selected=document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+  if(!selected){alert("Please select an answer before continuing.");return;}
+  const selectedValue=parseInt(selected.value,10);
+  answers[currentQuestion]=selectedValue;
+  if(currentQuestion<quiz.length-1){currentQuestion++;loadQuestion();}
+  else{showResult();}
+}
+
+function prevQuestion(){
+  if(currentQuestion>0){currentQuestion--;loadQuestion();}
+}
+
+function animateCounter(el,target){
+  let count=0;
+  const step=Math.ceil(target/50);
+  const interval=setInterval(()=>{
+    count+=step;
+    if(count>=target){count=target;clearInterval(interval);}
+    el.textContent=count;
+  },30);
+}
+
+function animateProgress(percent){
+  const circle=document.querySelector(".progress-bar");
+  const radius=70;
+  const circumference=2*Math.PI*radius;
+  circle.style.strokeDasharray=circumference;
+  circle.style.strokeDashoffset=circumference;
+  setTimeout(()=>{
+    circle.style.strokeDashoffset=circumference-(percent/100)*circumference;
+  },100);
+}
+
+function showResult(){
+  score = answers.reduce((acc,ans,i) => 
+    ans === quiz[i].answer ? acc+1 : acc, 0
+  );
+  
+  document.getElementById("quiz-container").style.display="none";
+  document.getElementById("prev-btn").style.display="none";
+  document.getElementById("next-btn").style.display="none";
+
+  const resultDiv=document.getElementById("result");
+  resultDiv.style.display="block";
+
+  const percent=Math.round((score/quiz.length)*100);
+  let message="😕 Needs Improvement. Keep practicing!";
+  if(score===quiz.length) message="🎉 Perfect Score! Excellent job!";
+  else if(score>=quiz.length/2) message="🙂 Good work! You're learning well.";
+
+  resultDiv.innerHTML=`
+    <div class="progress-container">
+      <svg width="160" height="160">
+        <defs>
+          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ef4444"/>  
+            <stop offset="50%" stop-color="#facc15"/> 
+            <stop offset="100%" stop-color="#22c55e"/> 
+          </linearGradient>
+        </defs>
+        <circle class="progress-bg" cx="80" cy="80" r="70"></circle>
+        <circle class="progress-bar" cx="80" cy="80" r="70" stroke="url(#scoreGradient)"></circle>
+      </svg>
+      <div class="progress-text">${percent}%</div>
+    </div>
+
+    <div class="score-counter"><span id="score-count">0</span> / ${quiz.length}</div>
+    <div class="message">${message}</div>
+
+    <div class="review-container">
+      <h3>📑 Review Your Answers</h3>
+      ${quiz.map((q,i)=>{
+        const chosen=answers[i];
+        const correct=q.answer;
+        const isCorrect = chosen===correct;
+        return `
+          <div class="review-item ${isCorrect ? "correct" : "wrong"}">
+            <h4>Q${i+1}. ${q.question}</h4>
+            <p><strong>Your answer:</strong> ${q.options[chosen] || "Not answered"}</p>
+            <p><strong>Correct answer:</strong> ${q.options[correct]}</p>
+            <p class="explanation">${q.explanation}</p>
+          </div>
+        `;
+      }).join("")}
+    </div>
+
+    <div class="quiz-buttons" style="justify-content:center; margin-top:20px;">
+      <a href="quiz1.html" class="btn-link">🔄 Retake Quiz</a>
+      <a href="quiz2.html" class="btn-link">➡️ Next Quiz</a>
+    </div>
+  `;
+
+  animateCounter(document.getElementById("score-count"),score);
+  animateProgress(percent);
+}
+</script>
+
+</body>
+</html>

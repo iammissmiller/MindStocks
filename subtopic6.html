@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mutual Funds — Clear Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f6f8fa;
+  --navy:#0D1B2A;
+  --accent:#E63946; 
+  --card:#fff; 
+  --muted:#556677;
+  --radius:12px; 
+  --shadow:0 10px 30px rgba(13,27,42,0.08);
+  --transition:220ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* Global reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+h1, h2, h3 { line-height: 1.25; }
+p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+ul, ol { padding-left: 20px; }
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:var(--bg);
+  color:var(--navy)
+}
+.header{
+  background:linear-gradient(90deg,var(--navy),#123544);
+  color:#fff;
+  padding:28px 18px;
+  border-radius:12px;
+  margin:18px auto;
+  max-width:1120px;
+  box-shadow:var(--shadow)
+}
+.header h1{font-size:1.5rem;font-weight:700}
+.header p{margin-top:8px;color:rgba(255,255,255,0.9);font-size:.95rem;max-width:1000px}
+.container{max-width:1120px;margin:18px auto;padding:0 16px 60px}
+.cards-list{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  box-shadow:var(--shadow);
+  position:relative;
+  transition:transform var(--transition)
+}
+.card:hover{transform:translateY(-6px);z-index:10}
+.icon{
+  width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex:0 0 56px}
+.card-title h3{font-size:1.05rem;font-weight:600}
+.card-short{margin-top:8px;color:var(--muted);font-size:.96rem;line-height:1.35}
+.details { display: none; }
+.card.show .details { display: none; }
+.details h4{margin-bottom:8px;color:var(--accent);font-size:.98rem}
+.details ul{padding-left:18px}
+.details li{margin-bottom:8px;font-size:.95rem;line-height:1.3}
+@media(max-width:720px){.details { display: none; }.card{flex-direction:column;gap:10px}}
+.floating{position:fixed;right:1.6%;bottom:1.6%;display:flex;flex-direction:column;gap:.9%;z-index:99999}
+.btn{background:var(--navy);color:white;padding:.9em 1.2em;border-radius:999px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;transition:background var(--transition)}
+.btn:hover{background:var(--accent)}
+.secondary{background:white;color:var(--navy);border:1px solid rgba(13,27,42,0.06)}
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif;
+  padding: 0 10px;
+}
+.node {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 180px;
+  max-width: 240px;
+  box-shadow: 0 10px 30px rgba(13,27,42,0.08);
+}
+.main { background: #E63946; color: #fff; font-size: 1.1rem; }
+.category { background: #2A9D8F; color: #fff; }
+.sub { background: #457B9D; color: #fff; font-weight: 500; }
+.desc {
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin-top: 4px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.3;
+}
+/* Force 3-branch flowchart layout on ALL devices */
+.branch-row {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: nowrap !important; /* prevent stacking */
+  overflow-x: auto;             /* allow scroll on small screens */
+}
+
+/* Keep the connector line always visible */
+.horizontal-line {
+  display: block !important;
+}
+
+.branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sub-branch {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+.arrow {
+  width: 2px;
+  background: #0D1B2A;
+  position: relative;
+}
+.arrow.down {
+  height: 20px;
+}
+.arrow.down::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: -5px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #0D1B2A;
+}
+.horizontal-line {
+  height: 2px;
+  background: #0D1B2A;
+  width: 80%; /* Matches total branch row width */
+  max-width: 700px; /* Prevents excessive stretching */
+  margin: 0 auto 20px auto; /* Centers it under main arrow */
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .horizontal-line {
+    display: none;
+  }
+  .branch-row {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .branch {
+    width: 100%;
+  }
+}
+
+/* ===== Modal (popup) ===== */
+.modal-overlay{
+  position:fixed; inset:0; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,.6); z-index:999999;
+}
+.modal-content{
+  position:relative; background:#fff; width:min(880px,92vw);
+  max-height:90vh; overflow:auto; border-radius:12px;
+  padding: 24px 26px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(13,27,42,0.06);
+}
+.modal-close{
+  position:absolute; top:14px; right:16px; border:0; background:transparent;
+  font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
+}
+.modal-close:hover { color: var(--accent); }
+.modal-header{
+  font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+  padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+}
+.modal-content .details{
+  display: block !important;
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 14px 16px;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(2,9,23,.08);
+}
+body.modal-open{ overflow:hidden; }
+
+
+/* ========================= */
+/* 📱 Responsive improvements */
+/* ========================= */
+
+html {
+  font-size: 16px;
+}
+@media (max-width: 1024px) {
+  html { font-size: 15px; }
+}
+@media (max-width: 768px) {
+  html { font-size: 14px; }
+}
+@media (max-width: 480px) {
+  html { font-size: 13.5px; }
+}
+
+/* Header scaling */
+.header h1 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+}
+.header p {
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+}
+
+/* Cards adjustments */
+.card { flex-direction: row; }
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .icon {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+}
+
+/* Flowchart nodes */
+@media (max-width: 600px) {
+  .branch-row { flex-direction: column; gap: 32px; }
+  .node { min-width: auto; max-width: 100%; }
+}
+
+/* Floating buttons */
+@media (max-width: 768px) {
+  .floating { right:12px; bottom:12px; gap:10px; }
+  .btn { padding:10px 14px; font-size:0.9rem; }
+}
+
+/* Modal scaling */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95vw;
+    padding: 16px;
+  }
+  .modal-header { font-size: 1.1rem; }
+}
+
+/* Click tip */
+  .click-warning {
+    background: var(--soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;}
+
+/* Footer (if any is added later) */
+.footer { font-size: clamp(0.8rem, 2.5vw, 0.95rem); padding:12px; }
+
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Mutual Funds — Clear & Complete Guide</h1>
+    <p>A concise yet complete explanation of mutual funds — perfect for beginners and useful for experienced investors.</p>
+  </div>
+<main class="container">
+
+  <p class="click-warning">💡 Click on cards to see full details and examples.</p>
+
+<section class="cards-list">
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#e63946,#ff6b6b)">📘</div><div class="card-main"><div class="card-title"><h3>What is a Mutual Fund?</h3></div><div class="card-short">A pool of money from investors managed by a professional and invested in multiple assets.</div></div><div class="details">
+  
+  <!-- Intro Explanation -->
+  <section class="explanation">
+    <h3>What is a Mutual Fund?</h3>
+    <p>
+      A mutual fund collects money from many investors and invests it in a mix of assets like stocks, bonds, or other securities. 
+      It’s like a shared basket managed by professionals, so you don’t have to pick individual investments yourself.
+    </p>
+  </section>
+
+  <!-- Visual Analogy -->
+  <section class="analogy" style="background:#f1faf8; padding:12px; border-left:4px solid #2a9d8f; border-radius:8px;">
+    <strong>Think of it like:</strong> 
+    <p>Friends pooling money to buy a cricket kit — everyone gets to use it, but the team captain decides how to use each item for the best game strategy.</p>
+  </section>
+
+  <!-- Mini Flowchart -->
+  <section class="flowchart" style="margin-top:18px;">
+    <h4>How it works — in simple steps</h4>
+    <div class="chain" style="display:flex; flex-direction:column; gap:12px;">
+      <div class="node"><div class="num">1</div><div class="content"><strong>You invest</strong><p>You put money into the fund.</p></div></div>
+      <div class="node"><div class="num">2</div><div class="content"><strong>Fund collects</strong><p>All investors’ money is pooled together.</p></div></div>
+      <div class="node"><div class="num">3</div><div class="content"><strong>Manager invests</strong><p>Experts decide where to put the pooled money.</p></div></div>
+      <div class="node"><div class="num">4</div><div class="content"><strong>Returns distributed</strong><p>Profits (or losses) are shared based on how much you invested.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Quick Tips -->
+  <section class="tips" style="margin-top:18px; background:#fff8e6; padding:12px; border-left:4px solid #ffb86b; border-radius:8px;">
+    <h4>Beginner Tips</h4>
+    <ul>
+      <li>Start small — get comfortable before committing big amounts.</li>
+      <li>Pick funds based on your goal and time horizon, not just returns.</li>
+      <li>Check the expense ratio — lower fees mean more money stays invested for you.</li>
+    </ul>
+  </section>
+
+</div>
+</article>
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#2a9d8f,#6fd6b6)">🎯</div><div class="card-main"><div class="card-title"><h3>Why They Exist</h3></div><div class="card-short">Diversification, expert management, low entry, and liquidity.</div></div><div class="details">
+
+  <!-- Intro Explanation -->
+  <section class="explanation">
+    <h3>Why Mutual Funds Exist</h3>
+    <p>
+      Mutual funds make investing easier and safer for regular people by letting them pool money 
+      and share both opportunities and risks. They give access to expert management, diversification, 
+      and investment products that might be difficult for an individual to buy directly.
+    </p>
+  </section>
+
+  <!-- Analogy -->
+  <section class="analogy" style="background:#f1faf8; padding:12px; border-left:4px solid #2a9d8f; border-radius:8px;">
+    <strong>Think of it like:</strong>
+    <p>Booking a group tour — you share the cost of travel and a professional guide plans the safest, 
+       most enjoyable route instead of figuring it out yourself.</p>
+  </section>
+
+  <!-- Key Reasons -->
+  <section style="margin-top:18px;">
+    <h4>Main Reasons They Exist</h4>
+    <ul>
+      <li><b>Diversification</b> — Spread risk across many investments instead of putting all money in one place.</li>
+      <li><b>Professional Management</b> — Experts watch the markets and make informed decisions for you.</li>
+      <li><b>Low Entry Barrier</b> — Start with small amounts like ₹500–₹1000.</li>
+      <li><b>Liquidity</b> — Easily sell your units on most working days.</li>
+    </ul>
+  </section>
+
+  <!-- Quick Tips -->
+  <section class="tips" style="margin-top:18px; background:#fff8e6; padding:12px; border-left:4px solid #ffb86b; border-radius:8px;">
+    <h4>Beginner Tips</h4>
+    <ul>
+      <li>Use mutual funds for long-term wealth building, not quick profits.</li>
+      <li>Reinvest dividends to grow faster over time.</li>
+      <li>Don’t panic-sell during short-term market drops.</li>
+    </ul>
+  </section>
+
+</div>
+</article>
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#f59f00,#ffb86b)">⚙️</div><div class="card-main"><div class="card-title"><h3>How They Work</h3></div><div class="card-short">Invest, get units at NAV, manager invests, returns from gains, dividends, interest.</div></div><div class="details">
+
+  <!-- Intro Explanation -->
+  <section class="explanation">
+    <h3>How Mutual Funds Work</h3>
+    <p>
+      When you invest in a mutual fund, your money is combined with other investors’ money to form a single large pool. 
+      A fund manager then invests this pool into various assets according to the fund’s objective. 
+      You receive units representing your share of the pool, and the value of these units changes as the value of the investments changes.
+    </p>
+  </section>
+
+  <!-- Analogy -->
+  <section class="analogy" style="background:#f1faf8; padding:12px; border-left:4px solid #2a9d8f; border-radius:8px;">
+    <strong>Think of it like:</strong>
+    <p>Joining a food delivery club — everyone pays in, a chef (manager) buys ingredients (investments), cooks the meals (manages the portfolio), 
+       and you get your portion based on how much you contributed.</p>
+  </section>
+
+  <!-- Mini Flowchart -->
+  <section class="flowchart" style="margin-top:18px;">
+    <h4>Step-by-Step Process</h4>
+    <div class="chain" style="display:flex; flex-direction:column; gap:12px;">
+      <div class="node"><div class="num">1</div><div class="content"><strong>Invest</strong><p>You buy fund units at the current NAV (Net Asset Value).</p></div></div>
+      <div class="node"><div class="num">2</div><div class="content"><strong>Pooling</strong><p>Your money is combined with other investors’ money.</p></div></div>
+      <div class="node"><div class="num">3</div><div class="content"><strong>Fund Management</strong><p>The manager invests according to the fund’s strategy.</p></div></div>
+      <div class="node"><div class="num">4</div><div class="content"><strong>Returns</strong><p>You earn from capital gains, dividends, or interest.</p></div></div>
+      <div class="node"><div class="num">5</div><div class="content"><strong>NAV Changes</strong><p>The NAV goes up or down based on the value of all investments in the portfolio.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Quick Tips -->
+  <section class="tips" style="margin-top:18px; background:#fff8e6; padding:12px; border-left:4px solid #ffb86b; border-radius:8px;">
+    <h4>Beginner Tips</h4>
+    <ul>
+      <li>Check the NAV history — it shows how the fund has grown.</li>
+      <li>Understand the fund’s strategy before investing.</li>
+      <li>Stay invested for the recommended time frame to maximize returns.</li>
+    </ul>
+  </section>
+
+</div>
+</article>
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#457b9d,#73b2c9)">📑</div><div class="card-main"><div class="card-title"><h3>Key Terms</h3></div><div class="card-short">NAV, Expense Ratio, AUM, Exit Load, SIP, Lumpsum.</div></div><div class="details">
+
+  <!-- Intro Explanation -->
+  <section class="explanation">
+    <h3>Key Mutual Fund Terms</h3>
+    <p>
+      Understanding these basic terms will help you read fund factsheets, track performance, and make informed investment decisions.
+      These are the building blocks of mutual fund knowledge.
+    </p>
+  </section>
+
+  <!-- Visual Analogy -->
+  <section class="analogy" style="background:#f1faf8; padding:12px; border-left:4px solid #2a9d8f; border-radius:8px;">
+    <strong>Think of it like:</strong>
+    <p>Learning the rules and scoring system before playing a new game — knowing these terms helps you “play” mutual fund investing better.</p>
+  </section>
+
+  <!-- Key Terms List -->
+  <section style="margin-top:18px;">
+    <h4>Important Terms Explained</h4>
+    <ul>
+      <li><b>NAV (Net Asset Value):</b> Price per unit of the fund. Changes daily based on the market value of the portfolio.</li>
+      <li><b>Expense Ratio:</b> Annual fee charged by the fund for managing your money, expressed as a percentage of AUM.</li>
+      <li><b>AUM (Assets Under Management):</b> Total market value of all assets the fund manages.</li>
+      <li><b>Exit Load:</b> A small fee charged if you withdraw your investment before a specified time.</li>
+      <li><b>SIP (Systematic Investment Plan):</b> Investing a fixed amount at regular intervals (e.g., monthly).</li>
+      <li><b>Lumpsum:</b> Investing a large amount all at once instead of periodically.</li>
+    </ul>
+  </section>
+
+  <!-- Mini Flowchart -->
+  <section class="flowchart" style="margin-top:18px;">
+    <h4>How These Terms Connect</h4>
+    <div class="chain" style="display:flex; flex-direction:column; gap:12px;">
+      <div class="node"><div class="num">1</div><div class="content"><strong>You Invest</strong><p>Through SIP or lumpsum.</p></div></div>
+      <div class="node"><div class="num">2</div><div class="content"><strong>Fund Value Grows</strong><p>Measured daily as NAV.</p></div></div>
+      <div class="node"><div class="num">3</div><div class="content"><strong>Costs Deducted</strong><p>Expense ratio is subtracted from returns.</p></div></div>
+      <div class="node"><div class="num">4</div><div class="content"><strong>Withdraw</strong><p>Exit load applies if withdrawn early.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Quick Tips -->
+  <section class="tips" style="margin-top:18px; background:#fff8e6; padding:12px; border-left:4px solid #ffb86b; border-radius:8px;">
+    <h4>Beginner Tips</h4>
+    <ul>
+      <li>Lower expense ratio usually means more returns stay with you.</li>
+      <li>Understand exit load timelines before investing.</li>
+      <li>Track NAV trends instead of daily price movements.</li>
+    </ul>
+  </section>
+
+</div>
+</article>
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#d1495b,#ff8a7a)">📊</div><div class="card-main"><div class="card-title"><h3>Risks vs Returns</h3></div><div class="card-short">Equity can give 8–14% but volatile; Debt is stable but slower growth.</div></div><div class="details">
+
+  <!-- Intro Explanation -->
+  <section class="explanation">
+    <h3>Risks vs Returns in Mutual Funds</h3>
+    <p>
+      Every mutual fund sits somewhere on the risk–return spectrum. 
+      Higher returns usually require accepting more risk, while safer investments tend to grow slower.
+    </p>
+  </section>
+
+  <!-- Visual Analogy -->
+  <section class="analogy" style="background:#f1faf8; padding:12px; border-left:4px solid #2a9d8f; border-radius:8px;">
+    <strong>Think of it like:</strong>
+    <p>A weighing scale — tilt more towards risk and you could get heavier returns, tilt towards safety and the growth is lighter but steadier.</p>
+  </section>
+
+  <!-- Risk & Return Table -->
+  <section style="margin-top:18px;">
+    <h4>Types of Funds & Their Risk–Return Profile</h4>
+    <table style="width:100%; border-collapse:collapse; margin-top:8px; font-size:0.95rem;">
+      <tr style="background:#eee;">
+        <th style="padding:8px; text-align:left;">Fund Type</th>
+        <th style="padding:8px; text-align:left;">Potential Returns</th>
+        <th style="padding:8px; text-align:left;">Risk Level</th>
+      </tr>
+      <tr>
+        <td style="padding:8px;">Equity Funds</td>
+        <td style="padding:8px;">8–14%+ (long term)</td>
+        <td style="padding:8px;">High</td>
+      </tr>
+      <tr>
+        <td style="padding:8px;">Debt Funds</td>
+        <td style="padding:8px;">5–7% (stable)</td>
+        <td style="padding:8px;">Low–Moderate</td>
+      </tr>
+      <tr>
+        <td style="padding:8px;">Hybrid Funds</td>
+        <td style="padding:8px;">6–10%</td>
+        <td style="padding:8px;">Moderate</td>
+      </tr>
+    </table>
+  </section>
+
+<!-- Balance Graphic (Clean Alignment) -->
+<section style="margin-top:22px; text-align:center;">
+  <svg width="280" height="160" viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
+    <!-- Base -->
+    <rect x="135" y="120" width="10" height="20" fill="#555"/>
+    <!-- Beam -->
+    <rect x="60" y="80" width="160" height="6" fill="#2a9d8f" transform="rotate(-7,140,83)"/>
+    <!-- Left plate -->
+    <circle cx="80" cy="112" r="20" fill="#e63946"/>
+    <text x="80" y="117" font-size="10" text-anchor="middle" fill="#fff">Risk</text>
+    <!-- Right plate -->
+    <circle cx="200" cy="90" r="20" fill="#457b9d"/>
+    <text x="200" y="95" font-size="10" text-anchor="middle" fill="#fff">Return</text>
+    <!-- Pivot -->
+    <polygon points="140,86 150,120 130,120" fill="#555"/>
+  </svg>
+  <p style="font-size:0.85rem; color:#556;">
+    Balancing risk and return is key — neither side should dominate your decision.
+  </p>
+</section>
+
+
+  <!-- Quick Tips -->
+  <section class="tips" style="margin-top:18px; background:#fff8e6; padding:12px; border-left:4px solid #ffb86b; border-radius:8px;">
+    <h4>Beginner Tips</h4>
+    <ul>
+      <li>Match risk to your time frame — more time means you can take more risk.</li>
+      <li>Don't judge by returns alone — check if the risk is worth it for your goal.</li>
+      <li>For short-term needs, prioritize stability over chasing high returns.</li>
+    </ul>
+  </section>
+
+</div>
+</article>
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#f77f00,#ffba08)">🧭</div><div class="card-main"><div class="card-title"><h3>Choosing the Right Fund</h3></div><div class="card-short">Match your goal, risk, and time frame; check performance and costs.</div></div><div class="details">
+
+  <!-- Intro -->
+  <section class="explanation">
+    <h3>Choosing the Right Mutual Fund</h3>
+    <p>
+      The best mutual fund for you depends on your financial goals, the time you can invest, and your comfort with risk.
+      Instead of chasing the “top performer,” match the fund’s features with your own needs.
+    </p>
+  </section>
+
+  <!-- Steps -->
+  <section style="margin-top:16px;">
+    <h4>Follow These Steps</h4>
+    <ol style="padding-left:20px; margin-top:8px;">
+      <li><b>Set Your Goal</b> — Is it short-term (buying a bike) or long-term (retirement)?</li>
+      <li><b>Decide Time Horizon</b> — Longer horizons can handle more equity exposure.</li>
+      <li><b>Match Risk Tolerance</b> — If market drops make you anxious, consider debt or balanced funds.</li>
+      <li><b>Check Fund Performance</b> — Review at least 5 years’ history, not just last year.</li>
+      <li><b>Look at Costs</b> — A lower expense ratio leaves more for your growth.</li>
+    </ol>
+  </section>
+
+  <!-- Highlight Box -->
+  <section style="margin-top:18px; background:#e6f7ff; padding:12px; border-left:4px solid #00aaff; border-radius:8px;">
+    <strong>Quick Tip:</strong>
+    <p>Don’t switch funds too often — consistency beats frequent changes.</p>
+  </section>
+
+</div>
+</article>
+  <article class="card"><div class="icon" style="background:linear-gradient(135deg,#118ab2,#06d6a0)">💡</div><div class="card-main"><div class="card-title"><h3>Example & Bottom Line</h3></div><div class="card-short">SIP ₹5k/month at 12% for 20 years → ~₹50 lakh.</div></div><div class="details">
+
+  <!-- Intro -->
+  <section class="explanation">
+    <h3>Example & Bottom Line</h3>
+    <p>
+      Let’s see the power of compounding in action — how regular investing can grow into a large sum over time.
+    </p>
+  </section>
+
+  <!-- Visual Calculation -->
+  <section style="margin-top:16px; background:#fff8e6; padding:14px; border-left:4px solid #ffb86b; border-radius:8px;">
+    <h4>Example Calculation</h4>
+    <p>
+      <b>SIP:</b> ₹5,000 per month  
+      <b>Duration:</b> 20 years  
+      <b>Average Return:</b> 12% annually
+    </p>
+    <div style="margin-top:10px; padding:10px; background:white; border-radius:8px; box-shadow:0 3px 10px rgba(0,0,0,0.05);">
+      <p><b>Total Invested:</b> ₹12 lakh</p>
+      <p><b>Wealth Created:</b> ~₹50 lakh</p>
+    </div>
+    <small style="display:block; margin-top:8px; color:#777;">
+      *Values are approximate, based on compound interest. Actual returns may vary.
+    </small>
+  </section>
+
+  <!-- Key Takeaways -->
+  <section style="margin-top:18px; background:#f1faf8; padding:12px; border-left:4px solid #2a9d8f; border-radius:8px;">
+    <h4>Key Takeaways</h4>
+    <ul style="margin-top:6px; padding-left:18px;">
+      <li>Start early — time is the biggest ally in investing.</li>
+      <li>Stay consistent — SIP works best when uninterrupted.</li>
+      <li>Don’t panic during market dips; compounding needs patience.</li>
+    </ul>
+  </section>
+
+</div>
+</article>
+
+  
+</section>
+</main>
+
+<!-- floating nav buttons -->
+<div class="floating" aria-hidden="false">
+  <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="home.html" style="text-decoration: none; color:#000000;">Home</a></button>
+  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic7.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
+  <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
+</div>
+
+<!-- Responsive Mutual Funds Flowchart (Unified Style) -->
+<div class="flowchart">
+  <div class="node main">Types of Mutual Funds</div>
+  <div class="arrow down"></div>
+
+  <div class="horizontal-line"></div>
+
+  <div class="branch-row">
+    <!-- Branch 1 -->
+    <div class="branch">
+      <div class="node category">By Asset Class</div>
+      <div class="arrow down"></div>
+      <div class="sub-branch">
+        <div class="node sub">
+          Equity Funds
+          <div class="desc">Invest in stocks — high risk, high return. <b>Example:</b> Large Cap Fund</div>
+        </div>
+        <div class="node sub">
+          Debt Funds
+          <div class="desc">Invest in bonds — lower risk, stable returns. <b>Example:</b> Liquid Fund</div>
+        </div>
+        <div class="node sub">
+          Hybrid Funds
+          <div class="desc">Mix of equity & debt. <b>Example:</b> Balanced Advantage Fund</div>
+        </div>
+        <div class="node sub">
+          Other Assets
+          <div class="desc">Gold, international funds, etc.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Branch 2 -->
+    <div class="branch">
+      <div class="node category">By Structure</div>
+      <div class="arrow down"></div>
+      <div class="sub-branch">
+        <div class="node sub">
+          Open-Ended
+          <div class="desc">Buy/sell anytime.</div>
+        </div>
+        <div class="node sub">
+          Close-Ended
+          <div class="desc">Locked till maturity.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Branch 3 -->
+    <div class="branch">
+      <div class="node category">By Purpose</div>
+      <div class="arrow down"></div>
+      <div class="sub-branch">
+        <div class="node sub">
+          Growth Funds
+          <div class="desc">Long-term wealth creation.</div>
+        </div>
+        <div class="node sub">
+          Income Funds
+          <div class="desc">Regular payouts.</div>
+        </div>
+        <div class="node sub">
+          Tax-Saving (ELSS)
+          <div class="desc">Section 80C benefit, 3-year lock-in.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-header"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
+  © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank"style="color:#93c5fd;">Contact Us</a>
+</footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('scamModal');
+  const modalBody = document.getElementById('modalBody');
+  const modalHeader = modal.querySelector('.modal-header');
+  const closeBtn = modal.querySelector('.modal-close');
+  let lastFocused = null;
+
+  function openModal(card){
+    lastFocused = document.activeElement;
+    const title = card.querySelector('h3')?.textContent || 'Details';
+    const details = card.querySelector('.details').cloneNode(true);
+    details.style.display = 'block';
+    modalHeader.textContent = title;
+    modalBody.innerHTML = '';
+    modalBody.appendChild(details);
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    closeBtn.focus();
+  }
+
+  function closeModal(){
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    modalBody.innerHTML = '';
+    document.body.classList.remove('modal-open');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.term-card, .card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
+});
+</script>
+
+</body>
+</html>

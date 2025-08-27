@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - MindStocks</title>
+
+    <style>
+
+    body {
+      transition: background 0.3s, color 0.5s;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      color: #333;
+    }
+    
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      color: #4f46e5;
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+        nav a {
+      text-decoration: none;
+      color: #4b5563;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background 0.3s;
+      font-weight: 500;
+    }
+    nav a:hover {
+      background: #e0e7ff;
+    }
+
+    nav a.active {
+    background: #4f46e5;
+    color: #4f46e5;
+    }
+
+    .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+    .dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  min-width: 220px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+    .main {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .main h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 15px;
+    }
+    .main p {
+      font-size: 1.1rem;
+      color: #6b7280;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+    .main a {
+      display: inline-block;
+      background: #4f46e5;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .main a:hover {
+      background: #4338ca;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 0 20px 50px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+    .feature-card h3 {
+      color: #4f46e5;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      color: #6b7280;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+        @media (min-width: 768px) {
+      .features {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+/*.night-mode {
+  background: #0a0a0a;
+  color: #e5e5e5;
+}
+.night-mode header {
+  background: #000;
+  color: #e5e5e5;
+}
+.night-mode .feature-card {
+  background: #1c1c1c;
+  color: #e5e5e5;
+} */
+
+
+    </style>
+</head>
+<body>
+    
+  <!-- Navbar -->
+  <!-- Navbar -->
+<header>
+  <h1><a href="home.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
+  <nav>
+    <a href="learning.html">Learning</a>
+    <a href="quizhub.html">Quiz</a>
+    <a href="tradingsimulator.html">Trading Simulation</a>
+    <a href="#">Progress Tracking</a>
+
+    <!-- Settings Dropdown -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn">Settings ▾</a>
+      <div class="dropdown-content">
+        <a href="#">🌐 Switch Language</a>
+        <a href="#" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+        <a href="#" onclick="resetProgress()">🔄 Reset Progress</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+  <!-- main Section -->
+  <section class="main">
+    <h2>Empowering India's Investors - One Lesson at a Time</h2>
+    <p>
+    At MindStocks, built for the SEBI Hackathon, we make stock market learning simple, 
+    multilingual, and safe for beginners. Along with teaching investing basics, we help you spot 
+    scams, avoid fraud, and follow SEBI’s trusted guidelines Empowering India<br>- One 
+    lesson at a time.
+    </p>
+    <a href="learning.html">Get Started</a>
+    <a href="#features">Learn More</a>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="feature-card" onclick="location.href='learning.html'" style="cursor:pointer;">
+      <h3>📚 Learning</h3>
+      <p>Step-by-step guides and interactive lessons to understand finance concepts.</p>
+    </div>
+    <div class="feature-card" onclick="location.href='quizhub.html'" style="cursor:pointer;">
+      <h3>📝 Quiz </h3>
+      <p>Test your knowledge with quizzes designed for all levels.</p>
+    </div>
+    <div class="feature-card" onclick="location.href='tradingsimulator.html'" style="cursor:pointer;">
+      <h3>📈 Trading Simulation</h3>
+      <p>Practice trading in a safe environment without risking real money.</p>
+    </div>
+    <div class="feature-card" onclick="location.href='progress.html'" style="cursor:pointer;">
+      <h3>📊 Progress Tracking</h3>
+      <p>Monitor your learning journey and improve over time.</p>
+    </div>
+  </section>
+
+  <footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
+  © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank" style="color:#93c5fd;">Contact Us</a>
+</footer>
+
+</body>
+
+<script>
+
+function resetProgress() {
+  if (confirm("Are you sure you want to reset all progress?")) {
+    localStorage.clear();
+    alert("Progress has been reset!");
+  }
+}
+
+function toggleNightMode() {
+  document.body.classList.toggle("night-mode");
+}
+</script>
+
+</html>

@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>How Trading Works — New Look</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f6f8fa;
+    --navy: #0D1B2A;
+    --accent: #E63946;
+    --teal: #2A9D8F;
+    --card: #fff;
+    --muted: #556677;
+    --soft: #f1faf8;
+    --radius: 12px;
+    --shadow: 0 10px 30px rgba(13,27,42,0.08);
+    --transition: 220ms cubic-bezier(.2,.9,.3,1);
+  }
+
+  /* Global reset */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  h1, h2, h3 { line-height: 1.25; }
+  p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+  ul, ol { padding-left: 20px; }
+
+  body{
+    margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background:var(--bg); color:var(--navy); -webkit-font-smoothing:antialiased;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(90deg,var(--navy), #123544);
+    color: #fff;
+    padding: 28px 18px;
+    border-radius: 12px;
+    margin: 18px auto;
+    max-width:1120px;
+    box-shadow: var(--shadow);
+  }
+  .header h1{ margin:0; font-size:1.8rem; font-weight:700; }
+  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
+
+  /* Container */
+  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
+
+  /* Click tip */
+  .click-warning {
+    background: var(--soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+  }
+
+  /* Cards */
+  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
+  .scam-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06);
+    position: relative;
+    overflow: visible;
+    transition: transform var(--transition);
+    z-index: 1;
+    cursor: pointer;
+  }
+  .scam-card:hover { transform: translateY(-6px); z-index: 10; }
+  .scam-title h3 { margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 600; }
+  .scam-short { margin-top: 6px; color: var(--muted); font-size: .96rem; line-height: 1.45; }
+  .scam-ex { margin-top: 6px; color: #234a57; font-style: italic; }
+  .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
+
+  .icon {
+    width:56px; height:56px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
+    flex: 0 0 56px;
+  }
+  .icon.d1{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
+  .icon.d2{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
+  .icon.d3{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
+  .icon.d4{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
+
+  .scam-main { flex:1; }
+  .scam-title { display:flex; align-items:center; gap:10px; }
+  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; }
+  .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
+
+  /* Hidden source content; shown only inside the modal */
+  .avoid-group { display: none; }
+
+.avoid {
+  flex: 0 0 auto;         /* no flex growth */
+  width: fit-content;     /* wrap around content */
+  height: auto;           /* remove fixed square aspect */
+  min-width: auto;        /* allow shrink */
+  background: #0D1B2A;
+  color: white;
+  border-left: 4px solid var(--accent);
+  padding: 12px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+}
+
+
+  .avoid h4 {
+    margin: 0 0 8px;
+    color: var(--accent);
+    font-size: 0.98rem;
+  }
+
+  .avoid ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .avoid li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  /* Color variants */
+  .avoid-howto { background: #0D1B2A; }
+  .avoid-dos { background: #1b4332; border-left-color: #2a9d8f; }
+  .avoid-donts { background: #5c1a1a; border-left-color: #e63946; }
+
+  /* Mobile view */
+  @media (max-width:720px) {
+    .avoid-group { flex-direction: column; position: relative; }
+    .avoid { aspect-ratio: unset; min-width: unset; max-width: 100%; }
+  }
+
+  /* Flow / chain box */
+  .flow {
+    margin: 22px auto;
+    max-width: 800px;
+    background: linear-gradient(180deg,#fff,#fcfffd);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06);
+  }
+  .flow h2{ margin:0 0 10px 0; color:var(--navy); font-size:1.05rem }
+  .chain { display:flex; flex-direction:column; gap:12px; padding-left:6px; }
+  .chain .node { display:flex; gap:12px; align-items:flex-start; }
+  .node .num {
+    width:36px; height:36px; border-radius:50%; background:#6c7a89; color:white; display:flex; align-items:center; justify-content:center; font-weight:700;
+    flex:0 0 36px; margin-top:4px;
+  }
+  .node .content { background:transparent; padding:6px 8px; border-radius:8px; }
+  .node p { margin:0; color:var(--muted); font-size:0.95rem; }
+  .node:not(:last-child) .content::after {
+    content: "";
+    display:block;
+    margin:10px 0 0 26px;
+    width:2px; height:20px;
+    background: linear-gradient(#cbd5da,#97a6ad);
+  }
+  .node.danger .num{ background:var(--accent) }
+  .node.decision .num{ background:#ffb86b; color:#2e1f00 }
+  .node.safe .num{ background:var(--teal) }
+
+  /* Outcomes (optional, hidden here) */
+  .outcomes { display:flex; gap:12px; margin-top:14px; }
+  .outcome { flex:1; padding:12px; border-radius:10px; color:white; font-weight:600; text-align:center }
+  .outcome.fail { background: linear-gradient(135deg,#e63946,#ff6b6b) }
+  .outcome.ok { background: linear-gradient(135deg,#2a9d8f,#6fd6b6) }
+
+  /* Golden rules */
+  .golden {
+    margin-top: 22px;
+    background: var(--soft);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06);
+  }
+  .golden h2{ margin:0 0 10px 0; color:var(--navy) }
+  .cards { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+  .card-rule{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
+  .card-rule .tick { font-size:18px; color:var(--teal); margin-top:2px; }
+
+  /* Floating nav buttons */
+  .floating {
+    position: fixed;
+    right: 1.6%;
+    bottom: 1.6%;
+    display:flex;
+    flex-direction:column;
+    gap:0.9%;
+    z-index: 99999;
+  }
+  .btn {
+    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
+    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
+  }
+  .btn:hover{ background: var(--accent); }
+  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+
+  /* Footer */
+  footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed; inset:0; display:none;
+    align-items:center; justify-content:center;
+    background:rgba(0,0,0,.6); z-index:999999;
+  }
+  .modal-content{
+    position:relative; background:#fff; width:min(880px,92vw);
+    max-height:90vh; overflow:auto; border-radius:12px;
+    padding: 24px 26px 28px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06);
+  }
+  .modal-close{
+    position:absolute; top:14px; right:16px; border:0; background:transparent;
+    font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
+  }
+  .modal-close:hover { color: var(--accent); }
+  .modal-header{
+    font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+    padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+  }
+  body.modal-open{ overflow:hidden; }
+
+  /* Avoid boxes inside modal */
+  .modal-content .avoid-group{
+    position:static; width:100%;
+    padding:0;
+    display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
+  }
+  .modal-content .avoid{
+    flex:1 1 260px; min-width:240px; border-radius:10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 12px 30px rgba(2,9,23,.08);
+  }
+  .modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
+  .modal-content .avoid ul{ padding-left:20px; margin:0; }
+  .modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+</style>
+</head>
+<body>
+
+  <div class="header" role="banner">
+    <h1>How Trading Works</h1>
+    <p>Learn the fundamentals of markets, trading styles, and the step-by-step process to trade successfully.</p>
+  </div>
+
+  <main class="container" role="main">
+
+    <p class="click-warning">💡 Click on cards to see full details and examples.</p>
+
+    <!-- CARDS (from your "How Trading Works" content) -->
+    <section class="scams" aria-label="Trading basics">
+
+      <!-- 1: What is Trading? -->
+      <article class="scam-card" data-id="t1">
+        <div class="icon d1">📊</div>
+        <div class="scam-main">
+          <div class="scam-title"><h3>What is Trading?</h3></div>
+          <div class="scam-short">
+            Trading is the process of buying and selling financial instruments in various markets with the goal of making a profit.
+            It involves analyzing trends, predicting price movements, and executing transactions at the right moments.
+            Successful trading demands discipline, strategy, and the ability to adapt to changing market conditions.
+          </div>
+        </div>
+
+        <!-- Modal content source -->
+        <div class="avoid-group" aria-hidden="true">
+          <div class="avoid avoid-howto">
+            <h4>Details</h4>
+            <ul>
+              <li>Involves buying and selling stocks, forex, commodities, or cryptocurrencies.</li>
+              <li>Can be speculative (short-term) or investment-focused (long-term).</li>
+              <li>Requires market knowledge, discipline, and risk management.</li>
+              <li>Buy low and sell high, or short-sell when expecting a price drop.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2: What can be Traded? -->
+      <article class="scam-card" data-id="t2">
+        <div class="icon d2">💹</div>
+        <div class="scam-main">
+          <div class="scam-title"><h3>What can be Traded?</h3></div>
+          <div class="scam-short">
+            A wide range of assets can be traded — from company shares and global currencies to commodities and digital coins.
+            Each asset type behaves differently, influenced by supply/demand, economic events, and market sentiment.
+            Choose assets that fit your goals, risk tolerance, and trading style.
+          </div>
+        </div>
+
+        <!-- Modal content source -->
+        <div class="avoid-group" aria-hidden="true">
+          <div class="avoid avoid-howto">
+            <h4>Examples</h4>
+            <ul>
+              <li><strong>Stocks:</strong> Ownership in companies with potential dividends and capital gains.</li>
+              <li><strong>Forex:</strong> Currency pairs affected by interest rates and economic news.</li>
+              <li><strong>Commodities:</strong> Gold, oil, agriculture — driven by supply/demand and geopolitics.</li>
+              <li><strong>Cryptocurrencies:</strong> Blockchain-based assets — highly volatile, 24/7 markets.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3: How Trading Works -->
+      <article class="scam-card" data-id="t3">
+        <div class="icon d3">🛠️</div>
+        <div class="scam-main">
+          <div class="scam-title"><h3>How Trading Works</h3></div>
+          <div class="scam-short">
+            Trading follows steps: choose a market, analyze opportunities, place orders, and manage positions until exit.
+            A structured routine reduces emotional decisions and keeps you aligned with your plan.
+          </div>
+        </div>
+
+        <!-- Modal content source -->
+        <div class="avoid-group" aria-hidden="true">
+          <div class="avoid avoid-howto">
+            <h4>Steps</h4>
+            <ul>
+              <li>Pick a market aligned with your knowledge and interests.</li>
+              <li>Open an account with a trusted, regulated broker or exchange.</li>
+              <li>Analyze using:
+                <ul>
+                  <li><em>Technical:</em> charts, trends, indicators.</li>
+                  <li><em>Fundamental:</em> economic data, earnings reports.</li>
+                </ul>
+              </li>
+              <li>Place market/limit orders per your strategy.</li>
+              <li>Monitor positions; adjust stop-loss / take-profit as needed.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4: Beginner's Tip -->
+      <article class="scam-card" data-id="t4">
+        <div class="icon d4">💡</div>
+        <div class="scam-main">
+          <div class="scam-title"><h3>Beginner's Tip</h3></div>
+          <div class="scam-short">
+            Start small and focus on learning over quick profits. Use the early phase to understand market moves,
+            test strategies, and build confidence — the goal is to protect capital while you gain experience.
+          </div>
+        </div>
+
+        <!-- Modal content source -->
+        <div class="avoid-group" aria-hidden="true">
+          <div class="avoid avoid-howto">
+            <h4>Why?</h4>
+            <ul>
+              <li>Practice with demo accounts before risking real money.</li>
+              <li>Create a trading plan and follow it.</li>
+              <li>Never risk more than you can afford to lose.</li>
+              <li>Keep a trade journal to learn from wins and mistakes.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Popular Trading Strategies (flow-style section) -->
+    <section class="flow" aria-label="Popular trading strategies">
+      <h2>Popular Trading Strategies — with Examples</h2>
+      <div class="chain" role="list">
+        <div class="node safe" role="listitem">
+          <div class="num">1</div>
+          <div class="content">
+            <strong>Day Trading</strong>
+            <p>Buy & sell within the same day for small, frequent gains. <em>Example: Buy at 10:15 AM and close by market end.</em></p>
+          </div>
+        </div>
+        <div class="node decision" role="listitem">
+          <div class="num">2</div>
+          <div class="content">
+            <strong>Swing Trading</strong>
+            <p>Hold for days/weeks to capture price swings. <em>Example: Buy a dip; exit after a week’s uptrend.</em></p>
+          </div>
+        </div>
+        <div class="node" role="listitem">
+          <div class="num">3</div>
+          <div class="content">
+            <strong>Scalping</strong>
+            <p>Very short trades (seconds–minutes). <em>Example: Quick Forex trades during high-liquidity hours.</em></p>
+          </div>
+        </div>
+        <div class="node danger" role="listitem">
+          <div class="num">4</div>
+          <div class="content">
+            <strong>Position Trading</strong>
+            <p>Long-term holds (months–years) on strong trends. <em>Example: Stay in gold during a multi-year bull run.</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risk Management Rules -->
+    <section class="golden" aria-label="Golden rules of trading risk management">
+      <h2>Golden Rules of Trading Risk Management</h2>
+      <div class="cards">
+        <div class="card-rule"><div class="tick">✅</div><div><strong>Risk Small</strong><br><small>Limit risk to 1–2% of total capital per trade.</small></div></div>
+        <div class="card-rule"><div class="tick">✅</div><div><strong>Always Use Stop-Loss</strong><br><small>Protects you from large unexpected moves.</small></div></div>
+        <div class="card-rule"><div class="tick">✅</div><div><strong>Plan Before Entry</strong><br><small>Know entry, stop-loss, and target before trading.</small></div></div>
+        <div class="card-rule"><div class="tick">✅</div><div><strong>Diversify</strong><br><small>Spread risk across multiple assets/strategies.</small></div></div>
+        <div class="card-rule"><div class="tick">✅</div><div><strong>Never Overleverage</strong><br><small>Keep position sizes manageable.</small></div></div>
+        <div class="card-rule"><div class="tick">✅</div><div><strong>Keep a Journal</strong><br><small>Review every trade to improve edge over time.</small></div></div>
+      </div>
+    </section>
+
+<!-- Example Chart Walkthrough -->
+<section class="flow" aria-label="Example chart walkthrough">
+  <h2>Example Chart Walkthrough — A Simple Trade Plan</h2>
+  <div style="background:var(--soft);padding:16px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(13,27,42,0.06)">
+    <p><strong>Scenario:</strong> A trader spots an uptrend in a stock.</p>
+    <ul style="margin-top:10px;line-height:1.5;color:var(--muted);list-style:none;padding:0;">
+      <li><span role="img" aria-label="chart rising">📈</span> <strong>Entry Point:</strong> Breakout above resistance at ₹150.</li>
+      <li><span role="img" aria-label="shield">🛡️</span> <strong>Stop-Loss:</strong> Set at ₹145 to limit downside risk.</li>
+      <li><span role="img" aria-label="target">🎯</span> <strong>Target:</strong> ₹165 based on previous high.</li>
+      <li><span role="img" aria-label="chart">📊</span> <strong>Indicator:</strong> 20-day moving average trending upward.</li>
+    </ul>
+
+    <div style="margin-top:14px;display:flex;justify-content:center;">
+      <!-- Lightweight illustrative SVG -->
+      <svg width="100%" height="180" viewBox="0 0 400 180" role="img" aria-label="Illustrative chart with entry, stop and target">
+        <defs>
+          <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dbeff0"/>
+            <stop offset="100%" stop-color="#f9ffff"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="400" height="180" fill="url(#grad)" rx="8"/>
+
+        <!-- Gridlines -->
+        <g stroke="#cfd8dc" stroke-width="0.5">
+          <line x1="0" y1="30" x2="400" y2="30"/>
+          <line x1="0" y1="60" x2="400" y2="60"/>
+          <line x1="0" y1="90" x2="400" y2="90"/>
+          <line x1="0" y1="120" x2="400" y2="120"/>
+          <line x1="0" y1="150" x2="400" y2="150"/>
+        </g>
+
+        <!-- Price bars -->
+        <g stroke-width="2">
+          <line x1="40" y1="100" x2="40" y2="80" stroke="#2A9D8F"/>
+          <rect x="35" y="80" width="10" height="20" fill="#2A9D8F"/>
+
+          <line x1="80" y1="95" x2="80" y2="75" stroke="#2A9D8F"/>
+          <rect x="75" y="75" width="10" height="20" fill="#2A9D8F"/>
+
+          <line x1="120" y1="90" x2="120" y2="70" stroke="#2A9D8F"/>
+          <rect x="115" y="70" width="10" height="20" fill="#2A9D8F"/>
+
+          <line x1="160" y1="85" x2="160" y2="65" stroke="#E63946"/>
+          <rect x="155" y="65" width="10" height="20" fill="#E63946"/>
+
+          <line x1="200" y1="70" x2="200" y2="50" stroke="#2A9D8F"/>
+          <rect x="195" y="50" width="10" height="20" fill="#2A9D8F"/>
+
+          <line x1="240" y1="60" x2="240" y2="40" stroke="#2A9D8F"/>
+          <rect x="235" y="40" width="10" height="20" fill="#2A9D8F"/>
+        </g>
+
+        <!-- Labels -->
+        <text x="110" y="60" font-size="12" fill="#E63946">📈 Entry ₹150</text>
+        <text x="20" y="115" font-size="12" fill="#E63946">🛡️ Stop ₹145</text>
+        <text x="220" y="35" font-size="12" fill="#2A9D8F">🎯 Target ₹165</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+  </main>
+
+<!-- floating nav buttons -->
+<div class="floating" aria-hidden="false">
+  <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="home.html" style="text-decoration: none; color:#000000;">Home</a></button>
+  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic4.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
+  <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
+</div>
+
+ <footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
+  © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank" style="color:#93c5fd;">Contact Us</a>
+</footer>
+
+  <!-- Modal -->
+  <div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div class="modal-header"></div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* ===== Modal setup (same as first file) ===== */
+  const modal = document.getElementById('scamModal');
+  const modalBody = document.getElementById('modalBody');
+  const modalHeader = modal.querySelector('.modal-header');
+  const closeBtn = modal.querySelector('.modal-close');
+  let lastFocused = null;
+
+  function openModal(card){
+    lastFocused = document.activeElement;
+
+    // title for header
+    const title = card.querySelector('.scam-title h3')?.textContent || 'Details';
+
+    // clone the avoid-group content from this card
+    const avoidGroup = card.querySelector('.avoid-group').cloneNode(true);
+    avoidGroup.removeAttribute('aria-hidden'); // make it accessible
+    avoidGroup.style.display = '';             // let CSS control layout
+
+    // inject into modal
+    modalHeader.textContent = title;
+    modalBody.innerHTML = '';
+    modalBody.appendChild(avoidGroup);
+
+    // show modal
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    closeBtn.focus();
+  }
+
+  function closeModal(){
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    modalBody.innerHTML = '';
+    document.body.classList.remove('modal-open');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  // Open on click of any card
+  document.querySelectorAll('.scam-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+  });
+
+  // Close actions
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
+});
+</script>
+
+</body>
+</html>
