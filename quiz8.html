@@ -100,6 +100,43 @@ footer a{color:#93c5fd}
 </footer>
 
 <script>
+
+  const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 8,   // adjust to real number
+  quizzes: 0,
+  totalQuizzes: 8,   // since you have 8 quizzes
+  trading: 0,
+  tradingHistory: []
+};
+
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
+}
+
+function saveProgress(p) {
+  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+}
+
+const MindStocks = {
+  completeLesson() {
+    const p = getProgress();
+    if (p.lessons < p.totalLessons) p.lessons++;
+    saveProgress(p);
+  },
+  completeQuiz() {
+    const p = getProgress();
+    if (p.quizzes < p.totalQuizzes) p.quizzes++;
+    saveProgress(p);
+  },
+  recordTrade() {
+    const p = getProgress();
+    p.trading++;
+    p.tradingHistory.push(Date.now());
+    saveProgress(p);
+  }
+};
+
 const quizData = [
   {question:"What is one of the primary rights of an investor?",options:["To receive dividends","To vote on company matters","To access insider information","To demand a refund"],answer:1,explanation:"Investors have the right to vote on important company matters, such as electing the board of directors."},
   {question:"What is a responsibility of an investor?",options:["To monitor their investments","To manipulate stock prices","To ignore market trends","To rely solely on financial advisors"],answer:0,explanation:"Investors are responsible for monitoring their investments and making informed decisions."},
@@ -191,6 +228,9 @@ function showResult(){
   score = answers.reduce((acc,ans,i) => 
     ans === quiz[i].answer ? acc+1 : acc, 0
   );
+
+MindStocks.completeQuiz();
+
   
   document.getElementById("quiz-container").style.display="none";
   document.getElementById("prev-btn").style.display="none";
