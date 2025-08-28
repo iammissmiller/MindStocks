@@ -185,6 +185,42 @@
   <footer>Educational simulator • Brokerage simulated (0.10%) • GST on brokerage (18%) • Data stored locally</footer>
 
   <script>
+
+    // ===== Progress Tracker (inline) =====
+const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 5,   // adjust to actual
+  quizzes: 0,
+  totalQuizzes: 8,   // adjust if needed
+  trading: 0,
+  tradingHistory: []
+};
+
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
+}
+function saveProgress(p) {
+  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+}
+const MindStocks = {
+  completeLesson() {
+    const p = getProgress();
+    if (p.lessons < p.totalLessons) p.lessons++;
+    saveProgress(p);
+  },
+  completeQuiz() {
+    const p = getProgress();
+    if (p.quizzes < p.totalQuizzes) p.quizzes++;
+    saveProgress(p);
+  },
+  recordTrade() {
+    const p = getProgress();
+    p.trading++;
+    p.tradingHistory.push(Date.now());
+    saveProgress(p);
+  }
+};
+
     // ======= Initial data and state =======
     const DEFAULT_BALANCE = 1000000;
     const DEFAULT_STOCKS = {
@@ -336,11 +372,15 @@
       const price = stocks[sym].price; const amount = price*qty; const charges = calcCharges(amount); const total = amount+charges; if(balance<total) return toast('Insufficient balance','warn');
       balance -= total; if(!portfolio[sym]) portfolio[sym]={qty:0,avg:0}; const oldTotal = portfolio[sym].qty*portfolio[sym].avg; const newTotal = oldTotal + amount; portfolio[sym].qty += qty; portfolio[sym].avg = newTotal/portfolio[sym].qty;
       history.unshift({time:nowStr(),type:'BUY',stock:sym,qty,price,challenges:null,charges});
+
+      MindStocks.recordTrade();
+
       animateBalance(); flashElement('#balanceCard'); toast(`Bought ${qty} ${sym} @ ₹${fmt(price)}`,'ok'); saveState(); renderPortfolio(); renderHistory();
     }
     function sell(sym){
       const qty = parseInt(document.getElementById('qty_'+sym).value||'0',10); if(qty<=0) return toast('Enter valid quantity','warn'); if(!portfolio[sym]||portfolio[sym].qty<qty) return toast('Not enough shares to sell','warn');
       const price = stocks[sym].price; const amount = price*qty; const charges = calcCharges(amount); const credit = amount - charges; balance += credit; portfolio[sym].qty -= qty; if(portfolio[sym].qty===0) delete portfolio[sym]; history.unshift({time:nowStr(),type:'SELL',stock:sym,qty,price,charges});
+      MindStocks.recordTrade();
       animateBalance(); flashElement('#balanceCard'); toast(`Sold ${qty} ${sym} @ ₹${fmt(price)}`,'ok'); saveState(); renderPortfolio(); renderHistory();
     }
 
