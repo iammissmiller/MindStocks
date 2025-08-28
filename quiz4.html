@@ -101,6 +101,43 @@ footer a{color:#93c5fd}
 </footer>
 
 <script>
+
+  const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 8,   // adjust to real number
+  quizzes: 0,
+  totalQuizzes: 8,   // since you have 8 quizzes
+  trading: 0,
+  tradingHistory: []
+};
+
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
+}
+
+function saveProgress(p) {
+  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+}
+
+const MindStocks = {
+  completeLesson() {
+    const p = getProgress();
+    if (p.lessons < p.totalLessons) p.lessons++;
+    saveProgress(p);
+  },
+  completeQuiz() {
+    const p = getProgress();
+    if (p.quizzes < p.totalQuizzes) p.quizzes++;
+    saveProgress(p);
+  },
+  recordTrade() {
+    const p = getProgress();
+    p.trading++;
+    p.tradingHistory.push(Date.now());
+    saveProgress(p);
+  }
+};
+
 const quizData = [
   {question:"Which of the following is a primary benefit of diversifying your portfolio?",options:["Maximizing short-term gains","Reducing risk by spreading investments","Avoiding all taxes","Guaranteeing high returns"],answer:1,explanation:"Diversification reduces risk by spreading investments across different assets."},
   {question:"Before investing in a company or fund, what is the most important first step?",options:["Investing quickly to not miss opportunities","Understanding how it works and the risks involved","Only checking its past one-month performance","Asking friends for recommendations"],answer:1,explanation:"You should always understand how an investment works and its risks before investing."},
@@ -197,6 +234,8 @@ function showResult(){
   score = answers.reduce((acc,ans,i) => 
     ans === quiz[i].answer ? acc+1 : acc, 0
   );
+
+MindStocks.completeQuiz();
   
   document.getElementById("quiz-container").style.display="none";
   document.getElementById("prev-btn").style.display="none";
