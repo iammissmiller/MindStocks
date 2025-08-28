@@ -178,7 +178,45 @@ footer a{color:#93c5fd}
   © 2025 MindStocks | Built for SEBI Hackathon |
   <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank">Contact Us</a>
 </footer>
+
 <script>
+
+  const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 8,   // adjust to real number
+  quizzes: 0,
+  totalQuizzes: 8,   // since you have 8 quizzes
+  trading: 0,
+  tradingHistory: []
+};
+
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
+}
+
+function saveProgress(p) {
+  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+}
+
+const MindStocks = {
+  completeLesson() {
+    const p = getProgress();
+    if (p.lessons < p.totalLessons) p.lessons++;
+    saveProgress(p);
+  },
+  completeQuiz() {
+    const p = getProgress();
+    if (p.quizzes < p.totalQuizzes) p.quizzes++;
+    saveProgress(p);
+  },
+  recordTrade() {
+    const p = getProgress();
+    p.trading++;
+    p.tradingHistory.push(Date.now());
+    saveProgress(p);
+  }
+};
+
 const quizData = [
   {
     q: "Which SEBI-regulated mutual fund type offers tax deduction under Section 80C with a 3-year lock-in?",
@@ -334,7 +372,9 @@ function showResult(){
   score = answers.reduce((acc,ans,i) => 
     ans === quiz[i].answer ? acc+1 : acc, 0
   );
-  
+
+MindStocks.completeQuiz();
+
   document.getElementById("quiz-container").style.display="none";
   document.getElementById("prev-btn").style.display="none";
   document.getElementById("next-btn").style.display="none";
