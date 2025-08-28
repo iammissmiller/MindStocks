@@ -182,6 +182,43 @@ footer a{color:#93c5fd}
 </footer>
 
 <script>
+
+  const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 8,   // adjust to real number
+  quizzes: 0,
+  totalQuizzes: 8,   // since you have 8 quizzes
+  trading: 0,
+  tradingHistory: []
+};
+
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
+}
+
+function saveProgress(p) {
+  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+}
+
+const MindStocks = {
+  completeLesson() {
+    const p = getProgress();
+    if (p.lessons < p.totalLessons) p.lessons++;
+    saveProgress(p);
+  },
+  completeQuiz() {
+    const p = getProgress();
+    if (p.quizzes < p.totalQuizzes) p.quizzes++;
+    saveProgress(p);
+  },
+  recordTrade() {
+    const p = getProgress();
+    p.trading++;
+    p.tradingHistory.push(Date.now());
+    saveProgress(p);
+  }
+};
+
 const quizData = [
   {question:"What is the main purpose of the stock market?",options:["To store money safely","To buy and sell shares of companies","To give loans to businesses","To print currency"],answer:1,explanation:"The stock market exists to buy and sell shares of companies, providing liquidity and raising capital."},
   {question:"In the stock market, what is a 'share'?",options:["A loan given to a company","A certificate of deposit","A small part of ownership in a company","A bond issued by the government"],answer:2,explanation:"A share represents ownership in a company. Shareholders are partial owners."},
@@ -278,6 +315,8 @@ function showResult(){
   score = answers.reduce((acc,ans,i) => 
     ans === quiz[i].answer ? acc+1 : acc, 0
   );
+
+MindStocks.completeQuiz();
   
   document.getElementById("quiz-container").style.display="none";
   document.getElementById("prev-btn").style.display="none";
