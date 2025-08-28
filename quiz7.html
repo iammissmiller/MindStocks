@@ -100,6 +100,43 @@ footer a{color:#93c5fd}
 </footer>
 
 <script>
+
+  const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 8,   // adjust to real number
+  quizzes: 0,
+  totalQuizzes: 8,   // since you have 8 quizzes
+  trading: 0,
+  tradingHistory: []
+};
+
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
+}
+
+function saveProgress(p) {
+  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+}
+
+const MindStocks = {
+  completeLesson() {
+    const p = getProgress();
+    if (p.lessons < p.totalLessons) p.lessons++;
+    saveProgress(p);
+  },
+  completeQuiz() {
+    const p = getProgress();
+    if (p.quizzes < p.totalQuizzes) p.quizzes++;
+    saveProgress(p);
+  },
+  recordTrade() {
+    const p = getProgress();
+    p.trading++;
+    p.tradingHistory.push(Date.now());
+    saveProgress(p);
+  }
+};
+
 const quizData = [
   {question:"What is 'inflation'?",options:["A decrease in the general price level of goods and services","A sustained increase in the general price level of goods and services","A period of economic recession","A sudden drop in stock prices"],answer:1,explanation:"Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling."},
   {question:"What is a 'stock'?",options:["A type of bond issued by a government","A loan made to a company or government","A share of ownership in a company","A physical commodity like gold or silver"],answer:2,explanation:"A stock represents a share of ownership in a company, entitling the holder to a proportion of the company's assets and earnings."},
@@ -191,7 +228,10 @@ function showResult(){
   score = answers.reduce((acc,ans,i) => 
     ans === quiz[i].answer ? acc+1 : acc, 0
   );
-  
+
+MindStocks.completeQuiz();
+
+
   document.getElementById("quiz-container").style.display="none";
   document.getElementById("prev-btn").style.display="none";
   document.getElementById("next-btn").style.display="none";
