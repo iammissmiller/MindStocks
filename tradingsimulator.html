@@ -14,9 +14,7 @@
     [data-theme='dark']{ --bg:#071021; --card:#071427; --text:#e6eef8; --muted:#9aa6b2; --accent:#58a6ff; --glass: rgba(255,255,255,0.03); }
 
     *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
-
-    header{position:sticky; top:0; background:linear-gradient(90deg,var(--card),var(--glass)); backdrop-filter: blur(6px); border-bottom:1px solid rgba(0,0,0,0.04); z-index:40}
+    body{font-family: Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
     .brand{display:flex; align-items:center; gap:12px}
@@ -26,7 +24,7 @@
     .controls{display:flex;align-items:center;gap:8px}
     button.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:var(--card);cursor:pointer}
     button.primary{background:var(--accent);color:white;border-color:transparent}
-    .grid{display:grid;grid-template-columns:1fr 420px;gap:16px;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:16px; margin-top: 0;padding:0 16px}
 
     .card{background:var(--card);border-radius:var(--radius);padding:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:var(--shadow)}
     h2{margin:0 0 10px 0;font-size:16px}
@@ -71,13 +69,222 @@
     @keyframes flash{0%{box-shadow:0 0 0 6px rgba(34,197,94,0.12)}100%{box-shadow:none}}
 
     footer{padding:20px;text-align:center;color:var(--muted)}
-  </style>
+/* --- Dark mode contrast fixes --- */
+[data-theme='dark'] button.btn{
+  background: #0b1730;               /* slightly lighter than --card */
+  color: var(--text);
+  border-color: rgba(230,238,248,.18);
+}
+[data-theme='dark'] button.btn:hover{
+  filter: brightness(1.08);
+}
+[data-theme='dark'] button.primary{
+  background: var(--accent);
+  color: #fff;                        /* ensure white text on accent */
+  border-color: transparent;
+}
+
+/* Inputs + table lines/hover */
+[data-theme='dark'] input[type=number]{
+  background: #0b1730;
+  color: var(--text);
+  border-color: rgba(230,238,248,.18);
+}
+[data-theme='dark'] thead th,
+[data-theme='dark'] tbody tr{
+  border-bottom-color: rgba(230,238,248,.10);
+}
+[data-theme='dark'] tbody tr:hover{
+  background: rgba(255,255,255,.05);
+}
+
+/* Pills (move badges) */
+[data-theme='dark'] .pill.up  { background: rgba(34,197,94,.12);  }
+[data-theme='dark'] .pill.down{ background: rgba(239,68,68,.12); }
+/* Global site header (navbar) */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+header h1 {
+  color: #4f46e5;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #4b5563;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background 0.3s;
+  font-weight: 500;
+}
+nav a:hover {
+  background: #e0e7ff;
+}
+nav a.active {
+  background: #e0e7ff;
+  color: #4b5563;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  min-width: 220px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.dropdown-content a:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Simulator toolbar styled like a card */
+.sim-toolbar {
+  grid-column: 1/-1;
+  margin: 0 0 16px 0;
+}
+
+
+.sim-toolbar .brand h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.sim-toolbar .topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0; /* remove double padding */
+}
+/* --- Fix: Market table stretching --- */
+#marketTable th, 
+#marketTable td {
+  padding: 6px 8px;
+  font-size: 13px;
+  white-space: nowrap;         /* keep cells compact */
+}
+
+#marketTable td strong {
+  display: inline-block;
+  min-width: 70px;             /* stop symbol from stretching */
+}
+
+#marketTable td input[type=number] {
+  width: 70px;                 /* tighter input */
+}
+
+#marketTable td canvas.spark {
+  width: 120px !important;     /* fixed sparkline width */
+  height: 28px !important;
+  display: block;
+}
+
+/* Market actions compact */
+.market-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+/* --- Fix: Portfolio Summary alignment --- */
+.stats-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.stat {
+  flex: 1 1 0;
+  min-width: 100px;
+  text-align: center;
+}
+
+/* --- Fix: Allocation chart overflow --- */
+#allocChart, 
+#portfolioChart {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+</style>
 </head>
 <body>
-  <header>
-    <div class="container topbar">
+  <!-- Main site header -->
+<header>
+  <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
+  <nav>
+    <a href="learning.html" id="nav-learning">Learning</a>
+    <a href="quizhub.html" id="nav-quiz">Quiz</a>
+    <a href="tradingsimulator.html" class="active" id="nav-trading">Trading Simulation</a>
+    <a href="progresstracker.html" id="nav-progress">Progress Tracking</a>
+    <div class="dropdown">
+      <a href="#" class="dropbtn" >Settings ▾</a>
+      <div class="dropdown-content">
+        <a href="#">🌐 Switch Language</a>
+        <a href="#" id="themeToggleNav">🌓 Toggle Theme</a>
+        <a href="#" id="resetNav">🔄 Reset Progress</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- Toolbar stays full width above -->
+
+  <!-- Two-column grid -->
+  <div class="grid">
+
+      <section class="sim-toolbar card">
+    <div class="topbar">
       <div class="brand">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="color:var(--accent)"><path d="M3 3v18h18" stroke="currentColor" stroke-width="1.6"/></svg>
+        <svg width="36" height="36"></svg>
         <div>
           <h1>SEBI Trading Simulator</h1>
           <div class="small">Educational — No real money involved</div>
@@ -89,82 +296,102 @@
           <div class="small">Balance</div>
           <div class="balance-amt" id="balance">₹ 0</div>
         </div>
-
         <div class="controls">
-          <button class="btn" id="themeToggle">Toggle Theme</button>
-          <button class="btn" id="resetBtn">Reset</button>
+          <button class="btn" id="lockQtyBtn">Lock Qty</button>
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main class="container">
-    <div class="grid">
-      <section>
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <h2>Market</h2>
-            <div class="small">Tick interval: <select id="tickSpeed"><option value="1000">1s</option><option value="3000" selected>3s</option><option value="8000">8s</option></select>
+
+    <!-- LEFT column (Market + History) -->
+    <div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Market</h2>
+          <div class="small">
+            Tick interval: 
+            <select id="tickSpeed">
+              <option value="1000">1s</option>
+              <option value="3000" selected>3s</option>
+              <option value="8000">8s</option>
+            </select>
             <button class="btn" id="pauseBtn">Pause</button>
-            </div>
-          </div>
-
-          <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-            <div class="stat small">Top Gainer: <span id="topGainer">—</span></div>
-            <div class="stat small">Top Loser: <span id="topLoser">—</span></div>
-            <div class="stat small">Watchlist: <span id="watchCount">0</span></div>
-          </div>
-
-          <div style="margin-top:12px;overflow:auto;" class="table-wrapper">
-            <table id="marketTable">
-              <thead>
-                <tr><th>Stock</th><th>Price</th><th>Move</th><th>Qty</th><th>Trend</th><th style="text-align:right">Action</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
           </div>
         </div>
 
-        <div class="card" style="margin-top:16px">
-          <h2>Trade History</h2>
-          <div style="overflow:auto;max-height:240px">
-            <table id="historyTable"><thead><tr><th>When</th><th>Type</th><th>Stock</th><th>Qty</th><th>Price</th><th>Charges</th></tr></thead><tbody></tbody></table>
-          </div>
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div class="stat small">Top Gainer: <span id="topGainer">—</span></div>
+          <div class="stat small">Top Loser: <span id="topLoser">—</span></div>
+          <div class="stat small">Watchlist: <span id="watchCount">0</span></div>
         </div>
 
-      </section>
-
-      <aside class="right-col">
-        <div class="card">
-          <h2>Portfolio Summary</h2>
-          <div class="stats-row" style="margin-top:8px">
-            <div class="stat"><div class="small">Invested</div><div id="invested">₹ 0</div></div>
-            <div class="stat"><div class="small">Value</div><div id="value">₹ 0</div></div>
-            <div class="stat"><div class="small">Net P/L</div><div id="netpl">₹ 0 (0%)</div></div>
-          </div>
-
-          <div style="margin-top:12px">
-            <canvas id="portfolioChart" width="380" height="200"></canvas>
-          </div>
-
-          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-            <button class="btn" id="addStockBtn">+ Add Stock</button>
-            <button class="btn" id="pauseMarketBtn">Pause Market</button>
-          </div>
+        <div style="margin-top:12px;overflow:auto;" class="table-wrapper">
+          <table id="marketTable">
+            <thead>
+              <tr><th>Stock</th><th>Price</th><th>Move</th><th>Qty</th><th>Trend</th><th style="text-align:right">Action</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+      </div>
 
-        <div class="card" style="margin-top:16px">
-          <h2>Portfolio Allocation</h2>
-          <canvas id="allocChart" width="380" height="200"></canvas>
+      <div class="card" style="margin-top:16px">
+        <h2>Trade History</h2>
+        <div style="overflow:auto;max-height:240px">
+          <table id="historyTable">
+            <thead>
+              <tr><th>When</th><th>Type</th><th>Stock</th><th>Qty</th><th>Price</th><th>Charges</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
-      </aside>
+      </div>
     </div>
 
-    <div style="margin-top:16px" class="card">
-      <h2>Portfolio Holdings</h2>
-      <div style="overflow:auto"><table id="portfolioTable"><thead><tr><th>Stock</th><th>Qty</th><th>Avg</th><th>Current</th><th>P/L (%)</th></tr></thead><tbody></tbody></table></div>
+    <!-- RIGHT column (Portfolio Summary + Allocation) -->
+    <aside class="right-col">
+      <div class="card">
+        <h2>Portfolio Summary</h2>
+        <div class="stats-row" style="margin-top:8px">
+          <div class="stat"><div class="small">Invested</div><div id="invested">₹ 0</div></div>
+          <div class="stat"><div class="small">Value</div><div id="value">₹ 0</div></div>
+          <div class="stat"><div class="small">Net P/L</div><div id="netpl">₹ 0 (0%)</div></div>
+        </div>
+
+        <div style="margin-top:12px">
+          <canvas id="portfolioChart" width="380" height="200"></canvas>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+          <button class="btn" id="addStockBtn">+ Add Stock</button>
+          <button class="btn" id="pauseMarketBtn">Pause Market</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>Portfolio Allocation</h2>
+        <canvas id="allocChart" width="380" height="200"></canvas>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- BELOW grid (full width holdings) -->
+  <div style="margin-top:16px" class="card">
+    <h2>Portfolio Holdings</h2>
+    <div style="overflow:auto">
+      <table id="portfolioTable">
+        <thead>
+          <tr><th>Stock</th><th>Qty</th><th>Avg</th><th>Current</th><th>P/L (%)</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-  </main>
+  </div>
+
+</main>
+
 
   <div class="toast-wrap" id="toasts"></div>
 
@@ -184,43 +411,8 @@
 
   <footer>Educational simulator • Brokerage simulated (0.10%) • GST on brokerage (18%) • Data stored locally</footer>
 
+  <script src="translation.js"></script>
   <script>
-
-    // ===== Progress Tracker (inline) =====
-const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 5,   // adjust to actual
-  quizzes: 0,
-  totalQuizzes: 8,   // adjust if needed
-  trading: 0,
-  tradingHistory: []
-};
-
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
-  }
-};
-
     // ======= Initial data and state =======
     const DEFAULT_BALANCE = 1000000;
     const DEFAULT_STOCKS = {
@@ -236,6 +428,8 @@ const MindStocks = {
     let tickTimer = null;
     let paused = false;
     let theme = localStorage.getItem('sim_theme')||'light';
+    let qtyLocked = JSON.parse(localStorage.getItem('sim_qty_locked')||'false'); // new
+
 
     // ======= Utility =======
     const fmt = n => Number(n).toLocaleString('en-IN', {maximumFractionDigits:2});
@@ -270,37 +464,62 @@ const MindStocks = {
     const historyTbody = document.querySelector('#historyTable tbody');
     const portfolioTbody = document.querySelector('#portfolioTable tbody');
 
-    function renderMarket(){
-      marketTbody.innerHTML='';
-      const movers = [];
-      Object.keys(stocks).forEach(sym=>{
-        const s = stocks[sym]; const prev = lastPrices[sym]||s.price; const diff = s.price - prev; const pct = (diff/prev)*100;
-        movers.push({sym,diff,pct});
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="min-width:110px"><strong>${sym}</strong> <button class="btn" data-star="${sym}" title="Add to Watchlist">★</button></td>
-          <td>₹ ${fmt(s.price)}</td>
-          <td><span class="pill ${diff>=0?'up':'down'}">${diff>=0?'+':''}${diff.toFixed(2)} (${pct.toFixed(2)}%)</span></td>
-          <td><input type="number" id="qty_${sym}" min="1" value="10" /></td>
-          <td style="width:100px"><canvas class="spark" id="spark_${sym}"></canvas></td>
-          <td style="text-align:right"><div class="market-actions"><button class="btn primary" data-buy="${sym}">Buy</button><button class="btn" data-sell="${sym}">Sell</button></div></td>
-        `;
-        marketTbody.appendChild(tr);
-      });
-      // top movers
-      movers.sort((a,b)=>b.pct-a.pct);
-      const topG = movers[0]; const topL = movers[movers.length-1];
-      document.getElementById('topGainer').textContent = topG? `${topG.sym} ${topG.pct.toFixed(2)}%` : '—';
-      document.getElementById('topLoser').textContent = topL? `${topL.sym} ${topL.pct.toFixed(2)}%` : '—';
+function renderMarket(){
+  // 1) Snapshot existing qty values before wiping the table
+  const qtyValues = {};
+  document.querySelectorAll('#marketTable input[type=number]').forEach(inp=>{
+    qtyValues[inp.id] = inp.value;
+  });
 
-      // attach handlers
-      document.querySelectorAll('[data-buy]').forEach(btn=>btn.onclick=()=>buy(btn.getAttribute('data-buy')));
-      document.querySelectorAll('[data-sell]').forEach(btn=>btn.onclick=()=>sell(btn.getAttribute('data-sell')));
-      document.querySelectorAll('[data-star]').forEach(btn=>btn.onclick=()=>toggleWatch(btn.getAttribute('data-star')));
+  marketTbody.innerHTML='';
+  const movers = [];
 
-      // draw sparklines
-      Object.keys(stocks).forEach(sym=>drawSpark(sym));
-    }
+  Object.keys(stocks).forEach(sym=>{
+    const s = stocks[sym];
+    const prev = lastPrices[sym] || s.price;
+    const diff = s.price - prev;
+    const pct  = prev ? (diff/prev) * 100 : 0;
+
+    movers.push({sym, diff, pct});
+
+    const tr = document.createElement('tr');
+    const savedVal = qtyValues['qty_'+sym] || 10; // keep user’s qty if available
+
+    tr.innerHTML = `
+      <td style="min-width:110px"><strong>${sym}</strong>
+        <button class="btn" data-star="${sym}" title="Add to Watchlist">★</button>
+      </td>
+      <td>₹ ${fmt(s.price)}</td>
+      <td><span class="pill ${diff>=0?'up':'down'}">${diff>=0?'+':''}${diff.toFixed(2)} (${pct.toFixed(2)}%)</span></td>
+      <td><input type="number" id="qty_${sym}" min="1" value="${savedVal}" ${qtyLocked ? 'disabled' : ''} /></td>
+      <td style="width:100px"><canvas class="spark" id="spark_${sym}"></canvas></td>
+      <td style="text-align:right">
+        <div class="market-actions">
+          <button class="btn primary" data-buy="${sym}">Buy</button>
+          <button class="btn" data-sell="${sym}">Sell</button>
+        </div>
+      </td>
+    `;
+    marketTbody.appendChild(tr);
+  });
+
+  // top movers
+  movers.sort((a,b)=>b.pct-a.pct);
+  const topG = movers[0];
+  const topL = movers[movers.length-1];
+  document.getElementById('topGainer').textContent = topG ? `${topG.sym} ${topG.pct.toFixed(2)}%` : '—';
+  document.getElementById('topLoser').textContent  = topL ? `${topL.sym} ${topL.pct.toFixed(2)}%` : '—';
+
+  // attach handlers
+  document.querySelectorAll('[data-buy]').forEach(btn=>btn.onclick=()=>buy(btn.getAttribute('data-buy')));
+  document.querySelectorAll('[data-sell]').forEach(btn=>btn.onclick=()=>sell(btn.getAttribute('data-sell')));
+  document.querySelectorAll('[data-star]').forEach(btn=>btn.onclick=()=>toggleWatch(btn.getAttribute('data-star')));
+
+  // draw sparklines
+  Object.keys(stocks).forEach(sym=>drawSpark(sym));
+}
+
+
 
     function renderHistory(){
       historyTbody.innerHTML='';
@@ -360,10 +579,17 @@ const MindStocks = {
     // sparkline draw
     function drawSpark(sym){
       const el = document.getElementById('spark_'+sym); if(!el) return; const ctx = el.getContext('2d'); ctx.clearRect(0,0,el.width,el.height);
-      const arr = stocks[sym].history.slice(-20); const w=el.width, h=el.height; if(arr.length<2) return;
+      const arr = stocks[sym].history.slice(-20);
+      const w = el.width, h = el.height;
+      if(arr.length < 2) return;
       const min = Math.min(...arr), max = Math.max(...arr);
       ctx.beginPath(); arr.forEach((v,i)=>{ const x = (i/(arr.length-1))*(w-2)+1; const y = h-1 - ((v-min)/(max-min||1))*(h-2); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
-      ctx.lineWidth=2; ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent')||'#2563eb'; ctx.stroke();
+
+      const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2563eb';
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = accent;
+      ctx.stroke();
+
     }
 
     // ======= Trading =======
@@ -371,16 +597,12 @@ const MindStocks = {
       const qty = parseInt(document.getElementById('qty_'+sym).value||'0',10); if(qty<=0) return toast('Enter valid quantity','warn');
       const price = stocks[sym].price; const amount = price*qty; const charges = calcCharges(amount); const total = amount+charges; if(balance<total) return toast('Insufficient balance','warn');
       balance -= total; if(!portfolio[sym]) portfolio[sym]={qty:0,avg:0}; const oldTotal = portfolio[sym].qty*portfolio[sym].avg; const newTotal = oldTotal + amount; portfolio[sym].qty += qty; portfolio[sym].avg = newTotal/portfolio[sym].qty;
-      history.unshift({time:nowStr(),type:'BUY',stock:sym,qty,price,challenges:null,charges});
-
-      MindStocks.recordTrade();
-
+      history.unshift({time:nowStr(),type:'BUY',stock:sym,qty,price,charges});
       animateBalance(); flashElement('#balanceCard'); toast(`Bought ${qty} ${sym} @ ₹${fmt(price)}`,'ok'); saveState(); renderPortfolio(); renderHistory();
     }
     function sell(sym){
       const qty = parseInt(document.getElementById('qty_'+sym).value||'0',10); if(qty<=0) return toast('Enter valid quantity','warn'); if(!portfolio[sym]||portfolio[sym].qty<qty) return toast('Not enough shares to sell','warn');
       const price = stocks[sym].price; const amount = price*qty; const charges = calcCharges(amount); const credit = amount - charges; balance += credit; portfolio[sym].qty -= qty; if(portfolio[sym].qty===0) delete portfolio[sym]; history.unshift({time:nowStr(),type:'SELL',stock:sym,qty,price,charges});
-      MindStocks.recordTrade();
       animateBalance(); flashElement('#balanceCard'); toast(`Sold ${qty} ${sym} @ ₹${fmt(price)}`,'ok'); saveState(); renderPortfolio(); renderHistory();
     }
 
@@ -419,9 +641,48 @@ const MindStocks = {
     }
 
     // reset
-    document.getElementById('resetBtn').onclick = ()=>{
-      if(!confirm('Reset simulator to default state?')) return; localStorage.clear(); location.reload();
-    }
+document.getElementById('resetNav').onclick = (e)=>{
+  e.preventDefault();   // stops link from reloading
+  if(!confirm('Reset simulator to default state?')) return;
+
+  // Reinitialize everything to defaults
+  stocks = {};
+  for(const k in DEFAULT_STOCKS){
+    stocks[k] = {
+      price: DEFAULT_STOCKS[k],
+      history:[DEFAULT_STOCKS[k]],
+      trend:(Math.random()-0.5)*0.4
+    };
+  }
+  portfolio = {};
+  history = [];
+  balance = DEFAULT_BALANCE;
+
+  // clear locked qty setting
+  localStorage.removeItem('sim_qty_locked');
+
+  saveState();
+  location.reload();   // refresh page to show reset state
+};
+
+// Lock Qty button wiring
+const lockBtn = document.getElementById('lockQtyBtn');
+if(lockBtn){
+  const applyLockUI = () => {
+    lockBtn.textContent = qtyLocked ? 'Unlock Qty' : 'Lock Qty';
+    document.querySelectorAll('#marketTable input[type=number]').forEach(i=>i.disabled = qtyLocked);
+    localStorage.setItem('sim_qty_locked', JSON.stringify(qtyLocked));
+  };
+
+  lockBtn.onclick = ()=>{
+    qtyLocked = !qtyLocked;
+    applyLockUI();
+  };
+
+  // apply at boot
+  applyLockUI();
+}
+
 
     // pause and speed controls
     document.getElementById('pauseBtn').onclick = ()=>{ paused = !paused; document.getElementById('pauseBtn').textContent = paused? 'Resume': 'Pause'; toast(paused? 'Market paused':'Market resumed'); };
@@ -429,7 +690,12 @@ const MindStocks = {
 
     // theme
     const root = document.documentElement; function applyTheme(){ root.setAttribute('data-theme', theme==='dark'?'dark':'light'); localStorage.setItem('sim_theme',theme); }
-    document.getElementById('themeToggle').onclick = ()=>{ theme = theme==='dark'?'light':'dark'; applyTheme(); }
+document.getElementById('themeToggleNav').onclick = (e)=>{
+  e.preventDefault();  // stops link from jumping
+  theme = theme === 'dark' ? 'light' : 'dark';
+  applyTheme();        // applies CSS variables + dark header
+};
+
 
     // helper to update balance display
     function updateBalanceDisplay(){ const el = document.getElementById('balance'); el.textContent = '₹ '+fmt(balance); el.dataset.amount = balance; }
