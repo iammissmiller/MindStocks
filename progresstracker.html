@@ -47,48 +47,91 @@
       --chip: #1f2937;
     }
     * { box-sizing: border-box; }
+
     body {
-      margin: 0;
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
-      color: var(--text);
-    }
+  transition: background 0.3s, color 0.5s;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9fafb;
+  color: #333;
+}
     header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    header h1 { color: #4f46e5; font-size: 1.8rem; margin: 0; }
-    nav a {
-      text-decoration: none; color: #4b5563;
-      padding: 8px 14px; border-radius: 8px;
-      transition: background 0.3s; font-weight: 500;
-    }
-    nav a:hover { background: #e0e7ff; }
-    nav a.active { background: #4f46e5; color: white; }
-    .dropdown { position: relative; display: inline-block; }
-    .dropdown-content {
-      display: none; position: absolute; right: 0;
-      background: white; min-width: 220px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-      border-radius: 10px; overflow: hidden;
-      animation: fadeIn 0.2s ease-in-out;
-    }
-    .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 16px; text-decoration: none;
-      color: #374151; font-weight: 500;
-      transition: background 0.2s;
-    }
-    .dropdown-content a:hover { background: #f3f4f6; color: #111827; }
-    @keyframes fadeIn { from {opacity: 0; transform: translateY(-5px);} to {opacity: 1; transform: translateY(0);} }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+header h1 {
+  color: #4f46e5;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #4b5563;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background 0.3s;
+  font-weight: 500;
+}
+nav a:hover {
+  background: #e0e7ff;
+}
+nav a.active {
+  background: #e0e7ff;
+  color: #4b5563;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  min-width: 220px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.dropdown-content a:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
     .main { padding: 36px 20px 60px; max-width: 1100px; margin: 0 auto; }
     .hero { display: grid; gap: 16px; margin-bottom: 26px; }
     .title { font-size: 2.1rem; margin: 0; }
@@ -132,22 +175,23 @@
     footer a { color: #93c5fd; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
+  
 </head>
 <body>
 
 <header>
   <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
   <nav>
-    <a href="learning.html">Learning</a>
-    <a href="quizhub.html">Quiz</a>
-    <a href="tradingsimulator.html">Trading Simulation</a>
-    <a href="progress.html" class="active">Progress Tracking</a>
+    <a href="learning.html" id="nav-learning">Learning</a>
+    <a href="quizhub.html" id="nav-quiz">Quiz</a>
+    <a href="tradingsimulator.html" id="nav-trading">Trading Simulation</a>
+    <a href="progresstracker.html" id="nav-progress" class="active">Progress Tracking</a>
     <div class="dropdown">
       <a href="#" class="dropbtn">Settings ▾</a>
       <div class="dropdown-content">
-        <a href="#">🌐 Switch Language</a>
-        <a href="#" onclick="toggleTheme()">🌓 Toggle Theme</a>
-        <a href="#" onclick="resetProgress()">🔄 Reset Progress</a>
+        <a href="#" id="switch-lang" onclick="switchLanguage()">🌐 Switch Language</a>
+        <a href="#" id="toggle-theme" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+        <a href="#" id="reset-progress" onclick="resetProgress()">🔄 Reset Progress</a>
       </div>
     </div>
   </nav>
@@ -156,9 +200,9 @@
 <main class="main">
   <section class="hero">
     <h2 class="title">Your Learning Progress</h2>
-    <p class="subtitle">A premium overview of your lessons, quizzes, and trading practice. Keep going — consistency compounds.</p>
+    <p class="subtitle">A premium overview of your lessons and quizzes. Keep going — consistency compounds.</p>
     <div class="controls">
-      <select class="select" id="tradingRange">
+      <select class="select" id="progressRange">
         <option value="7">Last 7 days</option>
         <option value="30" selected>Last 30 days</option>
         <option value="all">All time</option>
@@ -177,18 +221,14 @@
     </div>
 
     <div class="card">
-      <h3>📝 Quizzes</h3>
-      <div class="stat"><span class="value" id="quizzesCount">0</span><span class="unit">/ <span id="quizzesTotal">0</span></span></div>
-      <div class="chart-wrap"><canvas id="quizzesChart"></canvas></div>
-    </div>
+  <h3>📝 Quizzes</h3>
+  <div class="stat"><span class="value" id="quizzesCount">0</span><span class="unit">/ <span id="quizzesTotal">0</span></span></div>
+  <div class="chart-wrap"><canvas id="quizzesChart"></canvas></div>
 
-    <div class="card">
-      <h3>📈 Trading Practice</h3>
-      <div class="stat">
-        <span class="value" id="tradingCount">0</span><span class="unit"> attempts</span>
-      </div>
-      <div class="chart-wrap"><canvas id="tradingChart"></canvas></div>
-    </div>
+  <!-- Step 1: placeholder for stats -->
+  <div id="quizStats" style="margin-top:15px;"></div>
+</div>
+
   </section>
 
   <section class="grid">
@@ -204,11 +244,20 @@
   <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank" rel="noopener">Contact Us</a>
 </footer>
 
+<script src="translation.js"></script>
 <script>
   /***********************
    * Persistence & Theme *
    ***********************/
-  const DEFAULT_PROGRESS = { lessons: 0, totalLessons: 8, quizzes: 0, totalQuizzes: 8, trading: 0, tradingHistory: [] };
+  const DEFAULT_PROGRESS = {
+  lessons: 0,
+  totalLessons: 8,
+  quizzes: 0,
+  totalQuizzes: 8,
+  lessonsData: [],   // Example: {id: "lesson1", completed: true, date: "2025-08-31"}
+  quizzesData: []    // Example: {id: "quiz1", score: 8, outOf: 10, percent: 80, passed: true, date: "2025-08-31"}
+};
+
   function getProgress() { return JSON.parse(localStorage.getItem("mindstocksProgress")) || DEFAULT_PROGRESS; }
   function saveProgress(p) { localStorage.setItem("mindstocksProgress", JSON.stringify(p)); document.getElementById("lastUpdated").textContent = "Last updated — " + new Date().toLocaleString(); }
   function resetProgress() { if (confirm("Are you sure?")) { localStorage.setItem("mindstocksProgress", JSON.stringify(DEFAULT_PROGRESS)); location.reload(); } }
@@ -252,169 +301,52 @@
   };
   Chart.register(ChartDataLabels, CenterText);
 
-  let charts = { lessons:null, quizzes:null , trading:null};
+  let charts = { lessons:null, quizzes:null };
 
   function renderCharts() {
-  const p=getProgress(), c=themeColors();
-  const doughnutOptions=(text)=>({
-    cutout:"70%",
-    plugins:{
-      legend:{display:false},
-      datalabels:{ color:c.text, formatter:(v)=>v>0?v:"", font:{weight:600}},
-      centerText:{ text }
-    }
-  });
+    const p=getProgress();
 
-  // Lessons
-if(charts.lessons) charts.lessons.destroy();
-charts.lessons = new Chart(document.getElementById("lessonsChart"), {
-  type: "doughnut",
-  data: {
-    labels: ["Completed", "Pending"],
-    datasets: [{
-      data: [p.lessons, p.totalLessons - p.lessons],
-      backgroundColor: [
-        "linear-gradient(135deg, #16a34a, #22c55e)", // green gradient
-        "#e5e7eb" // pending gray
-      ].map(color => {
-        // Create gradient if needed
-        const ctx = document.getElementById("lessonsChart").getContext("2d");
-        if (color.startsWith("linear-gradient")) {
-          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-          gradient.addColorStop(0, "#16a34a");
-          gradient.addColorStop(1, "#22c55e");
-          return gradient;
-        }
-        return color;
-      }),
-      borderWidth: 0,
-      borderRadius: 6,   // rounded edges
-      hoverOffset: 8     // lifts slice slightly on hover
-    }]
-  },
-  options: {
-    cutout: "70%",
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            const total = context.dataset.data.reduce((a,b)=>a+b,0);
-            const value = context.raw;
-            const percent = ((value/total)*100).toFixed(1);
-            return `${context.label}: ${value} (${percent}%)`;
-          }
-        }
+    // Lessons
+    if(charts.lessons) charts.lessons.destroy();
+    charts.lessons = new Chart(document.getElementById("lessonsChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["Completed", "Pending"],
+        datasets: [{
+          data: [p.lessons, p.totalLessons - p.lessons],
+          backgroundColor: ["#16a34a","#e5e7eb"],
+          borderWidth: 0
+        }]
       },
-      datalabels: {
-        color: "#111827",
-        font: { weight: 700 },
-        formatter: (v) => v > 0 ? v : ""
+      options: { cutout:"70%", plugins:{ legend:{display:false}, centerText:{ text: `${p.lessons}/${p.totalLessons}` } } }
+    });
+
+    // Quizzes
+    if(charts.quizzes) charts.quizzes.destroy();
+    charts.quizzes = new Chart(document.getElementById("quizzesChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["Completed", "Pending"],
+        datasets: [{
+          data: [p.quizzes, p.totalQuizzes - p.quizzes],
+          backgroundColor: ["#3b82f6","#e5e7eb"],
+          borderWidth: 0
+        }]
       },
-      centerText: { text: `${p.lessons}/${p.totalLessons}` }
-    }
+      options: { cutout:"70%", plugins:{ legend:{display:false}, centerText:{ text: `${p.quizzes}/${p.totalQuizzes}` } } }
+    });
   }
-});
-
-// Quizzes (same pattern but blue shades)
-if(charts.quizzes) charts.quizzes.destroy();
-charts.quizzes = new Chart(document.getElementById("quizzesChart"), {
-  type: "doughnut",
-  data: {
-    labels: ["Completed", "Pending"],
-    datasets: [{
-      data: [p.quizzes, p.totalQuizzes - p.quizzes],
-      backgroundColor: [
-        "linear-gradient(135deg, #3b82f6, #60a5fa)", // blue gradient
-        "#e5e7eb"
-      ].map(color => {
-        const ctx = document.getElementById("quizzesChart").getContext("2d");
-        if (color.startsWith("linear-gradient")) {
-          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-          gradient.addColorStop(0, "#3b82f6");
-          gradient.addColorStop(1, "#60a5fa");
-          return gradient;
-        }
-        return color;
-      }),
-      borderWidth: 0,
-      borderRadius: 6,
-      hoverOffset: 8
-    }]
-  },
-  options: {
-    cutout: "70%",
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            const total = context.dataset.data.reduce((a,b)=>a+b,0);
-            const value = context.raw;
-            const percent = ((value/total)*100).toFixed(1);
-            return `${context.label}: ${value} (${percent}%)`;
-          }
-        }
-      },
-      datalabels: {
-        color: "#111827",
-        font: { weight: 700 },
-        formatter: (v) => v > 0 ? v : ""
-      },
-      centerText: { text: `${p.quizzes}/${p.totalQuizzes}` }
-    }
-  }
-});
-
-
-  // Trading chart
-  // Trading chart
-if(charts.trading) charts.trading.destroy();
-const tradingCanvas = document.getElementById("tradingChart");
-if(p.tradingHistory && p.tradingHistory.length){
-  charts.trading = new Chart(tradingCanvas, {
-    type: "line",
-    data: {
-      labels: p.tradingHistory.map(h => new Date(h.t).toLocaleTimeString()),
-      datasets: [{
-        label: "Portfolio Value",
-        data: p.tradingHistory.map(h => h.v),
-        borderColor: c.accent1,
-        backgroundColor: c.accent2,
-        fill: false,
-        tension: 0.3
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: c.text } },
-        y: { ticks: { color: c.text } }
-      }
-    }
-  });
-} else {
-  const ctx = tradingCanvas.getContext("2d");
-  ctx.clearRect(0,0,tradingCanvas.width,tradingCanvas.height);
-  ctx.fillStyle = c.muted;
-  ctx.font = "14px Inter, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("No trading history yet.", tradingCanvas.width/2, tradingCanvas.height/2);
-}
-
-}
 
   /***********************
    * Badges              *
    ***********************/
   function computeBadges(p) {
-    const b=[]; if(p.lessons>=1) b.push({t:"First Lesson",c:"info"});
+    const b=[];
+    if(p.lessons>=1) b.push({t:"First Lesson",c:"info"});
     if(p.lessons===p.totalLessons&&p.totalLessons>0) b.push({t:"All Lessons Complete",c:"good"});
     if(p.quizzes>=1) b.push({t:"Quiz Explorer",c:"info"});
     if(p.quizzes>=Math.ceil(p.totalQuizzes/2)) b.push({t:"Halfway on Quizzes",c:"info"});
     if(p.quizzes===p.totalQuizzes&&p.totalQuizzes>0) b.push({t:"Quiz Champion",c:"good"});
-    if(p.trading>=1) b.push({t:"First Trade Sim",c:"info"});
     return b;
   }
   function renderBadges(p) {
@@ -426,20 +358,65 @@ if(p.tradingHistory && p.tradingHistory.length){
   /***********************
    * Render & Wiring     *
    ***********************/
-  function renderAll() {
-    const p=getProgress();
-    animateValue(document.getElementById("lessonsCount"), Number(document.getElementById("lessonsCount").textContent||0), p.lessons);
-    animateValue(document.getElementById("quizzesCount"), Number(document.getElementById("quizzesCount").textContent||0), p.quizzes);
-    animateValue(document.getElementById("tradingCount"), Number(document.getElementById("tradingCount").textContent||0), p.trading);
-    document.getElementById("lessonsTotal").textContent=p.totalLessons;
-    document.getElementById("quizzesTotal").textContent=p.totalQuizzes;
-    renderBadges(p); renderCharts();
-  }
+function renderAll() {
+  const p=getProgress();
+  animateValue(document.getElementById("lessonsCount"), Number(document.getElementById("lessonsCount").textContent||0), p.lessons);
+  animateValue(document.getElementById("quizzesCount"), Number(document.getElementById("quizzesCount").textContent||0), p.quizzes);
+  document.getElementById("lessonsTotal").textContent=p.totalLessons;
+  document.getElementById("quizzesTotal").textContent=p.totalQuizzes;
+
+  renderBadges(p); 
+  renderCharts();
+  renderQuizStats(p);   // <-- Step 3: call our stats renderer
+}
+
 
   document.getElementById("resetBtn").addEventListener("click", resetProgress);
 
-  // init
   renderAll();
+
+  /***********************
+ * Quiz Detailed Stats *
+ ***********************/
+function renderQuizStats(p) {
+  const statsDiv = document.getElementById("quizStats");
+  if (!statsDiv) return;
+
+  if (!p.quizzesData || p.quizzesData.length === 0) {
+    statsDiv.innerHTML = `<p style="color:var(--muted);font-size:0.9rem;">No quizzes attempted yet.</p>`;
+    return;
+  }
+
+  let html = `
+    <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:10px;">
+      <thead>
+        <tr style="background:var(--chip);text-align:left;">
+          <th style="padding:6px;">Quiz</th>
+          <th style="padding:6px;">Score</th>
+          <th style="padding:6px;">%</th>
+          <th style="padding:6px;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  p.quizzesData.forEach(q => {
+    html += `
+      <tr>
+        <td style="padding:6px;">${q.id}</td>
+        <td style="padding:6px;">${q.score}/${q.outOf}</td>
+        <td style="padding:6px;">${q.percent}%</td>
+        <td style="padding:6px; color:${q.passed ? 'var(--success)' : 'var(--danger)'};">
+          ${q.passed ? "✅ Passed" : "❌ Failed"}
+        </td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table>`;
+  statsDiv.innerHTML = html;
+}
+
 </script>
 </body>
 </html>
