@@ -15,7 +15,7 @@
       }
       
     header {
-      position: sticky;
+  position: sticky;
   top: 0;
   z-index: 1000;
   background: white;
@@ -24,29 +24,72 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    header h1 {
-      color: #4f46e5;
-      font-size: 1.8rem;
-      margin: 0;
-    }
+}
+header h1 {
+  color: #4f46e5;
+  font-size: 1.8rem;
+  margin: 0;
+}
 
-    nav a {
-      text-decoration: none;
-      color: #4b5563;
-      padding: 8px 14px;
-      border-radius: 8px;
-      transition: background 0.3s;
-      font-weight: 500;
-    }
-    nav a:hover {
-      background: #e0e7ff;
-    }
+nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    nav a.active {
-    background: #e0e7ff;
-    color: #4b5563;
-    }
+nav a {
+  text-decoration: none;
+  color: #4b5563;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background 0.3s;
+  font-weight: 500;
+}
+nav a:hover {
+  background: #e0e7ff;
+}
+nav a.active {
+  background: #e0e7ff;
+  color: #4b5563;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  min-width: 220px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.dropdown-content a:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
 
     .main {
       text-align: center;
@@ -117,16 +160,28 @@
     
   <!-- Navbar -->
   <header>
-    <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
-    <nav>
-     <!-- <a href="learning.html">Learning</a> -->
-      <a href="learning.html" class = active>Learning</a>
-      <a href="quizhub.html">Quiz</a>
-      <a href="tradingsimulator.html">Trading Simulation</a>
-      <a href="progresstracker.html">Progress Tracking</a>
-      <a href="#">Settings</a>
-    </nav>
-  </header>
+  <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
+  <!-- Navbar -->
+<nav>
+  <a href="learning.html" id="nav-learning" class="active">Learning</a>
+  <a href="quizhub.html" id="nav-quiz">Quiz</a>
+  <a href="tradingsimulator.html" id="nav-trading">Trading Simulation</a>
+  <a href="progresstracker.html" id="nav-progress">Progress Tracking</a>
+
+  <!-- Settings Dropdown -->
+  <!-- Settings Dropdown -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Settings ▾</a>
+  <div class="dropdown-content">
+    <a href="#" id="switch-lang" onclick="switchLanguage()">🌐 Switch Language</a>
+    <a href="#" id="toggle-theme" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+    <a href="#" id="reset-progress" onclick="resetProgress()">🔄 Reset Progress</a>
+  </div>
+</div>
+
+</nav>
+
+</header>
 
    <!-- main Section -->
   <section class="main">
@@ -188,6 +243,6 @@
 <footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
   © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank" style="color:#93c5fd;">Contact Us</a>
 </footer>
-
+<script src="translation.js"></Script>
 </body>
 </html>
