@@ -14,38 +14,82 @@
     }
 
     header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    header h1 {
-      color: #4f46e5;
-      font-size: 1.8rem;
-      margin: 0;
-    }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+header h1 {
+  color: #4f46e5;
+  font-size: 1.8rem;
+  margin: 0;
+}
 
-    nav a {
-      text-decoration: none;
-      color: #4b5563;
-      padding: 8px 14px;
-      border-radius: 8px;
-      transition: background 0.3s;
-      font-weight: 500;
-    }
-    nav a:hover {
-      background: #e0e7ff;
-    }
+nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    nav a.active {
-    background: #e0e7ff;
-    color: #4b5563;
-    }
+nav a {
+  text-decoration: none;
+  color: #4b5563;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background 0.3s;
+  font-weight: 500;
+}
+nav a:hover {
+  background: #e0e7ff;
+}
+nav a.active {
+  background: #e0e7ff;
+  color: #4b5563;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  min-width: 220px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.dropdown-content a:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
 
     .main {
       text-align: center;
@@ -64,6 +108,23 @@
       margin: 0 auto 30px;
       line-height: 1.6;
     }
+
+    /* Progress Bar */
+.progress-container {
+  width: 80%;
+  background: #e5e7eb;
+  border-radius: 10px;
+  height: 20px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4f46e5, #06b6d4);
+  transition: width 0.5s ease;
+}
+
 
     /* Quiz Cards Section */
     .quiz-grid {
@@ -141,15 +202,28 @@
   
   <!-- Navbar -->
   <header>
-    <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
-    <nav>
-      <a href="learning.html">Learning</a>
-      <a href="quizhub.html" class = active>Quiz</a>
-      <a href="tradingsimulator.html">Trading Simulation</a>
-      <a href="#">Progress Tracking</a>
-      <a href="#">Settings</a>
-    </nav>
-  </header>
+  <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
+  <!-- Navbar -->
+<nav>
+  <a href="learning.html" id="nav-learning">Learning</a>
+  <a href="quizhub.html" id="nav-quiz" class="active">Quiz</a>
+  <a href="tradingsimulator.html" id="nav-trading">Trading Simulation</a>
+  <a href="progresstracker.html" id="nav-progress">Progress Tracking</a>
+
+  <!-- Settings Dropdown -->
+  <!-- Settings Dropdown -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Settings ▾</a>
+  <div class="dropdown-content">
+    <a href="#" id="switch-lang" onclick="switchLanguage()">🌐 Switch Language</a>
+    <a href="#" id="toggle-theme" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+    <a href="#" id="reset-progress" onclick="resetProgress()">🔄 Reset Progress</a>
+  </div>
+</div>
+
+</nav>
+
+</header>
 
   <!-- Main Section -->
   <section class="main">
@@ -160,58 +234,66 @@
     </p>
   </section>
 
+<div class="progress-container">
+  <div class="progress-bar" id="quiz-progress"></div>
+</div>
+<p id="progress-text" style="text-align:center; font-weight:600; color:#4f46e5; margin-bottom:20px;">
+  0 / 8 Quizzes Completed
+</p>
+
+
   <!-- Quiz Hub Cards -->
   <section class="quiz-grid">
     <div class="quiz-card">
-      <h3>📈 Introduction to Stock Market</h3>
+      <h3 id="quizhub-title">📈 Introduction to Stock Market</h3>
       <p>Test your basics on what stocks are and why companies issue them.</p>
       <a href="quiz1.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>🛡️ Role of SEBI</h3>
+      <h3 id="quizhub-title">🛡️ Role of SEBI</h3>
       <p>Check how well you know SEBI’s duties in keeping markets safe.</p>
       <a href="quiz2.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>💱 How Trading Works</h3>
+      <h3 id="quizhub-title">💱 How Trading Works</h3>
       <p>Quiz yourself on buying, selling, and how trades actually happen.</p>
       <a href="quiz3.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>💰 Safe Investing Practices</h3>
+      <h3 id="quizhub-title">💰 Safe Investing Practices</h3>
       <p>Check how well you know safe strategies for risk-free investing.</p>
       <a href="quiz4.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>🚨 Common Scams & How to Avoid Them</h3>
+      <h3 id="quizhub-title">🚨 Common Scams & How to Avoid Them</h3>
       <p>Spot frauds, scams, and learn the red flags to avoid.</p>
       <a href="quiz5.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>📊 Basics of Mutual Funds</h3>
+      <h3 id="quizhub-title">📊 Basics of Mutual Funds</h3>
       <p>See if you understand how mutual funds work for beginners.</p>
       <a href="quiz6.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>📚 Basic Financial Terms</h3>
+      <h3 id="quizhub-title">📚 Basic Financial Terms</h3>
       <p>Challenge your knowledge of key investing words and jargon.</p>
       <a href="quiz7.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card">
-      <h3>⚖️ Investors’ Rights & Responsibilities</h3>
+      <h3 id="quizhub-title">⚖️ Investors’ Rights & Responsibilities</h3>
       <p>Check what rights investors have and the responsibilities they carry.</p>
       <a href="quiz8.html" class="quiz-btn">Start Quiz</a>
     </div>
 
     <div class="quiz-card locked">
-      <h3>🏆 Final Quiz</h3>
+      <h3 id="quizhub-title">🏆 Final Quiz</h3>
       <p>Unlock after completing all topic quizzes.</p>
       <a href="finalquiz.html" class="quiz-btn">Locked</a>
     </div>
@@ -221,6 +303,62 @@
   <footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
   © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank" style="color:#93c5fd;">Contact Us</a>
 </footer>
+
+<!-- Your other HTML content like header, quiz cards, etc. -->
+
+<!-- Add this script at the very end -->
+<script src="translation.js"></script>
+
+<script>
+function getProgress() {
+  return JSON.parse(localStorage.getItem("mindstocksProgress")) || {
+    lessons: 0,
+    totalLessons: 8,
+    quizzes: 0,
+    totalQuizzes: 8,
+    score: 0,
+    maxScore: 0,
+    trading: 0,
+    tradingHistory: []
+  };
+}
+
+function checkFinalQuizUnlock() {
+  const progress = getProgress();
+  const finalCard = document.querySelector(".quiz-card.locked");
+
+  const percentage = progress.maxScore > 0 
+    ? (progress.score / progress.maxScore) * 100 
+    : 0;
+
+  const requiredPercent = 70;
+
+  if (progress.quizzes >= progress.totalQuizzes && percentage >= requiredPercent) {
+    finalCard.classList.remove("locked");
+    finalCard.querySelector(".quiz-btn").textContent = "Start Quiz";
+    finalCard.querySelector(".quiz-btn").href = "finalquiz.html";
+    finalCard.querySelector(".quiz-btn").style.pointerEvents = "auto";
+    finalCard.querySelector(".quiz-btn").style.background = "#4f46e5";
+    finalCard.querySelector(".quiz-btn").style.color = "#fff";
+  } else {
+    finalCard.querySelector(".quiz-btn").textContent = `Locked (Need ${requiredPercent}% total)`;
+  }
+}
+
+function updateProgressBar() {
+  const progress = getProgress();
+  const percent = (progress.quizzes / progress.totalQuizzes) * 100;
+
+  document.getElementById("quiz-progress").style.width = percent + "%";
+  document.getElementById("progress-text").textContent = 
+    `${progress.quizzes} / ${progress.totalQuizzes} Quizzes Completed`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  checkFinalQuizUnlock();
+  updateProgressBar();
+});
+</script>
 
 </body>
 </html>
