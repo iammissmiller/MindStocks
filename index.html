@@ -50,8 +50,8 @@ nav a:hover {
   background: #e0e7ff;
 }
 nav a.active {
-  background: #4f46e5;
-  color: #fff;
+  background: #e0e7ff;
+  color: #4b5563;
 }
 
 /* Dropdown */
@@ -238,22 +238,26 @@ footer {
 <body>
 <header>
   <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
-  <nav>
-    <a href="learning.html">Learning</a>
-    <a href="quizhub.html">Quiz</a>
-    <a href="tradingsimulator.html">Trading Simulation</a>
-    <a href="progresstracker.html">Progress Tracking</a>
+  <!-- Navbar -->
+<nav>
+  <a href="learning.html" id="nav-learning">Learning</a>
+  <a href="quizhub.html" id="nav-quiz">Quiz</a>
+  <a href="tradingsimulator.html" id="nav-trading">Trading Simulation</a>
+  <a href="progresstracker.html" id="nav-progress">Progress Tracking</a>
 
-    <!-- Settings Dropdown -->
-    <div class="dropdown">
-      <a href="#" class="dropbtn">Settings ▾</a>
-      <div class="dropdown-content">
-        <a href="#">🌐 Switch Language</a>
-        <a href="#" onclick="toggleNightMode()">🌓 Toggle Theme</a>
-        <a href="#" onclick="resetProgress()">🔄 Reset Progress</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Settings Dropdown -->
+  <!-- Settings Dropdown -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Settings ▾</a>
+  <div class="dropdown-content">
+    <a href="#" id="switch-lang" onclick="switchLanguage()">🌐 Switch Language</a>
+    <a href="#" id="toggle-theme" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+    <a href="#" id="reset-progress" onclick="resetProgress()">🔄 Reset Progress</a>
+  </div>
+</div>
+
+</nav>
+
 </header>
 
 <section class="main">
@@ -265,7 +269,7 @@ footer {
     lesson at a time.
   </p>
   <a href="learning.html">Get Started</a>
-  <a href="#features">Learn More</a>
+  <a href="HowToUse.html">How to Use</a>
 </section>
 
 <section class="features">
@@ -281,7 +285,7 @@ footer {
     <h3>📈 Trading Simulation</h3>
     <p>Practice trading in a safe environment without risking real money.</p>
   </div>
-  <div class="feature-card" onclick="location.href='progress.html'">
+  <div class="feature-card" onclick="location.href='progresstracker.html'">
     <h3>📊 Progress Tracking</h3>
     <p>Monitor your learning journey and improve over time.</p>
   </div>
@@ -290,6 +294,8 @@ footer {
 <footer>
   © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank" style="color:#93c5fd;">Contact Us</a>
 </footer>
+
+<script src="translation.js"></script>
 
 <script>
 function resetProgress() {
@@ -302,5 +308,6 @@ function toggleNightMode() {
   document.body.classList.toggle("night-mode");
 }
 </script>
+
 </body>
 </html>
