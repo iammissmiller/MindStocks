@@ -6,16 +6,16 @@
 <title>Investment Scam Awareness — New Look</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 <style>
+
   :root {
     --bg: #f6f8fa;
     --navy: #0D1B2A;
     --accent: #E63946;
     --teal: #2A9D8F;
     --card: #fff;
-    --muted: #556677;
-    --soft: #f1faf8;
+    --muted: #778899;
+    --soft: rgba(13,27,42,0.06);
     --radius: 12px;
     --shadow: 0 10px 30px rgba(13,27,42,0.08);
     --transition: 220ms cubic-bezier(.2,.9,.3,1);
@@ -34,52 +34,71 @@ ul, ol { padding-left: 20px; }
   }
 
   /* Header */
-  .header {
-    background: linear-gradient(90deg,var(--navy), #123544);
-    color: #fff;
-    padding: 28px 18px;
-    border-radius: 12px;
-    margin: 18px auto;
-    max-width:1120px;
-    box-shadow: var(--shadow);
-  }
-  .header h1{ margin:0; font-size:1.5rem; font-weight:700; }
-  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
-
-  /* Container */
-  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
-
-.cards-list .card {
-  margin-bottom: 18px;  /* 👈 spacing between each card */
+.header {
+  background: linear-gradient(90deg, var(--navy), #123544);
+  color: #fff;
+  padding: 28px 18px;
+  border-radius: var(--radius);
+  margin: 18px auto;
+  max-width: 1120px;
+  box-shadow: var(--shadow);
 }
-.cards-list .card:last-child {
-  margin-bottom: 0;     /* remove extra gap at the end */
+.header h1 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 700;
+}
+.header p {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  max-width: 1000px;
+}
+  /* Container */
+.container {
+  max-width: 1120px;
+  margin: 18px auto;
+  padding: 0 16px 60px;
+}
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
 }
 
   /* Scams list */
-  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
-  .card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 14px 16px;       /* was %; now fixed */
-  display: flex;
-  gap: 14px;                /* was %; now fixed */
-  align-items: flex-start;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(13,27,42,0.06); /* subtle border like subtopic7's details box */
-  position: relative;
-  overflow: visible;
-  transition: transform var(--transition);
-  z-index: 1;
-  }
-  .card:hover { transform: translateY(-6px); z-index: 10; } /* fixed value, not % */
+  .scams {  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* uniform gap between cards */
+  margin-top: 18px;}
   .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
 
-  .icon {
-    width:56px; height:56px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
-    flex: 0 0 56px;
-  }
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);  /* smoother corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex: 0 0 56px;
+}
   .icon.d1{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* danger */
   .icon.d2{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* advisor/teal */
   .icon.d3{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* ponzi */
@@ -88,13 +107,51 @@ ul, ol { padding-left: 20px; }
   .icon.d6{ background: linear-gradient(135deg,#d1495b,#ff8a7a); } /* exotic */
 
   .scam-main { flex:1; }
-  .card-title { display:flex; align-items:center; gap:10px; }
-  .scam-title h3 { margin:0; font-size:1.05rem; font-weight:600; }
-  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; }
+ .card-title h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+  .scam-title h3 {.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}}
+  .scam-short {   margin-top: 8px;
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.35;}
   .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
 
 /* Hidden source content; shown only inside the modal */
 .details { display: none; }
+.card.show .details { display: block; }
+.details h4 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: .98rem;
+}
+.details ul { padding-left: 18px; }
+.details li {
+  margin-bottom: 8px;
+  font-size: .95rem;
+  line-height: 1.3;
+}
 
 .avoid {
   flex: 1 1 calc(20% - 1.5%);
@@ -220,14 +277,23 @@ ul, ol { padding-left: 20px; }
     gap:0.9%;
     z-index: 99999;
   }
-  .btn {
-    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
-    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
-  }
-  .btn:hover{
-    background: var(--accent);
-  }
-  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+.btn {
+  background: var(--navy);
+  color: #fff;
+  padding: .9em 1.2em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.btn:hover { background: var(--accent); }
+.btn.secondary {
+  background: #fff;
+  color: var(--navy);
+  border: 1px solid var(--soft);
+}
 
   /* small screen adjustments */
   @media (max-width:480px){
@@ -235,25 +301,25 @@ ul, ol { padding-left: 20px; }
     .btn { padding:12px 14px; font-size:1rem }
   }
 /* ===== Modal (popup) ===== */
-.modal-overlay{
-  position:fixed; inset:0; display:none;
-  align-items:center; justify-content:center;
-  background:rgba(0,0,0,.6); z-index:999999;
-}
-.modal-content{
-  position:relative; background:#fff; width:min(880px,92vw);
-  max-height:90vh; overflow:auto; border-radius:12px;
-  padding: 24px 26px 28px;                   /* more breathing room */
+.modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); z-index:999999; }
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: min(880px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: var(--radius);
+  padding: 24px 26px 28px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(13,27,42,0.06);     /* match cards */
+  border: 1px solid var(--soft);
 }
-.modal-content .details{
-  padding-bottom: 12px;
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  border: 0; background: transparent;
+  font-size: 28px; font-weight: 700;
+  cursor: pointer; color: var(--muted);
 }
-.modal-close{
-  position:absolute; top:14px; right:16px; border:0; background:transparent;
-  font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
-}
+
 .modal-close:hover { color: var(--accent); }
 .modal-header{
   font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
@@ -342,6 +408,7 @@ body.modal-open{ overflow:hidden; }
   outline-offset: 3px;
 }
 
+
 /* Click tip */
   .click-warning {
     background: var(--soft);
@@ -355,7 +422,13 @@ body.modal-open{ overflow:hidden; }
     margin-bottom: 12px;}
 
 /* Footer */
-.footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
+.footer {
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  padding: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
 </style>
 </head>
 <body>
@@ -366,11 +439,11 @@ body.modal-open{ overflow:hidden; }
   </div>
 
   <main class="container" role="main">
-
     <p class="click-warning">💡 Click on cards to see full details and examples.</p>
 
+
     <section class="cards-list" style="margin-top: 18px;">
-      <article class="card"><div class="icon" style="background:linear-gradient(135deg,#e63946,#ff6b6b)">🚨</div><div class="card-main"><div class="card-title"><h3>Market manipulation (false hype)</h3></div><div class="card-short">
+      <article class="card"><div class="icon" style="background:linear-gradient(135deg,#e63946,#ff6b6b)">🚨</div><div class="card-main"><div class="card-title"><h3>Market manipulation (false hype)</h3></div><div class="scam-short">
             People push fake news or coordinated buying to raise a price so insiders can sell at a profit.
           </div></div><div class="details">
 <!-- Intro Explanation -->
@@ -433,7 +506,7 @@ body.modal-open{ overflow:hidden; }
   <div class="icon" style="background:linear-gradient(135deg,#2a9d8f,#6fd6b6)">💼</div>
   <div class="card-main">
     <div class="card-title"><h3>Fake or unregistered advisors / signal groups</h3></div>
-    <div class="card-short">
+    <div class="scam-short">
       Anonymous groups or people sell "premium tips" but may not be legit or registered.
     </div>
   </div>
@@ -499,7 +572,7 @@ body.modal-open{ overflow:hidden; }
   <div class="icon" style="background:linear-gradient(135deg,#6a11cb,#2575fc)">🔁</div>
   <div class="card-main">
     <div class="card-title"><h3>High-yield programs / Ponzi-style</h3></div>
-    <div class="card-short">
+    <div class="scam-short">
       Promises of fixed, high returns paid from new investors — not real profits.
     </div>
   </div>
@@ -570,7 +643,7 @@ body.modal-open{ overflow:hidden; }
   <div class="icon" style="background:linear-gradient(135deg,#ff9a9e,#fad0c4)">🎭</div>
   <div class="card-main">
     <div class="card-title"><h3>Deepfake / impersonation scams</h3></div>
-    <div class="card-short">
+    <div class="scam-short">
       Fake videos or cloned voices impersonate trusted people to promote scams.
     </div>
   </div>
@@ -640,7 +713,7 @@ body.modal-open{ overflow:hidden; }
   <div class="icon" style="background:linear-gradient(135deg,#11998e,#38ef7d)">🏦</div>
   <div class="card-main">
     <div class="card-title"><h3>Fake “safe” offers (FD/bond receipts)</h3></div>
-    <div class="card-short">
+    <div class="scam-short">
       Scammers offer slightly higher rates on "safe" products using forged documents or fake agents.
     </div>
   </div>
@@ -713,7 +786,7 @@ body.modal-open{ overflow:hidden; }
   <div class="icon" style="background:linear-gradient(135deg,#f7971e,#ffd200)">📈</div>
   <div class="card-main">
     <div class="card-title"><h3>Hyped themed funds / exotic products</h3></div>
-    <div class="card-short">
+    <div class="scam-short">
       Products with fancy names (AI, EV) may hide unrelated assets, high fees, or low liquidity.
     </div>
   </div>
@@ -868,43 +941,6 @@ body.modal-open{ overflow:hidden; }
 
 
 <script>
-
-  const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 8,   // adjust to real number
-  quizzes: 0,
-  totalQuizzes: 8,   // since you have 8 quizzes
-  trading: 0,
-  tradingHistory: []
-};
-
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('scamModal');
   const modalBody = document.getElementById('modalBody');
@@ -962,12 +998,6 @@ document.addEventListener('DOMContentLoaded', () => {
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
 });
-
-// Auto-mark lesson as complete when opened
-document.addEventListener("DOMContentLoaded", () => {
-  MindStocks.completeLesson();
-});
-
 
 </script>
 </body>
