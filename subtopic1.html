@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Introduction to Stock Market</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
+
   :root {
     --bg: #f6f8fa;
     --navy: #0D1B2A;
@@ -19,11 +21,12 @@
     --transition: 220ms cubic-bezier(.2,.9,.3,1);
   }
 
-  /* Global reset */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  h1, h2, h3 { line-height: 1.25; }
-  p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
-  ul, ol { padding-left: 20px; }
+/* Global reset like subtopic7 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Consistent default spacing */
+h1, h2, h3 { line-height: 1.25; }
+p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+ul, ol { padding-left: 20px; }
 
   body{
     margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
@@ -31,120 +34,229 @@
   }
 
   /* Header */
-  .header {
-    background: linear-gradient(90deg,var(--navy), #123544);
-    color: #fff;
-    padding: 28px 18px;
-    border-radius: 12px;
-    margin: 18px auto;
-    max-width:1120px;
-    box-shadow: var(--shadow);
-    display:flex;
-    align-items:center;
-    gap:16px;
-  }
-  .header h1{ margin:0; font-size:1.8rem; font-weight:700; }
-  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
-
+.header {
+  background: linear-gradient(90deg, var(--navy), #123544);
+  color: #fff;
+  padding: 28px 18px;
+  border-radius: var(--radius);
+  margin: 18px auto;
+  max-width: 1120px;
+  box-shadow: var(--shadow);
+}
+.header h1 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 700;
+}
+.header p {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  max-width: 1000px;
+}
   /* Container */
-  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
+.container {
+  max-width: 1120px;
+  margin: 18px auto;
+  padding: 0 16px 60px;
+}
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}
 
-  /* Click tip */
-  .click-warning {
-    background: var(--soft);
-    border-left: 4px solid var(--accent);
-    padding: 10px 14px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--navy);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-  }
+  /* Scams list */
+  .scams {  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* uniform gap between cards */
+  margin-top: 18px;}
+  .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
 
-  /* Cards */
-  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
-  .scam-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06);
-    position: relative;
-    overflow: visible;
-    transition: transform var(--transition);
-    z-index: 1;
-    cursor: pointer;
-  }
-  .scam-card:hover { transform: translateY(-6px); z-index: 10; }
-  .scam-title h3 { margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 600; }
-  .scam-short { margin-top: 6px; color: var(--muted); font-size: .96rem; line-height: 1.45; }
-
-  .icon {
-    width:56px; height:56px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
-    flex: 0 0 56px;
-  }
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);  /* smoother corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex: 0 0 56px;
+}
   /* Specific icon colors */
-  .scam-card:nth-child(1) .icon{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
-  .scam-card:nth-child(2) .icon{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
-  .scam-card:nth-child(3) .icon{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
-  .scam-card:nth-child(4) .icon{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
-  .scam-card:nth-child(5) .icon{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
-  .scam-card:nth-child(6) .icon{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
-  .scam-card:nth-child(7) .icon{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
+  .icon.d1{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
+  .icon.d2{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
+  .icon.d3{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
+  .icon.d4{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
+  .icon.d5{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
+  .icon.d6{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
+  .icon.d7{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
+
 
   .scam-main { flex:1; }
-  .scam-title { display:flex; align-items:center; gap:10px; }
-  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; }
+ .card-title h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+  .scam-title h3 {.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}}
+  .scam-short {   margin-top: 8px;
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.35;}
+  .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
 
-  /* Hidden source content; shown only inside the modal */
-  .avoid-group { display: none; }
+/* Hidden source content; shown only inside the modal */
+.details { display: none; }
+.card.show .details { display: block; }
+.details h4 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: .98rem;
+}
+.details ul { padding-left: 18px; }
+.details li {
+  margin-bottom: 8px;
+  font-size: .95rem;
+  line-height: 1.3;
+}
 
+.avoid {
+  flex: 1 1 calc(20% - 1.5%);
+  aspect-ratio: 1 / 1;
+  min-width: 150px;
+  background: #0D1B2A;
+  color: white;
+  border-left: 4px solid var(--accent);
+  border-radius: 0;
+  padding: 12px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.avoid h4 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
+.avoid ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.avoid li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Color themes for different avoid boxes */
+.avoid-howto {
+  background: #0D1B2A; /* deep navy (original) */
+}
+
+.avoid-dos {
+  background: #1b4332; /* dark green */
+  border-left-color: #2a9d8f; /* teal accent */
+}
+
+.avoid-donts {
+  background: #5c1a1a; /* dark red */
+  border-left-color: #e63946; /* red accent */
+}
+
+
+/* Mobile view */
+@media (max-width:720px) {
+  .avoid-group {
+    flex-direction: column;
+    position: relative;
+  }
   .avoid {
-    flex: 0 0 auto;
-    width: fit-content;
-    height: auto;
-    min-width: auto;
-    background: #0D1B2A;
-    color: white;
-    border-left: 4px solid var(--accent);
-    padding: 12px 14px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
-    border-radius: 0;
+    aspect-ratio: unset;
+    min-width: unset;
+    max-width: 100%;
+  }
+}
+
+
+.flow {
+  margin: 22px auto;
+  max-width: 600px;
+  background: linear-gradient(180deg,#fff,#fcfffd);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(13,27,42,0.06);
+}
+
+
+  .flow h2{ margin:0 0 10px 0; color:var(--navy); font-size:1.05rem }
+  .chain { display:flex; flex-direction:column; gap:12px; padding-left:6px; }
+  .chain .node { display:flex; gap:12px; align-items:flex-start; }
+  .node .num {
+    width:36px; height:36px; border-radius:50%; background:#6c7a89; color:white; display:flex; align-items:center; justify-content:center; font-weight:700;
+    flex:0 0 36px; margin-top:4px;
+  }
+  .node .content { background:transparent; padding:6px 8px; border-radius:8px; }
+  .node p { margin:0; color:var(--muted); font-size:0.95rem; }
+
+  /* connector arrow using pseudo element on content */
+  .node:not(:last-child) .content::after {
+    content: "";
+    display:block;
+    margin:10px 0 0 26px;
+    width:2px; height:20px;
+    background: linear-gradient(#cbd5da,#97a6ad);
   }
 
-  .avoid h4 {
-    margin: 0 0 8px;
-    color: var(--accent);
-    font-size: 0.98rem;
-  }
+  .node.danger .num{ background:var(--accent) }
+  .node.decision .num{ background:#ffb86b; color:#2e1f00 }
+  .node.safe .num{ background:var(--teal) }
 
-  .avoid ul {
-    margin: 0;
-    padding-left: 18px;
-  }
+  /* Outcomes */
+  .outcomes { display:flex; gap:12px; margin-top:14px; }
+  .outcome { flex:1; padding:12px; border-radius:10px; color:white; font-weight:600; text-align:center }
+  .outcome.fail { background: linear-gradient(135deg,#e63946,#ff6b6b) }
+  .outcome.ok { background: linear-gradient(135deg,#2a9d8f,#6fd6b6) }
 
-  .avoid li {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    line-height: 1.3;
-  }
-
-  /* Color variants */
-  .avoid-howto { background: #0D1B2A; }
-  .avoid-dos { background: #1b4332; border-left-color: #2a9d8f; }
-  .avoid-donts { background: #5c1a1a; border-left-color: #e63946; }
-
-  /* Mobile view for avoid-group */
-  @media (max-width:720px) {
-    .avoid-group { flex-direction: column; position: relative; }
-    .avoid { aspect-ratio: unset; min-width: unset; max-width: 100%; }
-  }
-
+  /* Golden rules full width bottom */
   .golden {
     margin-top: 22px;
     background: var(--soft);
@@ -157,6 +269,40 @@
   .cards { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
   .card-rule{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
   .card-rule .tick { font-size:18px; color:var(--teal); margin-top:2px; }
+
+  /* Floating nav buttons (lower-right) */
+  .floating {
+    position: fixed;
+    right: 1.6%;
+    bottom: 1.6%;
+    display:flex;
+    flex-direction:column;
+    gap:0.9%;
+    z-index: 99999;
+  }
+.btn {
+  background: var(--navy);
+  color: #fff;
+  padding: .9em 1.2em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.btn:hover { background: var(--accent); }
+.btn.secondary {
+  background: #fff;
+  color: var(--navy);
+  border: 1px solid var(--soft);
+}
+
+  /* small screen adjustments */
+  @media (max-width:480px){
+    .header{ padding:20px; border-radius:10px }
+    .btn { padding:12px 14px; font-size:1rem }
+  }
 
   /* Section Grids */
   .section-grid{
@@ -172,253 +318,700 @@
   .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
   .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
 
-  /* Floating nav buttons */
-  .floating {
-    position: fixed;
-    right: 1.6%;
-    bottom: 1.6%;
-    display:flex;
-    flex-direction:column;
-    gap:0.9%;
-    z-index: 99999;
-  }
-  .btn {
-    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
-    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
-  }
-  .btn:hover{ background: var(--accent); }
-  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+/* ===== Modal (popup) ===== */
+.modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); z-index:999999; }
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: min(880px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: var(--radius);
+  padding: 24px 26px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--soft);
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  border: 0; background: transparent;
+  font-size: 28px; font-weight: 700;
+  cursor: pointer; color: var(--muted);
+}
 
-  /* Footer */
-  footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
+.modal-close:hover { color: var(--accent); }
+.modal-header{
+  font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+  padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+}
 
-  /* Modal */
-  .modal-overlay{
-    position:fixed; inset:0; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,.6); z-index:999999;
-  }
-  .modal-content{
-    position:relative; background:#fff; width:min(880px,92vw);
-    max-height:90vh; overflow:auto; border-radius:12px;
-    padding: 24px 26px 28px;
+/* Avoid boxes inside modal */
+.modal-content .avoid-group{
+  position:static; width:100%;
+  padding:0;
+  display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
+}
+.modal-content .avoid{
+  flex:1 1 260px; min-width:240px; border-radius:10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(2,9,23,.08);
+}
+.modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
+.modal-content .avoid ul{ padding-left:20px; margin:0; }
+.modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+
+/* Prevent page scroll when modal is open */
+body.modal-open{ overflow:hidden; }
+/* Section blocks inside scam details */
+.details section {
+  margin-top: 14px 0;
+  padding: 12px;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+/* Section titles */
+.details section strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.details section-section {
+  border: top 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+}
+.highlight {
+   background:#fff8e6;
+   padding:12px;
+   border-left:4px solid #ffb86b;
+  border-radius:8px;
+}
+.example {
+   background:#f1faf8;
+   padding:12px;
+   border-left:4px solid #00aaff;
+   border-radius:8px;
+}
+.quick-tips {
+   background: #0D1B2A;
+   padding: 12px;
+   border-left: 4px solid #f1faf8;
+   color: #e6f7ff;
+   border-radius: 8px;
+}
+.steps {
+   background: #f1faf8;
+   border-left: 4px solid #2a9d8f;
+   color: #0d332f;
+   padding: 12px;
+   border-radius: 8px;
+}
+.key-takeaways {
+   background:#ffe6e6; 
+   padding:12px; 
+   border-left:4px solid #e63946; 
+   border-radius:8px;
+}
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif;
+  padding: 0 10px;
+}
+.card:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+
+
+/* Click tip */
+  .click-warning {
+    background: var(--soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-radius: 8px;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06);
-  }
-  .modal-close{
-    position:absolute; top:14px; right:16px; border:0; background:transparent;
-    font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
-  }
-  .modal-close:hover { color: var(--accent); }
-  .modal-header{
-    font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
-    padding-bottom: 8px; border-bottom: 2px solid var(--soft);
-  }
-  body.modal-open{ overflow:hidden; }
+    margin-bottom: 12px;}
 
-  /* Avoid boxes inside modal */
-  .modal-content .avoid-group{
-    position:static; width:100%;
-    padding:0;
-    display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
-  }
-  .modal-content .avoid{
-    flex:1 1 260px; min-width:240px; border-radius:10px;
-    padding: 14px 16px;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 12px 30px rgba(2,9,23,.08);
-  }
-  .modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
-  .modal-content .avoid ul{ padding-left:20px; margin:0; }
-  .modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+/* Footer */
+.footer {
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  padding: 12px;
+  text-align: center;
+  color: var(--muted);
+}
 
-  /* Mobile adjustments */
-  @media(max-width:480px){
-    .header{padding:20px;border-radius:10px}
-    .btn{padding:12px 14px;font-size:1rem}
-  }
 </style>
 </head>
 <body>
 
-<div class="header" role="banner">
-    <div>
+  <div class="header" role="banner">
         <h1>Introduction to Stock Market</h1>
         <p>A beginner's guide to understanding how the stock market works and its key components.</p>
-    </div>
-</div>
+  </div>
 
-<main class="container" role="main">
-
-<p class="click-warning">💡 Click on cards to see full details and examples.</p>
+  <main class="container" role="main">
+    <p class="click-warning">💡 Click on cards to see full details and examples.</p>
 
 <!-- Stock Market Concepts Cards -->
-<section class="scams" aria-label="Stock Market Concepts">
-  <!-- Card 1 -->
-  <article class="scam-card" data-id="s1">
-    <div class="icon">📈</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>What is a Stock?</h3></div>
-      <div class="scam-short">
-        A stock (also known as equity) represents a fractional ownership in a company.
-        When you buy a stock, you become a part-owner of that company.
+   <!-- Card 1 -->
+
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#2a9d8f,#6fd6b6);">📈</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>What is a Stock?</h3>
       </div>
+    <div class="scam-short">
+      A stock (also known as equity) represents a fractional ownership in a company.
+      When you buy a stock, you become a part-owner of that company.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+
+    <div class="details">
+
+      <!-- Intro Explanation -->
+      <section class="explanation">
+        <h3>What is a Stock?</h3>
+        <p>
+          A stock is a type of security that gives shareholders a stake in a company’s ownership. 
+          Companies issue stocks to raise capital, and investors buy them in the hope that their value 
+          will grow or provide dividends. Stock prices rise and fall depending on company performance, 
+          demand, and overall market trends.
+        </p>
+      </section>
+
+      <!-- Highlight Box -->
+      <section class="highlight">
+        <strong>Why it matters</strong> 
+        <p>
+          Understanding stocks is the foundation of investing. They form the backbone of most portfolios 
+          and are often the starting point for wealth creation.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If you buy 10 shares of Infosys, you own a very small fraction of the company. If the company 
+          grows and profits, the value of your shares may increase, and you could receive dividends.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Common Stock: Gives voting rights and potential for capital gains and dividends.</li>
-          <li>Preferred Stock: Usually no voting rights, but typically pays fixed dividends and has priority in liquidation.</li>
-          <li>Companies issue stocks to raise capital for expansion, operations, or debt repayment.</li>
-          <li>Stock prices fluctuate based on supply and demand, company performance, and market sentiment.</li>
+          <li>Start by learning the difference between common and preferred stock.</li>
+          <li>Always research the company before investing.</li>
+          <li>Don’t put all your money into one stock — diversify.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps</strong>
+        <ul>
+          <li>Open a Demat and trading account with a registered broker.</li>
+          <li>Research and select companies you want to invest in.</li>
+          <li>Place buy orders through your broker’s platform.</li>
+          <li>Monitor your stocks and stay updated on company news.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>A stock = fractional ownership in a company.</li>
+          <li>Prices depend on supply, demand, and company performance.</li>
+          <li>Stocks can provide capital gains and dividends.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 2 -->
-  <article class="scam-card" data-id="s2">
-    <div class="icon">🏛️</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>What is a Stock Market?</h3></div>
-      <div class="scam-short">
-        A stock market is a place (physical or virtual) where stocks are bought and sold.
-        It facilitates the exchange of ownership between buyers and sellers.
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#e63946,#ff6b6b);">🏛️</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>What is a Stock Market?</h3>
       </div>
+    <div class="scam-short">
+      A stock market is a place (physical or virtual) where stocks are bought and sold.
+      It facilitates the exchange of ownership between buyers and sellers.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What is a Stock Market?</h3>
+        <p>
+          The stock market is a centralized platform where investors can buy and sell shares of 
+          publicly listed companies. It plays a critical role in the economy by enabling businesses 
+          to raise capital and allowing investors to participate in company growth.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Why it matters</strong>
+        <p>
+          The stock market reflects investor confidence, economic stability, and company performance. 
+          It is also a key source of wealth creation and investment opportunities for individuals and institutions.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          When Infosys launches an IPO, shares are first sold in the <em>Primary Market</em>. 
+          After the IPO, those same shares are freely traded among investors in the <em>Secondary Market</em> 
+          through exchanges like NSE or BSE.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Primary Market: Where companies issue new stocks to the public for the first time (IPOs).</li>
-          <li>Secondary Market: Where investors trade existing stocks among themselves (e.g., NYSE, NASDAQ).</li>
-          <li>Stock exchanges provide a regulated and transparent environment for trading.</li>
-          <li>The stock market reflects the overall health and sentiment of the economy.</li>
+          <li>Learn the difference between Primary and Secondary markets.</li>
+          <li>Check whether the exchange is recognized and regulated (like NSE, BSE, NYSE).</li>
+          <li>Understand market indices (Sensex, Nifty, Dow Jones) as they indicate overall trends.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps</strong>
+        <ul>
+          <li>Open a Demat and trading account with a registered broker.</li>
+          <li>Deposit funds into your trading account.</li>
+          <li>Search for the stock you want to buy or sell.</li>
+          <li>Place an order through your broker’s platform.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>The stock market enables buying and selling of company shares.</li>
+          <li>Includes Primary (new issues) and Secondary (trading) markets.</li>
+          <li>Acts as an indicator of the economy’s overall health.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 3 -->
-  <article class="scam-card" data-id="s3">
-    <div class="icon">💰</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>How Do You Make Money?</h3></div>
-      <div class="scam-short">
-        Investors can profit from stocks primarily through capital appreciation (selling for more than bought)
-        and dividends (share of company profits).
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#f59f00,#ffb86b);">🏛️</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>How Do You Make Money?</h3>
       </div>
+    <div class="scam-short">
+      Investors can profit from stocks primarily through capital appreciation (selling for more than bought)
+      and dividends (share of company profits).
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>How Do You Make Money?</h3>
+        <p>
+          Investors earn money in the stock market mainly in two ways: by selling stocks at a higher price than 
+          they bought them (capital appreciation) and by receiving periodic payments from companies (dividends). 
+          Together, these form the foundation of stock investing returns.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Why it matters</strong>
+        <p>
+          Understanding how profits are generated helps you choose between growth stocks (focused on capital gains) 
+          and dividend-paying stocks (providing steady income). A balanced strategy often involves both.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          You buy 10 shares of Reliance at ₹2,000 each (₹20,000 total).  
+          - If the price rises to ₹2,500, selling gives you ₹5,000 profit (capital appreciation).  
+          - If Reliance declares a ₹20 dividend per share, you also receive ₹200 (dividends).  
+          Both together increase your total return.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Capital Appreciation: Buy low, sell high. The difference is your profit.</li>
-          <li>Dividends: Regular payments made by a company to its shareholders, usually from its earnings.</li>
-          <li>Some companies reinvest profits instead of paying dividends, aiming for higher capital appreciation.</li>
-          <li>Long-term investing often focuses on both capital appreciation and dividend income.</li>
+          <li>Growth stocks usually reinvest profits rather than pay dividends.</li>
+          <li>Dividend stocks are attractive for consistent passive income.</li>
+          <li>Always reinvest profits wisely for compounding benefits.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps</strong>
+        <ul>
+          <li>Buy shares of a company through your broker’s platform.</li>
+          <li>Hold until the price rises or the company declares dividends.</li>
+          <li>Sell at a higher price for capital gains.</li>
+          <li>Collect dividends if the company distributes them.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Two main ways to profit: Capital Appreciation and Dividends.</li>
+          <li>Growth companies focus more on appreciation, dividend companies on regular payouts.</li>
+          <li>A long-term balanced portfolio usually uses both strategies.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 4 -->
-  <article class="scam-card" data-id="s4">
-    <div class="icon">📉</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Understanding Risk</h3></div>
-      <div class="scam-short">
-        Investing in the stock market involves risk, including the potential loss of principal.
-        Stock prices can go down as well as up.
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#6b5bde,#9488ff);">📉</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>Understanding Risk</h3>
       </div>
+    <div class="scam-short">
+      Investing in the stock market involves risk, including the potential loss of principal. 
+      Stock prices can go down as well as up.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Understanding Risk</h3>
+        <p>
+          Every investment carries risk. The value of your stocks may rise or fall due to 
+          market conditions, company performance, or external economic events. Being aware of 
+          these risks helps investors make smarter decisions.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Why it matters</strong>
+        <p>
+          Risk and return are directly connected. Higher potential returns usually come with 
+          higher risks. The key is not to avoid risk completely, but to manage it wisely.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          Suppose you invest ₹10,000 in a single company's stock. If the company performs well, 
+          the value might grow to ₹15,000. But if it performs poorly, your investment could fall 
+          to ₹7,000 or lower. This is market and company-specific risk in action.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Market Risk: The risk that the entire market or a significant portion of it will decline.</li>
-          <li>Company-Specific Risk: Risks related to a particular company's performance, industry, or management.</li>
-          <li>Liquidity Risk: The risk that an investment cannot be quickly bought or sold without a significant loss in value.</li>
-          <li>Diversification is key to managing risk, but it does not eliminate it.</li>
+          <li>Diversify across industries and sectors to spread risk.</li>
+          <li>Don’t invest money you may need in the short term.</li>
+          <li>Understand your own risk tolerance before choosing investments.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps</strong>
+        <ul>
+          <li>Learn the different types of risks (market, company-specific, liquidity).</li>
+          <li>Diversify your investments across multiple companies/sectors.</li>
+          <li>Invest for the long term to ride out short-term volatility.</li>
+          <li>Regularly review and rebalance your portfolio.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Risk is unavoidable but manageable.</li>
+          <li>Higher rewards usually involve higher risks.</li>
+          <li>Diversification reduces but does not eliminate risk.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 5 -->
-  <article class="scam-card" data-id="s5">
-    <div class="icon">📊</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Market Indexes</h3></div>
-      <div class="scam-short">
-        Stock market indexes (like S&P 500, Dow Jones, NASDAQ) are statistical measures
-        that represent the performance of a specific segment of the stock market.
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#20c997,#00a78e);">📊</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>Market Indexes</h3>
       </div>
+    <div class="scam-short">
+      Stock market indexes (like S&P 500, Dow Jones, NASDAQ) are statistical measures
+      that represent the performance of a specific segment of the stock market.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What are Market Indexes?</h3>
+        <p>
+          A market index is a collection of stocks that represents a portion of the market. 
+          It helps investors track overall market performance, spot trends, and compare 
+          their own portfolio against a benchmark.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Why it matters</strong>
+        <p>
+          Indexes simplify complex markets by summarizing performance into a single number. 
+          They are essential benchmarks for both investors and fund managers.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If the S&P 500 rises by 2% in a day, it means that on average, the 500 largest U.S. 
+          companies tracked by the index have gained in value. If your portfolio lags behind, 
+          it may indicate underperformance.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>S&P 500: Tracks 500 large U.S. companies, widely considered a benchmark for the U.S. stock market.</li>
-          <li>Dow Jones Industrial Average (DJIA): Tracks 30 large, publicly owned companies based in the U.S.</li>
-          <li>NASDAQ Composite:Heavily weighted towards technology and growth companies.</li>
-          <li>Indexes help investors gauge overall market health and compare investment performance.</li>
+          <li>Use indexes as benchmarks to measure your portfolio’s performance.</li>
+          <li>Track global as well as local indexes to stay aware of market trends.</li>
+          <li>Don’t rely on a single index; different indexes cover different sectors.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps</strong>
+        <ul>
+          <li>Understand what each index represents (S&P 500, DJIA, NASDAQ, Nifty, Sensex).</li>
+          <li>Follow indexes to gauge the market’s overall direction.</li>
+          <li>Compare your portfolio returns with index returns.</li>
+          <li>Consider index funds or ETFs if you want broad market exposure.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Indexes represent the health of a market or sector.</li>
+          <li>They are benchmarks for measuring investment performance.</li>
+          <li>Tracking indexes helps investors understand market trends quickly.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 6 -->
-  <article class="scam-card" data-id="s6">
-    <div class="icon">🧑‍💻</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>How to Invest?</h3></div>
-      <div class="scam-short">
-        To invest in the stock market, you typically need a brokerage account.
-        You can then buy individual stocks or diversified funds like ETFs and mutual funds.
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#d63384,#ff85c1);">🧑‍💻</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>How to Invest?</h3>
       </div>
+    <div class="scam-short">
+      To invest in the stock market, you typically need a brokerage account.
+      You can then buy individual stocks or diversified funds like ETFs and mutual funds.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What does Investing mean?</h3>
+        <p>
+          Investing is the process of putting money into financial assets like stocks, bonds, 
+          ETFs, or mutual funds with the goal of growing wealth over time. It requires a brokerage 
+          account to begin.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Why it matters</strong>
+        <p>
+          Starting early and investing regularly helps you build wealth, beat inflation, 
+          and achieve long-term financial goals like buying a house, retirement, or education.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          Suppose you invest ₹5,000 every month in an index fund. Over 20 years, with average 
+          annual returns of 10%, you could grow your investment into over ₹30 lakhs, 
+          thanks to compounding.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Brokerage Account: An account with a financial firm that allows you to buy and sell investments.</li>
-          <li>Individual Stocks: Direct ownership in specific companies. Higher risk/reward.</li>
-          <li>ETFs (Exchange-Traded Funds): Baskets of securities that trade like stocks. Offer diversification.</li>
-          <li>Mutual Funds: Professionally managed portfolios of stocks, bonds, or other investments.</li>
+          <li>Open a brokerage or DEMAT account to start investing.</li>
+          <li>Begin with diversified funds (ETFs/Mutual Funds) if you’re a beginner.</li>
+          <li>Invest regularly through SIPs (Systematic Investment Plans).</li>
+          <li>Reinvest dividends to maximize compounding benefits.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps</strong>
+        <ul>
+          <li>Choose a reliable brokerage or financial platform.</li>
+          <li>Complete KYC (Know Your Customer) verification.</li>
+          <li>Deposit money into your brokerage account.</li>
+          <li>Select investments: Stocks, ETFs, or Mutual Funds.</li>
+          <li>Track performance and stay consistent.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>You need a brokerage/DEMAT account to start investing.</li>
+          <li>ETFs and mutual funds offer easier diversification for beginners.</li>
+          <li>Consistent investing and compounding are the keys to long-term wealth.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 7 -->
-  <article class="scam-card" data-id="s7">
-    <div class="icon">📚</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Key Terms to Know</h3></div>
-      <div class="scam-short">
-        Familiarize yourself with common stock market terminology to better understand news, reports, and discussions.
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#0dcaf0,#00a6c4);">📚</div>
+    <div class="card-main">
+      <div class="card-title">
+        <h3>Key Terms to Know</h3>
       </div>
+    <div class="scam-short">
+      Familiarize yourself with common stock market terminology to better understand news, reports, and discussions.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    </div>
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Learn Key Terms?</h3>
+        <p>
+          Understanding stock market terminology helps you follow financial news, analyze reports, 
+          and make informed investment decisions with confidence.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Essential Terms</strong>
+        <p>
+          Some terms like “Bull Market,” “Bear Market,” and “Volatility” come up frequently. 
+          Knowing them makes you fluent in market discussions.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If someone says, “We are in a bear market,” it means stock prices are broadly falling 
+          and investor sentiment is negative.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Bull Market: A market condition where prices are rising or are expected to rise.</li>
-          <li>Bear Market: A market condition where prices are falling or are expected to fall.</li>
-          <li>Volatility: The degree of variation of a trading price series over time.</li>
-          <li>Portfolio: A collection of investments owned by an individual or institution.</li>
-          <li>Diversification: Spreading investments across various assets to reduce risk.</li>
+          <li>Learn basic terms first: Bull, Bear, Volatility, Portfolio, Diversification.</li>
+          <li>Use these terms in everyday conversations about finance to reinforce memory.</li>
+          <li>Follow market summaries in newspapers or apps to see how they’re applied.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Build Vocabulary</strong>
+        <ul>
+          <li>Start with 5–10 core terms and definitions.</li>
+          <li>Read daily stock market news and identify new words.</li>
+          <li>Keep a personal glossary of terms with real-world examples.</li>
+          <li>Regularly revise to ensure long-term retention.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Learning key terms helps you understand market updates and financial discussions.</li>
+          <li>“Bull” = rising market, “Bear” = falling market.</li>
+          <li>Volatility = price fluctuations; Diversification = risk spreading.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
 </section>
@@ -468,7 +1061,7 @@
 <!-- floating nav buttons -->
 <div class="floating" aria-hidden="false">
   <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="index.html" style="text-decoration: none; color:#000000;">Home</a></button>
-  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic2.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
+  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic6.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
   <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
 </div>
 
@@ -477,7 +1070,7 @@
 </footer>
 
 <!-- Modal -->
-<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal-content" role="document">
     <button class="modal-close" aria-label="Close">×</button>
     <div class="modal-header"></div>
@@ -485,46 +1078,9 @@
   </div>
 </div>
 
+
 <script>
-
-  const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 8,   // adjust to real number
-  quizzes: 0,
-  totalQuizzes: 8,   // since you have 8 quizzes
-  trading: 0,
-  tradingHistory: []
-};
-
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-  /* ===== Modal setup ===== */
   const modal = document.getElementById('scamModal');
   const modalBody = document.getElementById('modalBody');
   const modalHeader = modal.querySelector('.modal-header');
@@ -533,21 +1089,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openModal(card){
     lastFocused = document.activeElement;
-
-    // title for header
-    const title = card.querySelector('.scam-title h3')?.textContent || 'Details';
-
-    // clone the avoid-group content from this card
-    const avoidGroup = card.querySelector('.avoid-group').cloneNode(true);
-    avoidGroup.removeAttribute('aria-hidden'); // make it accessible
-    avoidGroup.style.display = '';             // let CSS control layout
-
-    // inject into modal
+    const title = card.querySelector('h3')?.textContent || 'Details';
+    const details = card.querySelector('.details').cloneNode(true);
+    details.style.display = 'block';
     modalHeader.textContent = title;
     modalBody.innerHTML = '';
-    modalBody.appendChild(avoidGroup);
-
-    // show modal
+    modalBody.appendChild(details);
     modal.style.display = 'flex';
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -562,34 +1109,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lastFocused) lastFocused.focus();
   }
 
-  // Open on click of any card
-  document.querySelectorAll('.scam-card').forEach(card => {
+  // ✅ Selector fix (#7)
+  const cards = document.querySelectorAll('.card');
+
+  // ✅ Accessibility (#6)
+  cards.forEach(card => {
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-haspopup', 'dialog');
+
+    const title = card.querySelector('h3')?.textContent?.trim();
+    if (title) card.setAttribute('aria-label', `Open details: ${title}`);
+
     card.addEventListener('click', () => openModal(card));
+
+    card.addEventListener('keydown', (e) => {
+      const tag = e.target.tagName;
+      if (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(tag)) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); // prevents Space from scrolling the page
+        openModal(card);
+      }
+    });
   });
 
-  // Close actions
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
-
-  /* ===== Floating buttons (dummy links, kept your original hrefs) ===== */
-  document.getElementById('homeBtn').addEventListener('click', () => {
-    // alert('Go to home page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    // alert('Go to next page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('returnBtn').addEventListener('click', () => {
-    // alert('Return to previous (dummy link).'); // Removed alert to allow navigation
-  });
-});
-
-// Auto-mark lesson as complete when opened
-document.addEventListener("DOMContentLoaded", () => {
-  MindStocks.completeLesson();
 });
 
 </script>
-
 </body>
+
 </html>
