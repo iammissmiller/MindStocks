@@ -19,11 +19,12 @@
     --transition: 220ms cubic-bezier(.2,.9,.3,1);
   }
 
-  /* Global reset */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  h1, h2, h3 { line-height: 1.25; }
-  p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
-  ul, ol { padding-left: 20px; }
+/* Global reset like subtopic7 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Consistent default spacing */
+h1, h2, h3 { line-height: 1.25; }
+p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+ul, ol { padding-left: 20px; }
 
   body{
     margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
@@ -31,120 +32,201 @@
   }
 
   /* Header */
-  .header {
-    background: linear-gradient(90deg,var(--navy), #123544);
-    color: #fff;
-    padding: 28px 18px;
-    border-radius: 12px;
-    margin: 18px auto;
-    max-width:1120px;
-    box-shadow: var(--shadow);
-    display:flex;
-    align-items:center;
-    gap:16px;
-  }
-  .header h1{ margin:0; font-size:1.8rem; font-weight:700; }
-  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
-
+.header {
+  background: linear-gradient(90deg, var(--navy), #123544);
+  color: #fff;
+  padding: 28px 18px;
+  border-radius: var(--radius);
+  margin: 18px auto;
+  max-width: 1120px;
+  box-shadow: var(--shadow);
+}
+.header h1 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 700;
+}
+.header p {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  max-width: 1000px;
+}
   /* Container */
-  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
+.container {
+  max-width: 1120px;
+  margin: 18px auto;
+  padding: 0 16px 60px;
+}
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}
 
-  /* Click tip */
-  .click-warning {
-    background: var(--soft);
-    border-left: 4px solid var(--accent);
-    padding: 10px 14px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--navy);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-  }
+  /* Scams list */
+  .scams {  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* uniform gap between cards */
+  margin-top: 18px;}
+  .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
 
-  /* Cards */
-  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
-  .scam-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06);
-    position: relative;
-    overflow: visible;
-    transition: transform var(--transition);
-    z-index: 1;
-    cursor: pointer;
-  }
-  .scam-card:hover { transform: translateY(-6px); z-index: 10; }
-  .scam-title h3 { margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 600; }
-  .scam-short { margin-top: 6px; color: var(--muted); font-size: .96rem; line-height: 1.45; }
-
-  .icon {
-    width:56px; height:56px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
-    flex: 0 0 56px;
-  }
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);  /* smoother corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex: 0 0 56px;
+}
   /* Specific icon colors */
-  .scam-card:nth-child(1) .icon{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
-  .scam-card:nth-child(2) .icon{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
-  .scam-card:nth-child(3) .icon{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
-  .scam-card:nth-child(4) .icon{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
-  .scam-card:nth-child(5) .icon{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
-  .scam-card:nth-child(6) .icon{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
-  .scam-card:nth-child(7) .icon{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
+    .icon.d1{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
+    .icon.d2{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
+    .icon.d3{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
+    .icon.d4{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
+    .icon.d5{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
+    .icon.d6{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
+    .icon.d7{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
 
   .scam-main { flex:1; }
-  .scam-title { display:flex; align-items:center; gap:10px; }
-  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; }
+ .card-title h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+  .scam-title h3 {.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}}
+  .scam-short {   margin-top: 8px;
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.35;}
+  .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
 
-  /* Hidden source content; shown only inside the modal */
-  .avoid-group { display: none; }
+/* Hidden source content; shown only inside the modal */
+.details { display: none; }
+.card.show .details { display: block; }
+.details h4 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: .98rem;
+}
+.details ul { padding-left: 18px; }
+.details li {
+  margin-bottom: 8px;
+  font-size: .95rem;
+  line-height: 1.3;
+}
 
+.avoid {
+  flex: 1 1 calc(20% - 1.5%);
+  aspect-ratio: 1 / 1;
+  min-width: 150px;
+  background: #0D1B2A;
+  color: white;
+  border-left: 4px solid var(--accent);
+  border-radius: 0;
+  padding: 12px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.avoid h4 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
+.avoid ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.avoid li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Color themes for different avoid boxes */
+.avoid-howto {
+  background: #0D1B2A; /* deep navy (original) */
+}
+
+.avoid-dos {
+  background: #1b4332; /* dark green */
+  border-left-color: #2a9d8f; /* teal accent */
+}
+
+.avoid-donts {
+  background: #5c1a1a; /* dark red */
+  border-left-color: #e63946; /* red accent */
+}
+
+
+/* Mobile view */
+@media (max-width:720px) {
+  .avoid-group {
+    flex-direction: column;
+    position: relative;
+  }
   .avoid {
-    flex: 0 0 auto;
-    width: fit-content;
-    height: auto;
-    min-width: auto;
-    background: #0D1B2A;
-    color: white;
-    border-left: 4px solid var(--accent);
-    padding: 12px 14px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
-    border-radius: 0;
+    aspect-ratio: unset;
+    min-width: unset;
+    max-width: 100%;
   }
+}
 
-  .avoid h4 {
-    margin: 0 0 8px;
-    color: var(--accent);
-    font-size: 0.98rem;
+
+  .flow { /* Renamed from .section-grid for consistency with content3.html structure */
+    margin: 22px auto;
+    max-width: 1120px; /* Adjusted to match container width */
+    background: linear-gradient(180deg,#fff,#fcfffd); /* Changed from var(--soft) */
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06);
   }
+  .flow h2{ margin:0 0 10px 0; color:var(--navy); font-size:1.05rem } /* Adjusted font size */
+  /* .chain, .node, .num, .content, .node:not(:last-child) .content::after, .node.danger, .node.decision, .node.safe */
+  /* These are not directly used in your current HTML structure, but kept for reference if you add flow-style sections */
 
-  .avoid ul {
-    margin: 0;
-    padding-left: 18px;
-  }
-
-  .avoid li {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    line-height: 1.3;
-  }
-
-  /* Color variants */
-  .avoid-howto { background: #0D1B2A; }
-  .avoid-dos { background: #1b4332; border-left-color: #2a9d8f; }
-  .avoid-donts { background: #5c1a1a; border-left-color: #e63946; }
-
-  /* Mobile view for avoid-group */
-  @media (max-width:720px) {
-    .avoid-group { flex-direction: column; position: relative; }
-    .avoid { aspect-ratio: unset; min-width: unset; max-width: 100%; }
-  }
-
+  /* Golden rules (from content3.html) */
   .golden {
     margin-top: 22px;
     background: var(--soft);
@@ -155,8 +237,56 @@
   }
   .golden h2{ margin:0 0 10px 0; color:var(--navy) }
   .cards { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
-  .card-rule{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
+  .card-rule{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); } /* Added border */
   .card-rule .tick { font-size:18px; color:var(--teal); margin-top:2px; }
+
+  /* Section Grids (adapted from your original .section-grid, now using .flow for consistency) */
+  .section-grid{ /* This class now uses the .flow styles */
+    margin-top:22px;
+    background:var(--soft); /* Kept your original background for these sections */
+    padding:18px;
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06); /* Added border */
+  }
+  .section-grid h2{ margin:0 0 12px 0; color:var(--navy); font-size:1.05rem; } /* Adjusted font size */
+  .grid-cards{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); } /* Added border */
+  .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
+
+  /* Floating nav buttons (lower-right) */
+  .floating {
+    position: fixed;
+    right: 1.6%;
+    bottom: 1.6%;
+    display:flex;
+    flex-direction:column;
+    gap:0.9%;
+    z-index: 99999;
+  }
+.btn {
+  background: var(--navy);
+  color: #fff;
+  padding: .9em 1.2em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.btn:hover { background: var(--accent); }
+.btn.secondary {
+  background: #fff;
+  color: var(--navy);
+  border: 1px solid var(--soft);
+}
+
+  /* small screen adjustments */
+  @media (max-width:480px){
+    .header{ padding:20px; border-radius:10px }
+    .btn { padding:12px 14px; font-size:1rem }
+  }
 
   /* Section Grids */
   .section-grid{
@@ -172,71 +302,134 @@
   .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
   .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
 
-  /* Floating nav buttons */
-  .floating {
-    position: fixed;
-    right: 1.6%;
-    bottom: 1.6%;
-    display:flex;
-    flex-direction:column;
-    gap:0.9%;
-    z-index: 99999;
-  }
-  .btn {
-    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
-    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
-  }
-  .btn:hover{ background: var(--accent); }
-  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+/* ===== Modal (popup) ===== */
+.modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); z-index:999999; }
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: min(880px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: var(--radius);
+  padding: 24px 26px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--soft);
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  border: 0; background: transparent;
+  font-size: 28px; font-weight: 700;
+  cursor: pointer; color: var(--muted);
+}
 
-  /* Footer */
-  footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
+.modal-close:hover { color: var(--accent); }
+.modal-header{
+  font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+  padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+}
 
-  /* Modal */
-  .modal-overlay{
-    position:fixed; inset:0; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,.6); z-index:999999;
-  }
-  .modal-content{
-    position:relative; background:#fff; width:min(880px,92vw);
-    max-height:90vh; overflow:auto; border-radius:12px;
-    padding: 24px 26px 28px;
+/* Avoid boxes inside modal */
+.modal-content .avoid-group{
+  position:static; width:100%;
+  padding:0;
+  display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
+}
+.modal-content .avoid{
+  flex:1 1 260px; min-width:240px; border-radius:10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(2,9,23,.08);
+}
+.modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
+.modal-content .avoid ul{ padding-left:20px; margin:0; }
+.modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+
+/* Prevent page scroll when modal is open */
+body.modal-open{ overflow:hidden; }
+/* Section blocks inside scam details */
+.details section {
+  margin-top: 14px 0;
+  padding: 12px;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+/* Section titles */
+.details section strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.details section-section {
+  border: top 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+}
+.highlight {
+   background:#fff8e6;
+   padding:12px;
+   border-left:4px solid #ffb86b;
+  border-radius:8px;
+}
+.example {
+   background:#f1faf8;
+   padding:12px;
+   border-left:4px solid #00aaff;
+   border-radius:8px;
+}
+.quick-tips {
+   background: #0D1B2A;
+   padding: 12px;
+   border-left: 4px solid #f1faf8;
+   color: #e6f7ff;
+   border-radius: 8px;
+}
+.steps {
+   background: #f1faf8;
+   border-left: 4px solid #2a9d8f;
+   color: #0d332f;
+   padding: 12px;
+   border-radius: 8px;
+}
+.key-takeaways {
+   background:#ffe6e6; 
+   padding:12px; 
+   border-left:4px solid #e63946; 
+   border-radius:8px;
+}
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif;
+  padding: 0 10px;
+}
+.card:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+
+
+/* Click tip */
+  .click-warning {
+    background: var(--soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-radius: 8px;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06);
-  }
-  .modal-close{
-    position:absolute; top:14px; right:16px; border:0; background:transparent;
-    font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
-  }
-  .modal-close:hover { color: var(--accent); }
-  .modal-header{
-    font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
-    padding-bottom: 8px; border-bottom: 2px solid var(--soft);
-  }
-  body.modal-open{ overflow:hidden; }
+    margin-bottom: 12px;}
 
-  /* Avoid boxes inside modal */
-  .modal-content .avoid-group{
-    position:static; width:100%;
-    padding:0;
-    display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
-  }
-  .modal-content .avoid{
-    flex:1 1 260px; min-width:240px; border-radius:10px;
-    padding: 14px 16px;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 12px 30px rgba(2,9,23,.08);
-  }
-  .modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
-  .modal-content .avoid ul{ padding-left:20px; margin:0; }
-  .modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
-
-  /* Mobile adjustments */
-  @media(max-width:480px){
-    .header{padding:20px;border-radius:10px}
-    .btn{padding:12px 14px;font-size:1rem}
-  }
+/* Footer */
+.footer {
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  padding: 12px;
+  text-align: center;
+  color: var(--muted);
+}
 </style>
 </head>
 <body>
@@ -253,172 +446,491 @@
 <p class="click-warning">💡 Click on cards to see full details and examples.</p>
 
 <!-- Investor Rights Cards -->
-<section class="scams" aria-label="Investor Rights">
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 1 -->
-  <article class="scam-card" data-id="r1">
-    <div class="icon">⚖️</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Right to Information</h3></div>
-      <div class="scam-short">
-        Investors have the right to receive accurate, timely, and complete information about investments,
-        including financial statements, prospectuses, and risk disclosures.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#0f2027,#2c5364);">⚖️</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Right to Information</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      Investors have the right to receive accurate, timely, and complete information about investments,
+      including financial statements, prospectuses, and risk disclosures.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          The Right to Information ensures investors can make informed decisions by
+          having access to all relevant financial and risk-related data before and after investing.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>Transparency:</b> Companies must disclose financial health and risks. <br>
+          <b>Documents:</b> Includes annual reports, quarterly results, and risk factors. <br>
+          <b>Investor Protection:</b> Helps avoid fraud and misrepresentation.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Access to company annual reports and quarterly filings.</li>
-          <li>Clear disclosure of fees, charges, and potential conflicts of interest.</li>
-          <li>Information on the investment's performance history and objectives.</li>
-          <li>Right to receive trade confirmations and account statements.</li>
+          <li>Receiving audited financial statements every year.</li>
+          <li>Timely disclosure of material events affecting share price.</li>
+          <li>Clear breakdown of mutual fund charges in the prospectus.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Always read the offer document/prospectus before investing.</li>
+          <li>Check company filings on SEBI or stock exchange portals.</li>
+          <li>Review your account statements regularly.</li>
+          <li>Look out for red flags like missing disclosures.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Transparency builds investor confidence.</li>
+          <li>Right to information protects investors from fraud.</li>
+          <li>Use official disclosures to make smart financial choices.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 2 -->
-  <article class="scam-card" data-id="r2">
-    <div class="icon">🤝</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Right to Fair Treatment</h3></div>
-      <div class="scam-short">
-        Investors should be treated fairly and ethically by financial professionals and institutions,
-        without discrimination or deceptive practices.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#283e51,#485563);">🤝</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Right to Fair Treatment</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      Investors should be treated fairly and ethically by financial professionals and institutions,
+      without discrimination or deceptive practices.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          The Right to Fair Treatment guarantees that all investors receive equal and ethical treatment,
+          ensuring protection from fraud, biased practices, and exploitation by market intermediaries.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>No Discrimination:</b> All investors must be treated equally. <br>
+          <b>Ethical Conduct:</b> Institutions must follow honest practices. <br>
+          <b>Confidentiality:</b> Your personal and financial information must be kept secure.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Protection against fraud, manipulation, and insider trading.</li>
-          <li>Adherence to "best execution" principles for trades.</li>
-          <li>Fair allocation of investment opportunities.</li>
-          <li>Right to privacy of personal and financial data.</li>
+          <li>A broker giving all clients the same access to IPO shares.</li>
+          <li>Executing trades at the best available market price without bias.</li>
+          <li>Protecting client data from being misused or leaked.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Choose SEBI-registered brokers and advisors.</li>
+          <li>Stay alert for signs of misrepresentation or hidden charges.</li>
+          <li>Ensure your broker respects data privacy policies.</li>
+          <li>Report unfair practices to regulatory authorities.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Fair treatment is a fundamental investor right.</li>
+          <li>Fraud and manipulation are strictly prohibited by law.</li>
+          <li>Confidentiality of investor data is mandatory.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 3 -->
-  <article class="scam-card" data-id="r3">
-    <div class="icon">🗣️</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Right to Redress</h3></div>
-      <div class="scam-short">
-        If an investor suffers losses due to misconduct, fraud, or negligence, they have the right to seek
-        compensation through established legal and regulatory channels.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#c31432,#240b36);">🗣️</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Right to Redress</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      If an investor suffers losses due to misconduct, fraud, or negligence, they have the right to seek
+      compensation through established legal and regulatory channels.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          The Right to Redress ensures that investors are not left helpless in cases of fraud, negligence,
+          or malpractice. It provides structured avenues for filing complaints, seeking justice, and claiming
+          compensation for damages suffered.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>Arbitration & Mediation:</b> Quick dispute resolution options are available. <br>
+          <b>Legal Action:</b> Investors can sue fraudulent intermediaries. <br>
+          <b>Regulatory Complaints:</b> Issues can be raised with SEBI and other authorities.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Access to arbitration or mediation services for dispute resolution.</li>
-          <li>Ability to file complaints with regulatory bodies (e.g., SEC, FINRA).</li>
-          <li>Right to pursue legal action against fraudulent parties.</li>
-          <li>Timely and fair resolution of complaints.</li>
+          <li>An investor files a complaint with SEBI through SCORES portal for unfair treatment by a broker.</li>
+          <li>A case of insider trading where affected investors claim compensation.</li>
+          <li>Arbitration process at stock exchanges for trade-related disputes.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Always document transactions and keep records.</li>
+          <li>Use official complaint portals like SEBI SCORES.</li>
+          <li>Opt for arbitration before lengthy court battles.</li>
+          <li>Seek advice from investor protection forums if unsure.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Investors are entitled to compensation for proven misconduct.</li>
+          <li>Multiple legal and regulatory avenues are available.</li>
+          <li>Quick action increases the chances of fair redressal.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 4 -->
-  <article class="scam-card" data-id="r4">
-    <div class="icon">🗳️</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Right to Vote (Shareholders)</h3></div>
-      <div class="scam-short">
-        Shareholders have the right to vote on important company matters, such as electing board members,
-        approving mergers, and other corporate actions.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#4b6cb7,#182848);">🗳️</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Right to Vote (Shareholders)</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      Shareholders have the right to vote on important company matters, such as electing board members,
+      approving mergers, and other corporate actions.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          The Right to Vote empowers shareholders to directly influence how a company is run.
+          This includes deciding who manages the company, how profits are distributed, and
+          approving or rejecting critical business decisions.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>AGM Participation:</b> Shareholders can attend Annual General Meetings to vote. <br>
+          <b>Corporate Decisions:</b> Influence on mergers, acquisitions, and leadership. <br>
+          <b>Proxy Voting:</b> Allows shareholders to vote even without being physically present. 
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Participation in annual general meetings (AGMs).</li>
-          <li>Voting on executive compensation and major policy changes.</li>
-          <li>Ability to submit shareholder proposals.</li>
-          <li>Proxy voting if unable to attend meetings in person.</li>
+          <li>Shareholders vote to approve a merger between two companies.</li>
+          <li>A proposal for executive salary caps is put to vote at the AGM.</li>
+          <li>Small shareholders submit a proposal for better environmental disclosures.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Stay updated with company announcements and AGM notices.</li>
+          <li>Review proposals before casting your vote.</li>
+          <li>Use proxy voting if you cannot attend in person.</li>
+          <li>Collaborate with other shareholders to influence major decisions.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Voting is a direct way to protect and grow your investment.</li>
+          <li>Shareholders can shape corporate governance and strategy.</li>
+          <li>Proxy voting ensures no one misses their right to vote.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 5 -->
-  <article class="scam-card" data-id="r5">
-    <div class="icon">🔒</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Right to Privacy</h3></div>
-      <div class="scam-short">
-        Investors have the right to expect that their personal and financial information
-        will be kept confidential and protected from unauthorized access or disclosure.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#141E30,#243B55);">🔒</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Right to Privacy</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      Investors have the right to expect that their personal and financial information
+      will be kept confidential and protected from unauthorized access or disclosure.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          The Right to Privacy ensures that investors’ sensitive data—such as personal identification,
+          account balances, and transaction history—is safeguarded. Institutions must prevent
+          unauthorized access and misuse of this information.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>Data Security:</b> Financial institutions must use strong safeguards. <br>
+          <b>Transparency:</b> Investors must be informed about how their data is shared. <br>
+          <b>Notification:</b> Any data breach must be disclosed promptly. 
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Protection of account details and transaction history.</li>
-          <li>Secure handling of personal identification information.</li>
-          <li>Clear policies on data sharing with third parties.</li>
-          <li>Notification in case of data breaches.</li>
+          <li>Your bank informs you about how it shares data with third parties.</li>
+          <li>You get notified immediately when your account login is compromised.</li>
+          <li>Investment platforms encrypt sensitive documents before sharing them.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Always enable two-factor authentication for accounts.</li>
+          <li>Read privacy policies before opening accounts or apps.</li>
+          <li>Regularly monitor statements for unusual activity.</li>
+          <li>Report suspected breaches to your institution immediately.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Privacy is a fundamental investor right.</li>
+          <li>Institutions are legally bound to safeguard your data.</li>
+          <li>Stay proactive in monitoring and protecting your personal information.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
-
+</section>
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 6 -->
-  <article class="scam-card" data-id="r6">
-    <div class="icon">🧠</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Responsibility to Be Informed</h3></div>
-      <div class="scam-short">
-        Investors have a responsibility to educate themselves about investments,
-        understand risks, and read all provided documentation before investing.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#283c86,#45a247);">🧠</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Responsibility to Be Informed</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      Investors have a responsibility to educate themselves about investments,
+      understand risks, and read all provided documentation before investing.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          Being an informed investor means actively learning about available investment
+          options, associated risks, and the financial professionals involved. 
+          It ensures better decision-making and protection against fraud or mismanagement.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>Documentation:</b> Always read prospectuses, annual reports, and disclosures. <br>
+          <b>Costs:</b> Understand fees, charges, and tax consequences. <br>
+          <b>Due Diligence:</b> Research the credentials of brokers or advisors. <br>
+          <b>Awareness:</b> Stay updated on economic and market developments. 
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Read prospectuses, offering circulars, and financial reports.</li>
-          <li>Understand the fees, charges, and tax implications.</li>
-          <li>Research the background and credentials of financial professionals.</li>
-          <li>Stay updated on market conditions and economic trends.</li>
+          <li>You review a mutual fund’s fact sheet before investing.</li>
+          <li>You check SEBI’s website for alerts about fraudulent advisors.</li>
+          <li>You track economic news to understand potential market shifts.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Never skip reading the fine print in financial documents.</li>
+          <li>Compare different investment products before choosing.</li>
+          <li>Verify advisor/broker registration on regulatory portals.</li>
+          <li>Attend investor awareness programs and webinars.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Informed investors are less vulnerable to fraud.</li>
+          <li>Understanding costs and risks helps avoid losses.</li>
+          <li>Continuous learning is a core responsibility of every investor.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 7 -->
-  <article class="scam-card" data-id="r7">
-    <div class="icon">🎯</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Responsibility to Set Realistic Goals</h3></div>
-      <div class="scam-short">
-        Investors should define clear, realistic financial goals and understand that all investments
-        carry some level of risk, with no guarantees of returns.
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#ff512f,#dd2476);">🎯</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Responsibility to Set Realistic Goals</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="scam-short">
+      Investors should define clear, realistic financial goals and understand that all investments
+      carry some level of risk, with no guarantees of returns.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Does it Mean?</h3>
+        <p>
+          Setting realistic goals ensures that investment choices are practical, achievable,
+          and aligned with an investor’s financial situation. It prevents disappointment,
+          overexposure to risk, and falling into traps like “get-rich-quick” schemes.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <h4>Key Facts</h4>
+        <p>
+          <b>Risk Alignment:</b> Goals must match your risk appetite and time horizon. <br>
+          <b>No Guarantees:</b> Every investment carries potential risks of loss. <br>
+          <b>Adjustments:</b> Goals should be reviewed and refined over time. <br>
+          <b>Realism:</b> Avoid promises of overnight wealth.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <h4>Example</h4>
         <ul>
-          <li>Align investments with personal risk tolerance and time horizon.</li>
-          <li>Avoid chasing unrealistic returns or "get rich quick" schemes.</li>
-          <li>Understand the potential for capital loss.</li>
-          <li>Regularly review and adjust goals as circumstances change.</li>
+          <li>Saving for retirement with a mix of equity and debt funds.</li>
+          <li>Avoiding Ponzi schemes that promise “double money in 2 years.”</li>
+          <li>Revisiting your SIP plan when your income or expenses change.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <h4>Quick Tips</h4>
+        <ul>
+          <li>Start with clear short-term and long-term goals.</li>
+          <li>Assess your risk tolerance before choosing investments.</li>
+          <li>Be skeptical of schemes offering extraordinary returns.</li>
+          <li>Regularly review and realign your goals with life changes.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Practical goals reduce the chance of financial disappointment.</li>
+          <li>Investment success depends on discipline, not luck.</li>
+          <li>Continuous review helps keep goals realistic and achievable.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
 </section>
@@ -468,63 +980,24 @@
 <!-- floating nav buttons -->
 <div class="floating" aria-hidden="false">
   <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="index.html" style="text-decoration: none; color:#000000;">Home</a></button>
-  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic1.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
+  <button class="btn" id="nextBtn" title="Go to next page"><a href="index.html" style="text-decoration: none; color:#ffffff;">Finish</a></button>
   <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
-</div>
-
-<!-- Modal -->
-<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-content" role="document">
-    <button class="modal-close" aria-label="Close">×</button>
-    <div class="modal-header"></div>
-    <div id="modalBody"></div>
-  </div>
 </div>
 
 <footer style="background:#111827; color:white; text-align:center; padding:20px; font-size:0.9rem;">
   © 2025 MindStocks | Built for SEBI Hackathon | <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sebi@sebi.gov.in" target="_blank"style="color:#93c5fd;">Contact Us</a>
 </footer>
 
+<!-- Modal -->
+<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-content" role="document">
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-header"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
 <script>
-
-  const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 8,   // adjust to real number
-  quizzes: 0,
-  totalQuizzes: 8,   // since you have 8 quizzes
-  trading: 0,
-  tradingHistory: []
-};
-
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-  /* ===== Modal setup ===== */
   const modal = document.getElementById('scamModal');
   const modalBody = document.getElementById('modalBody');
   const modalHeader = modal.querySelector('.modal-header');
@@ -533,21 +1006,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openModal(card){
     lastFocused = document.activeElement;
-
-    // title for header
-    const title = card.querySelector('.scam-title h3')?.textContent || 'Details';
-
-    // clone the avoid-group content from this card
-    const avoidGroup = card.querySelector('.avoid-group').cloneNode(true);
-    avoidGroup.removeAttribute('aria-hidden'); // make it accessible
-    avoidGroup.style.display = '';             // let CSS control layout
-
-    // inject into modal
+    const title = card.querySelector('h3')?.textContent || 'Details';
+    const details = card.querySelector('.details').cloneNode(true);
+    details.style.display = 'block';
     modalHeader.textContent = title;
     modalBody.innerHTML = '';
-    modalBody.appendChild(avoidGroup);
-
-    // show modal
+    modalBody.appendChild(details);
     modal.style.display = 'flex';
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -562,34 +1026,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lastFocused) lastFocused.focus();
   }
 
-  // Open on click of any card
-  document.querySelectorAll('.scam-card').forEach(card => {
+  // ✅ Selector fix (#7)
+  const cards = document.querySelectorAll('.card');
+
+  // ✅ Accessibility (#6)
+  cards.forEach(card => {
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-haspopup', 'dialog');
+
+    const title = card.querySelector('h3')?.textContent?.trim();
+    if (title) card.setAttribute('aria-label', `Open details: ${title}`);
+
     card.addEventListener('click', () => openModal(card));
+
+    card.addEventListener('keydown', (e) => {
+      const tag = e.target.tagName;
+      if (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(tag)) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); // prevents Space from scrolling the page
+        openModal(card);
+      }
+    });
   });
 
-  // Close actions
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
-
-  /* ===== Floating buttons (dummy links, kept your original hrefs) ===== */
-  document.getElementById('homeBtn').addEventListener('click', () => {
-    // alert('Go to home page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    // alert('Go to next page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('returnBtn').addEventListener('click', () => {
-    // alert('Return to previous (dummy link).'); // Removed alert to allow navigation
-  });
-});
-
-// Auto-mark lesson as complete when opened
-document.addEventListener("DOMContentLoaded", () => {
-  MindStocks.completeLesson();
 });
 
 </script>
-
 </body>
+
 </html>
+
