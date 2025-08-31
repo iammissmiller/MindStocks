@@ -19,11 +19,12 @@
     --transition: 220ms cubic-bezier(.2,.9,.3,1);
   }
 
-  /* Global reset */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  h1, h2, h3 { line-height: 1.25; }
-  p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
-  ul, ol { padding-left: 20px; }
+/* Global reset like subtopic7 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Consistent default spacing */
+h1, h2, h3 { line-height: 1.25; }
+p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+ul, ol { padding-left: 20px; }
 
   body{
     margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
@@ -31,127 +32,186 @@
   }
 
   /* Header */
-  .header {
-    background: linear-gradient(90deg,var(--navy), #123544);
-    color: #fff;
-    padding: 28px 18px;
-    border-radius: 12px;
-    margin: 18px auto;
-    max-width:1120px;
-    box-shadow: var(--shadow);
-    display:flex; /* Added from your original code */
-    align-items:center; /* Added from your original code */
-    gap:16px; /* Added from your original code */
-  }
-  .header h1{ margin:0; font-size:1.8rem; font-weight:700; }
-  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
-
+.header {
+  background: linear-gradient(90deg, var(--navy), #123544);
+  color: #fff;
+  padding: 28px 18px;
+  border-radius: var(--radius);
+  margin: 18px auto;
+  max-width: 1120px;
+  box-shadow: var(--shadow);
+}
+.header h1 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 700;
+}
+.header p {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  max-width: 1000px;
+}
   /* Container */
-  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
+.container {
+  max-width: 1120px;
+  margin: 18px auto;
+  padding: 0 16px 60px;
+}
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}
 
-  /* Click tip (added from content3.html) */
-  .click-warning {
-    background: var(--soft);
-    border-left: 4px solid var(--accent);
-    padding: 10px 14px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--navy);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-  }
+  /* Scams list */
+  .scams {  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* uniform gap between cards */
+  margin-top: 18px;}
+  .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
 
-  /* Cards */
-  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
-  .scam-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06); /* Added from content3.html */
-    position: relative;
-    overflow: visible; /* Changed from hidden to visible for modal */
-    transition: transform var(--transition);
-    z-index: 1;
-    cursor: pointer; /* Added for modal functionality */
-  }
-  .scam-card:hover { transform: translateY(-6px); z-index: 10; }
-  .scam-title h3 { margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 600; }
-  .scam-short { margin-top: 6px; color: var(--muted); font-size: .96rem; line-height: 1.45; }
-  /* .scam-ex { margin-top: 6px; color: #234a57; font-style: italic; } */ /* Not used in your content */
-  /* .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; } */ /* Not used in your content */
-
-  .icon {
-    width:56px; height:56px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
-    flex: 0 0 56px;
-  }
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);  /* smoother corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex: 0 0 56px;
+}
   /* Specific icon colors from content3.html, adapted for your nth-child */
-  .scam-card:nth-child(1) .icon{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
-  .scam-card:nth-child(2) .icon{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
-  .scam-card:nth-child(3) .icon{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
-  .scam-card:nth-child(4) .icon{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
-  .scam-card:nth-child(5) .icon{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
-  .scam-card:nth-child(6) .icon{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
-  .scam-card:nth-child(7) .icon{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
-
+    .icon.d1{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
+    .icon.d2{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
+    .icon.d3{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
+    .icon.d4{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
+    .icon.d5{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
+    .icon.d5{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
+    .icon.d6{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
   .scam-main { flex:1; }
-  .scam-title { display:flex; align-items:center; gap:10px; } /* Added from content3.html */
-  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; } /* Adjusted line-height */
-  /* .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; } */ /* Not used in your content */
+ .card-title h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+  .scam-title h3 {.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}}
+  .scam-short {   margin-top: 8px;
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.35;}
+  .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
 
-  /* Hidden source content; shown only inside the modal (from content3.html) */
-  .avoid-group { display: none; }
+/* Hidden source content; shown only inside the modal */
+.details { display: none; }
+.card.show .details { display: block; }
+.details h4 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: .98rem;
+}
+.details ul { padding-left: 18px; }
+.details li {
+  margin-bottom: 8px;
+  font-size: .95rem;
+  line-height: 1.3;
+}
 
-  /* .avoid (original from your code, now adapted for modal) */
-  /* This class is now primarily for the content *inside* the modal */
+.avoid {
+  flex: 1 1 calc(20% - 1.5%);
+  aspect-ratio: 1 / 1;
+  min-width: 150px;
+  background: #0D1B2A;
+  color: white;
+  border-left: 4px solid var(--accent);
+  border-radius: 0;
+  padding: 12px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.avoid h4 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
+.avoid ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.avoid li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Color themes for different avoid boxes */
+.avoid-howto {
+  background: #0D1B2A; /* deep navy (original) */
+}
+
+.avoid-dos {
+  background: #1b4332; /* dark green */
+  border-left-color: #2a9d8f; /* teal accent */
+}
+
+.avoid-donts {
+  background: #5c1a1a; /* dark red */
+  border-left-color: #e63946; /* red accent */
+}
+
+
+/* Mobile view */
+@media (max-width:720px) {
+  .avoid-group {
+    flex-direction: column;
+    position: relative;
+  }
   .avoid {
-    /* These properties are overridden by .modal-content .avoid when in modal */
-    flex: 0 0 auto;
-    width: fit-content;
-    height: auto;
-    min-width: auto;
-    background: #0D1B2A; /* Default background, can be overridden by specific avoid-howto/dos/donts */
-    color: white;
-    border-left: 4px solid var(--accent);
-    padding: 12px 14px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
-    border-radius: 0;
+    aspect-ratio: unset;
+    min-width: unset;
+    max-width: 100%;
   }
+}
 
-  .avoid h4 {
-    margin: 0 0 8px;
-    color: var(--accent);
-    font-size: 0.98rem;
-  }
 
-  .avoid ul {
-    margin: 0;
-    padding-left: 18px;
-  }
-
-  .avoid li {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    line-height: 1.3;
-  }
-
-  /* Color variants (from content3.html) */
-  .avoid-howto { background: #0D1B2A; }
-  .avoid-dos { background: #1b4332; border-left-color: #2a9d8f; }
-  .avoid-donts { background: #5c1a1a; border-left-color: #e63946; }
-
-  /* Mobile view for avoid-group (from content3.html) */
-  @media (max-width:720px) {
-    .avoid-group { flex-direction: column; position: relative; }
-    .avoid { aspect-ratio: unset; min-width: unset; max-width: 100%; }
-  }
-
-  /* Flow / chain box (from content3.html, adapted for your .section-grid) */
   .flow { /* Renamed from .section-grid for consistency with content3.html structure */
     margin: 22px auto;
     max-width: 1120px; /* Adjusted to match container width */
@@ -193,7 +253,7 @@
   .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); } /* Added border */
   .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
 
-  /* Floating nav buttons (from content3.html) */
+  /* Floating nav buttons (lower-right) */
   .floating {
     position: fixed;
     right: 1.6%;
@@ -203,61 +263,172 @@
     gap:0.9%;
     z-index: 99999;
   }
-  .btn {
-    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
-    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
-  }
-  .btn:hover{ background: var(--accent); }
-  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+.btn {
+  background: var(--navy);
+  color: #fff;
+  padding: .9em 1.2em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.btn:hover { background: var(--accent); }
+.btn.secondary {
+  background: #fff;
+  color: var(--navy);
+  border: 1px solid var(--soft);
+}
 
-  /* Footer (from content3.html) */
-  footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
-
-  /* Modal (from content3.html) */
-  .modal-overlay{
-    position:fixed; inset:0; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,.6); z-index:999999;
+  /* small screen adjustments */
+  @media (max-width:480px){
+    .header{ padding:20px; border-radius:10px }
+    .btn { padding:12px 14px; font-size:1rem }
   }
-  .modal-content{
-    position:relative; background:#fff; width:min(880px,92vw);
-    max-height:90vh; overflow:auto; border-radius:12px;
-    padding: 24px 26px 28px;
-    box-shadow: var(--shadow);
+
+  /* Section Grids */
+  .section-grid{
+    margin-top:22px;
+    background:var(--soft);
+    padding:18px;
+    border-radius:12px;
+    box-shadow:var(--shadow);
     border: 1px solid rgba(13,27,42,0.06);
   }
-  .modal-close{
-    position:absolute; top:14px; right:16px; border:0; background:transparent;
-    font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
-  }
-  .modal-close:hover { color: var(--accent); }
-  .modal-header{
-    font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
-    padding-bottom: 8px; border-bottom: 2px solid var(--soft);
-  }
-  body.modal-open{ overflow:hidden; }
+  .section-grid h2{ margin:0 0 12px 0; color:var(--navy); font-size:1.05rem; }
+  .grid-cards{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
+  .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
 
-  /* Avoid boxes inside modal (from content3.html) */
-  .modal-content .avoid-group{
-    position:static; width:100%;
-    padding:0;
-    display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
-  }
-  .modal-content .avoid{
-    flex:1 1 260px; min-width:240px; border-radius:10px;
-    padding: 14px 16px;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 12px 30px rgba(2,9,23,.08);
-  }
-  .modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
-  .modal-content .avoid ul{ padding-left:20px; margin:0; }
-  .modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+/* ===== Modal (popup) ===== */
+.modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); z-index:999999; }
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: min(880px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: var(--radius);
+  padding: 24px 26px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--soft);
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  border: 0; background: transparent;
+  font-size: 28px; font-weight: 700;
+  cursor: pointer; color: var(--muted);
+}
 
-  /* Mobile adjustments (from your original code) */
-  @media(max-width:480px){
-    .header{padding:20px;border-radius:10px}
-    .btn{padding:12px 14px;font-size:1rem}
-  }
+.modal-close:hover { color: var(--accent); }
+.modal-header{
+  font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+  padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+}
+
+/* Avoid boxes inside modal */
+.modal-content .avoid-group{
+  position:static; width:100%;
+  padding:0;
+  display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
+}
+.modal-content .avoid{
+  flex:1 1 260px; min-width:240px; border-radius:10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(2,9,23,.08);
+}
+.modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
+.modal-content .avoid ul{ padding-left:20px; margin:0; }
+.modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+
+/* Prevent page scroll when modal is open */
+body.modal-open{ overflow:hidden; }
+/* Section blocks inside scam details */
+.details section {
+  margin-top: 14px 0;
+  padding: 12px;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+/* Section titles */
+.details section strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.details section-section {
+  border: top 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+}
+.highlight {
+   background:#fff8e6;
+   padding:12px;
+   border-left:4px solid #ffb86b;
+  border-radius:8px;
+}
+.example {
+   background:#f1faf8;
+   padding:12px;
+   border-left:4px solid #00aaff;
+   border-radius:8px;
+}
+.quick-tips {
+   background: #0D1B2A;
+   padding: 12px;
+   border-left: 4px solid #f1faf8;
+   color: #e6f7ff;
+   border-radius: 8px;
+}
+.steps {
+   background: #f1faf8;
+   border-left: 4px solid #2a9d8f;
+   color: #0d332f;
+   padding: 12px;
+   border-radius: 8px;
+}
+.key-takeaways {
+   background:#ffe6e6; 
+   padding:12px; 
+   border-left:4px solid #e63946; 
+   border-radius:8px;
+}
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif;
+  padding: 0 10px;
+}
+.card:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+
+
+/* Click tip */
+  .click-warning {
+    background: var(--soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;}
+
+/* Footer */
+.footer {
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  padding: 12px;
+  text-align: center;
+  color: var(--muted);
+}
 </style>
 </head>
 <body>
@@ -273,180 +444,512 @@
 
 <p class="click-warning">💡 Click on cards to see full details and examples.</p>
 
-<!-- Safe Investing Cards -->
-<section class="scams" aria-label="Safe Investing Practices">
-  <!-- Card 1 -->
-  <article class="scam-card" data-id="s1">
-    <div class="icon">📊</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Diversify Your Portfolio</h3></div>
+<!-- Basic Financial Terms: Assets -->
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#4facfe,#00f2fe);">💰</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Assets</h3></div>
       <div class="scam-short">
-        Diversification reduces risk by spreading your investments across various sectors, asset types, and regions.
-        This strategy helps ensure that poor performance in one area can be offset by gains in another,
-        leading to more stable long-term returns even during market volatility.
+        Anything of economic value owned by an individual or company that can be converted into cash. 
+        Assets can be current (liquid, short-term) or fixed (long-term, illiquid).
       </div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What Are Assets?</h3>
+        <p>
+          Assets are resources with economic value that can provide future benefits. 
+          They are recorded on a balance sheet and reflect what a person or company owns.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Role</strong>
+        <p>
+          Assets are crucial for calculating <b>net worth</b> and evaluating financial health. 
+          They form the foundation of wealth-building and stability.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          A house, a savings account, and stocks are all considered assets. 
+          Your laptop, if used for work, is also an asset because it generates income.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Facts</strong>
         <ul>
-          <li>Invest in a mix of equities, bonds, real estate, and commodities.</li>
-          <li>Diversification protects against sector-specific downturns.</li>
-          <li>Geographic diversification can shield from country-specific risks.</li>
-          <li>Avoid over-concentration in a single stock or industry.</li>
+          <li>Current Assets: Cash, accounts receivable, inventory.</li>
+          <li>Fixed Assets: Property, machinery, long-term investments.</li>
+          <li>Intangible Assets: Patents, trademarks, goodwill.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Track Assets</strong>
+        <ul>
+          <li><b>List Everything</b> – Include cash, investments, property, and valuables.</li>
+          <li><b>Separate Types</b> – Current vs. Fixed vs. Intangible.</li>
+          <li><b>Value Accurately</b> – Use market value or fair estimates.</li>
+          <li><b>Review Regularly</b> – Update as values change over time.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Assets are what you own; liabilities are what you owe.</li>
+          <li>They form the base of your financial strength and net worth.</li>
+          <li>Monitoring assets helps in smarter financial planning.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
+
 
   <!-- Card 2 -->
-  <article class="scam-card" data-id="s2">
-    <div class="icon">📚</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Understand Before You Invest</h3></div>
-      <div class="scam-short">
-        Before committing capital, thoroughly research any company, fund, or product.
-        Know exactly how it works, how it generates returns, and what risks it carries.
-        Avoid investing in anything you can’t clearly explain to another person in simple terms.
-      </div>
+<article class="card">
+  <div class="icon" style="background: linear-gradient(135deg,#ff9966,#ff5e62);">⚠️</div>
+  <div class="card-main">
+    <div class="card-title"><h3>Beware of Unrealistic Promises</h3></div>
+    <div class="scam-short">
+      Scammers often lure investors with guaranteed high returns and “risk-free” claims. 
+      In reality, no legitimate investment works this way. 
+      Always be skeptical of offers that sound too good to be true.
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>Read prospectuses, financial statements, and analyst reports.</li>
-          <li>Understand how the investment generates returns.</li>
-          <li>Know the risks, potential losses, and volatility factors.</li>
-          <li>Be cautious of investments you cannot clearly explain to someone else.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
+  </div>
+  <div class="details">
+    <section class="explanation">
+      <h3>Why This Matters</h3>
+      <p>High returns usually come with high risks. Guaranteed profits are a red flag for fraud.</p>
+    </section>
+    <section class="highlight">
+      <strong>Key Role</strong>
+      <p>Protects you from Ponzi schemes and fake investments.</p>
+    </section>
+    <section class="example">
+      <strong>Example:</strong>
+      <p>A scheme promising “15% monthly returns with zero risk” is almost certainly a scam.</p>
+    </section>
+    <section class="quick-tips">
+      <strong>Quick Facts</strong>
+      <ul>
+        <li>No investment is 100% safe and high-returning.</li>
+        <li>Legitimate funds disclose risks upfront.</li>
+      </ul>
+    </section>
+  </div>
+</article>
 
   <!-- Card 3 -->
-  <article class="scam-card" data-id="s3">
-    <div class="icon">🎯</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Set Realistic Goals</h3></div>
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#ff512f,#dd2476);">🎯</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Set Realistic Goals</h3></div>
       <div class="scam-short">
-        Clearly define your short, medium, and long-term financial objectives.
-        Match each goal with suitable assets and realistic return expectations.
+        Clearly define your short, medium, and long-term financial objectives. 
+        Match each goal with suitable assets and realistic return expectations. 
         This ensures your investments remain aligned with your risk tolerance and timelines.
       </div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Goals Matter</h3>
+        <p>
+          Without clear financial goals, investors often make impulsive decisions. 
+          Goals act as a roadmap, ensuring each investment has a defined purpose.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Role</strong>
+        <p>
+          Realistic goals keep expectations <b>grounded</b>, help avoid unnecessary risks, 
+          and provide a <b>structured plan</b> for wealth building.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          <b>Short-term (1–3 years):</b> safer, liquid assets like bonds or deposits. <br>
+          <b>Medium-term (3–7 years):</b> a balanced mix of equity and debt. <br>
+          <b>Long-term (7+ years):</b> growth assets such as equities or real estate.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Facts</strong>
         <ul>
-          <li>Short-term goals (1–3 years): safer, more liquid investments like bonds or fixed deposits.</li>
-          <li>Medium-term goals (3–7 years): a balanced mix of equity and debt.</li>
-          <li>Long-term goals (7+ years): growth assets like equities or real estate.</li>
-          <li>Review goals annually to ensure they remain relevant.</li>
+          <li>Align goals with your risk tolerance and timeline.</li>
+          <li>Goals prevent chasing unrealistic returns.</li>
+          <li>Review goals annually to stay on track.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Set Goals</strong>
+        <ul>
+          <li><b>Identify</b> – Define short, medium, and long-term needs.</li>
+          <li><b>Match</b> – Choose assets suited to each time horizon.</li>
+          <li><b>Adjust</b> – Rebalance portfolio as life goals evolve.</li>
+          <li><b>Review</b> – Track progress and refine annually.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Clear goals prevent impulsive and risky investing.</li>
+          <li>Each goal requires a different asset mix.</li>
+          <li>Annual reviews ensure your plan stays relevant.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 4 -->
-  <article class="scam-card" data-id="s4">
-    <div class="icon">🧠</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Avoid Emotional Decisions</h3></div>
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#00c6ff,#0072ff);">🧠</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Avoid Emotional Decisions</h3></div>
       <div class="scam-short">
-        Emotional investing often leads to costly mistakes driven by fear or greed.
-        Sticking to a disciplined plan and avoiding impulsive trades
+        Emotional investing often leads to costly mistakes driven by fear or greed. 
+        Sticking to a disciplined plan and avoiding impulsive trades 
         will help you remain consistent, even during market volatility.
       </div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why It Matters</h3>
+        <p>
+          Decisions driven by emotions rather than logic usually result in losses. 
+          Panic selling, chasing hype, or greed-based overtrading can derail long-term wealth creation.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Role</strong>
+        <p>
+          A disciplined investor <b>sticks to the plan</b>, ignores market noise, and maintains a 
+          <b>long-term perspective</b> even when volatility strikes.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          During a sudden market dip, an emotional investor panic sells at a loss.  
+          A disciplined investor, however, holds steady, waits for recovery, or uses the opportunity to buy at lower prices.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Have a predefined entry, exit, and stop-loss plan for every investment.</li>
-          <li>Avoid panic selling during market corrections.</li>
-          <li>Do not chase “hot” investments based on media hype.</li>
-          <li>Rely on long-term strategy instead of reacting to short-term noise.</li>
+          <li>Have a predefined entry, exit, and stop-loss strategy.</li>
+          <li>Avoid panic selling during corrections.</li>
+          <li>Do not chase “hot” investments based on hype.</li>
+          <li>Stick to a strategy that aligns with your goals.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Avoid Emotional Investing</strong>
+        <ul>
+          <li><b>Plan</b> – Define entry, exit, and risk levels in advance.</li>
+          <li><b>Discipline</b> – Stick to your rules regardless of short-term fluctuations.</li>
+          <li><b>Ignore Noise</b> – Avoid reacting to daily market news and rumors.</li>
+          <li><b>Review</b> – Reassess your strategy periodically, not impulsively.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Fear and greed are the biggest threats to smart investing.</li>
+          <li>A written plan prevents impulsive decisions.</li>
+          <li>Long-term discipline beats short-term reactions.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 5 -->
-  <article class="scam-card" data-id="s5">
-    <div class="icon">💰</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Keep an Emergency Fund</h3></div>
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#f7971e,#ffd200);">💰</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Keep an Emergency Fund</h3></div>
       <div class="scam-short">
-        An emergency fund is your financial safety net in times of crisis.
-        Keeping 3–6 months of living expenses in a liquid account
+        An emergency fund is your financial safety net in times of crisis. 
+        Keeping 3–6 months of living expenses in a liquid account 
         prevents you from having to sell investments at a loss.
       </div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why It Matters</h3>
+        <p>
+          Life is unpredictable—job loss, medical emergencies, or unexpected expenses 
+          can create sudden financial stress. An emergency fund ensures you don’t 
+          derail your long-term investment goals to meet short-term needs.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Role</strong>
+        <p>
+          A well-maintained emergency fund <b>protects your wealth</b> by preventing 
+          the need to liquidate long-term investments during crises.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          Suppose you lose your job unexpectedly.  
+          Without an emergency fund, you might be forced to sell stocks during a market downturn.  
+          With an emergency fund, you can cover expenses until you recover financially.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Store funds in savings accounts, liquid mutual funds, or money market accounts.</li>
-          <li>This prevents forced liquidation of investments at a loss.</li>
-          <li>Use the fund only for genuine emergencies, not lifestyle expenses.</li>
-          <li>Replenish it immediately after use.</li>
+          <li>Save at least <b>3–6 months of living expenses</b>.</li>
+          <li>Use liquid options: savings account, liquid mutual funds, or money market funds.</li>
+          <li>Only use the fund for genuine emergencies, not discretionary spending.</li>
+          <li>Replenish immediately after any withdrawal.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Build an Emergency Fund</strong>
+        <ul>
+          <li><b>Start Small</b> – Begin by saving at least one month’s expenses.</li>
+          <li><b>Automate</b> – Set up auto-deposits into your emergency account.</li>
+          <li><b>Keep it Liquid</b> – Avoid locking it in fixed deposits with penalties.</li>
+          <li><b>Review</b> – Adjust the fund size as your expenses grow.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>An emergency fund is a <b>must-have safety net</b> for every investor.</li>
+          <li>It prevents forced selling of long-term investments at a loss.</li>
+          <li>Build, maintain, and replenish regularly for financial stability.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
 
   <!-- Card 6 -->
-  <article class="scam-card" data-id="s6">
-    <div class="icon">🔍</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Verify Legitimacy</h3></div>
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#43cea2,#185a9d);">🔍</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Verify Legitimacy</h3></div>
       <div class="scam-short">
-        Always confirm the credibility of brokers, platforms, and products.
-        Avoid unregulated entities and be skeptical of unsolicited investment offers,
+        Always confirm the credibility of brokers, platforms, and products.  
+        Avoid unregulated entities and be skeptical of unsolicited investment offers,  
         especially those promising quick or “guaranteed” returns.
       </div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why It Matters</h3>
+        <p>
+          Fraudsters often pose as genuine advisors or platforms to trick investors.  
+          Verifying credentials ensures you are dealing with regulated entities,  
+          reducing the risk of scams and financial losses.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Role</strong>
+        <p>
+          Legitimate investments are always <b>registered, transparent, and accountable</b>.  
+          A simple check can save you from irreversible financial damage.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          An online platform offers you a “guaranteed 25% monthly return.”  
+          A quick SEBI check shows it is <b>not registered</b>.  
+          Recognizing this red flag helps you avoid a likely scam.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Check SEBI, SEC, or other regulator registration numbers.</li>
-          <li>Read user reviews and check for past fraud cases.</li>
-          <li>Be wary of unsolicited calls or investment offers.</li>
-          <li>Avoid any scheme promising “guaranteed” high returns.</li>
+          <li>Confirm SEBI, SEC, or RBI registration numbers.</li>
+          <li>Check for official licenses and compliance details on their website.</li>
+          <li>Search online for <b>reviews and past fraud cases</b>.</li>
+          <li>Avoid schemes that promise “guaranteed” high or risk-free returns.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Verify Legitimacy</strong>
+        <ul>
+          <li><b>Regulatory Check</b> – Verify licenses on official regulator websites.</li>
+          <li><b>Background Research</b> – Look for news reports and investor complaints.</li>
+          <li><b>Contact Directly</b> – Call the company’s official helpline, not numbers given in emails.</li>
+          <li><b>Cross-Verify</b> – If in doubt, consult a certified financial advisor.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Always verify if an investment platform is <b>regulated and licensed</b>.</li>
+          <li>Be extra cautious of unsolicited offers and cold calls.</li>
+          <li>Remember: <b>“guaranteed” high returns are a scam indicator</b>.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
+</section>
+
 
   <!-- Card 7 -->
-  <article class="scam-card" data-id="s7">
-    <div class="icon">📈</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Monitor and Review Regularly</h3></div>
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#f7971e,#ffd200);">📈</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Monitor and Review Regularly</h3></div>
       <div class="scam-short">
-        Even the best portfolio requires ongoing maintenance.
-        Regular reviews help ensure your investments stay aligned with your goals,
+        Even the best portfolio requires ongoing maintenance.  
+        Regular reviews help ensure your investments stay aligned with your goals,  
         adapt to changing markets, and continue delivering strong returns.
       </div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why It Matters</h3>
+        <p>
+          Markets and personal circumstances change over time.  
+          Without regular monitoring, you risk holding outdated investments,  
+          missing opportunities, or carrying unnecessary risks.  
+          Reviewing keeps your portfolio effective and future-proof.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Role</strong>
+        <p>
+          A disciplined review schedule ensures your portfolio remains  
+          <b>balanced, goal-oriented, and adaptive</b> to both market movements  
+          and life changes such as income shifts or new financial responsibilities.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          You invested in a fund 5 years ago that once outperformed,  
+          but recent reviews show it has been lagging behind its benchmark.  
+          Regular monitoring helps you <b>replace or rebalance</b> underperformers  
+          before they drag down your overall returns.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
         <ul>
-          <li>Compare performance against benchmarks to identify underperformers.</li>
-          <li>Adjust portfolio allocation to maintain risk tolerance levels.</li>
-          <li>Factor in taxes, brokerage fees, and inflation in performance reviews.</li>
-          <li>Review investments quarterly or annually, not daily.</li>
+          <li>Review your portfolio at least <b>quarterly or annually</b>, not daily.</li>
+          <li>Compare fund or stock performance against relevant benchmarks.</li>
+          <li>Factor in taxes, brokerage fees, and inflation when calculating returns.</li>
+          <li>Rebalance when allocation drifts away from your risk profile.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Monitor Effectively</strong>
+        <ul>
+          <li><b>Set a Schedule</b> – Fix review dates (e.g., quarterly or yearly).</li>
+          <li><b>Evaluate Performance</b> – Compare with benchmarks and peers.</li>
+          <li><b>Check Alignment</b> – Ensure portfolio still matches your financial goals.</li>
+          <li><b>Rebalance</b> – Shift funds between equity, debt, or other assets as needed.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Monitoring ensures your portfolio stays on track with your goals.</li>
+          <li>Regular reviews help eliminate underperforming assets early.</li>
+          <li>Rebalancing prevents risks from creeping in over time.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
 </section>
@@ -496,6 +999,14 @@
 <!-- floating nav buttons -->
 <div class="floating" aria-hidden="false">
   <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="index.html" style="text-decoration: none; color:#000000;">Home</a></button>
+  <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic3.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
+  <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
+</div>
+
+
+<!-- floating nav buttons -->
+<div class="floating" aria-hidden="false">
+  <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="index.html" style="text-decoration: none; color:#000000;">Home</a></button>
   <button class="btn" id="nextBtn" title="Go to next page"><a href="subtopic5.html" style="text-decoration: none; color:#ffffff;">Next Page</a></button>
   <button class="btn secondary" id="returnBtn" title="Return to previous"><a href="learning.html" style="text-decoration: none; color:#000000; " >Return</a></button>
 </div>
@@ -505,54 +1016,15 @@
 </footer>
 
 <!-- Modal -->
-<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal-content" role="document">
     <button class="modal-close" aria-label="Close">×</button>
     <div class="modal-header"></div>
     <div id="modalBody"></div>
   </div>
 </div>
-
 <script>
-
-  const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 8,   // adjust to real number
-  quizzes: 0,
-  totalQuizzes: 8,   // since you have 8 quizzes
-  trading: 0,
-  tradingHistory: []
-};
-
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-  /* ===== Modal setup (from content3.html) ===== */
   const modal = document.getElementById('scamModal');
   const modalBody = document.getElementById('modalBody');
   const modalHeader = modal.querySelector('.modal-header');
@@ -561,21 +1033,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openModal(card){
     lastFocused = document.activeElement;
-
-    // title for header
-    const title = card.querySelector('.scam-title h3')?.textContent || 'Details';
-
-    // clone the avoid-group content from this card
-    const avoidGroup = card.querySelector('.avoid-group').cloneNode(true);
-    avoidGroup.removeAttribute('aria-hidden'); // make it accessible
-    avoidGroup.style.display = '';             // let CSS control layout
-
-    // inject into modal
+    const title = card.querySelector('h3')?.textContent || 'Details';
+    const details = card.querySelector('.details').cloneNode(true);
+    details.style.display = 'block';
     modalHeader.textContent = title;
     modalBody.innerHTML = '';
-    modalBody.appendChild(avoidGroup);
-
-    // show modal
+    modalBody.appendChild(details);
     modal.style.display = 'flex';
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -590,34 +1053,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lastFocused) lastFocused.focus();
   }
 
-  // Open on click of any card
-  document.querySelectorAll('.scam-card').forEach(card => {
+  // ✅ Selector fix (#7)
+  const cards = document.querySelectorAll('.card');
+
+  // ✅ Accessibility (#6)
+  cards.forEach(card => {
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-haspopup', 'dialog');
+
+    const title = card.querySelector('h3')?.textContent?.trim();
+    if (title) card.setAttribute('aria-label', `Open details: ${title}`);
+
     card.addEventListener('click', () => openModal(card));
+
+    card.addEventListener('keydown', (e) => {
+      const tag = e.target.tagName;
+      if (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(tag)) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); // prevents Space from scrolling the page
+        openModal(card);
+      }
+    });
   });
 
-  // Close actions
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
-
-  /* ===== Floating buttons (dummy links, kept your original hrefs) ===== */
-  document.getElementById('homeBtn').addEventListener('click', () => {
-    // alert('Go to home page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    // alert('Go to next page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('returnBtn').addEventListener('click', () => {
-    // alert('Return to previous (dummy link).'); // Removed alert to allow navigation
-  });
-});
-
-// Auto-mark lesson as complete when opened
-document.addEventListener("DOMContentLoaded", () => {
-  MindStocks.completeLesson();
 });
 
 </script>
-
 </body>
+
 </html>
