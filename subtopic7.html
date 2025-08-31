@@ -19,11 +19,12 @@
     --transition: 220ms cubic-bezier(.2,.9,.3,1);
   }
 
-  /* Global reset */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  h1, h2, h3 { line-height: 1.25; }
-  p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
-  ul, ol { padding-left: 20px; }
+/* Global reset like subtopic7 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Consistent default spacing */
+h1, h2, h3 { line-height: 1.25; }
+p, ul, ol { margin-top: 8px; margin-bottom: 8px; }
+ul, ol { padding-left: 20px; }
 
   body{
     margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
@@ -31,120 +32,201 @@
   }
 
   /* Header */
-  .header {
-    background: linear-gradient(90deg,var(--navy), #123544);
-    color: #fff;
-    padding: 28px 18px;
-    border-radius: 12px;
-    margin: 18px auto;
-    max-width:1120px;
-    box-shadow: var(--shadow);
-    display:flex;
-    align-items:center;
-    gap:16px;
-  }
-  .header h1{ margin:0; font-size:1.8rem; font-weight:700; }
-  .header p{ margin:8px 0 0; color:rgba(255,255,255,0.9); font-size:0.95rem; max-width:1000px; }
-
+.header {
+  background: linear-gradient(90deg, var(--navy), #123544);
+  color: #fff;
+  padding: 28px 18px;
+  border-radius: var(--radius);
+  margin: 18px auto;
+  max-width: 1120px;
+  box-shadow: var(--shadow);
+}
+.header h1 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 700;
+}
+.header p {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  max-width: 1000px;
+}
   /* Container */
-  .container { max-width:1120px; margin:18px auto; padding:0 16px 60px; }
+.container {
+  max-width: 1120px;
+  margin: 18px auto;
+  padding: 0 16px 60px;
+}
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}
 
-  /* Click tip */
-  .click-warning {
-    background: var(--soft);
-    border-left: 4px solid var(--accent);
-    padding: 10px 14px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--navy);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-  }
+  /* Scams list */
+  .scams {  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* uniform gap between cards */
+  margin-top: 18px;}
+  .scam-why { margin-top: 6px; color: var(--muted); font-style: italic; }
 
-  /* Cards */
-  .scams { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
-  .scam-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06);
-    position: relative;
-    overflow: visible;
-    transition: transform var(--transition);
-    z-index: 1;
-    cursor: pointer;
-  }
-  .scam-card:hover { transform: translateY(-6px); z-index: 10; }
-  .scam-title h3 { margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 600; }
-  .scam-short { margin-top: 6px; color: var(--muted); font-size: .96rem; line-height: 1.45; }
-
-  .icon {
-    width:56px; height:56px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px;
-    flex: 0 0 56px;
-  }
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);  /* smoother corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex: 0 0 56px;
+}
   /* Specific icon colors */
-  .scam-card:nth-child(1) .icon{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
-  .scam-card:nth-child(2) .icon{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
-  .scam-card:nth-child(3) .icon{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
-  .scam-card:nth-child(4) .icon{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
-  .scam-card:nth-child(5) .icon{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
-  .scam-card:nth-child(6) .icon{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
-  .scam-card:nth-child(7) .icon{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
+    .icon.d1{ background: linear-gradient(135deg,#2a9d8f,#6fd6b6); } /* teal */
+    .icon.d2{ background: linear-gradient(135deg,#e63946,#ff6b6b); } /* red */
+    .icon.d3{ background: linear-gradient(135deg,#f59f00,#ffb86b); } /* amber */
+    .icon.d4{ background: linear-gradient(135deg,#6b5bde,#9488ff); } /* purple */
+    .icon.d5{ background: linear-gradient(135deg,#20c997,#00a78e); } /* green */
+    .icon.d6{ background: linear-gradient(135deg,#d63384,#ff85c1); } /* pink */
+    .icon.d7{ background: linear-gradient(135deg,#0dcaf0,#00a6c4); } /* light blue */
 
   .scam-main { flex:1; }
-  .scam-title { display:flex; align-items:center; gap:10px; }
-  .scam-short { margin-top:8px; color:var(--muted); font-size:0.96rem; line-height:1.35; }
+ .card-title h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+  .scam-title h3 {.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}}
+  .scam-short {   margin-top: 8px;
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.35;}
+  .scam-ex { margin-top:8px; font-size:0.95rem; color:#234a57; font-style:italic; }
 
-  /* Hidden source content; shown only inside the modal */
-  .avoid-group { display: none; }
+/* Hidden source content; shown only inside the modal */
+.details { display: none; }
+.card.show .details { display: block; }
+.details h4 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: .98rem;
+}
+.details ul { padding-left: 18px; }
+.details li {
+  margin-bottom: 8px;
+  font-size: .95rem;
+  line-height: 1.3;
+}
 
+.avoid {
+  flex: 1 1 calc(20% - 1.5%);
+  aspect-ratio: 1 / 1;
+  min-width: 150px;
+  background: #0D1B2A;
+  color: white;
+  border-left: 4px solid var(--accent);
+  border-radius: 0;
+  padding: 12px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.avoid h4 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
+.avoid ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.avoid li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Color themes for different avoid boxes */
+.avoid-howto {
+  background: #0D1B2A; /* deep navy (original) */
+}
+
+.avoid-dos {
+  background: #1b4332; /* dark green */
+  border-left-color: #2a9d8f; /* teal accent */
+}
+
+.avoid-donts {
+  background: #5c1a1a; /* dark red */
+  border-left-color: #e63946; /* red accent */
+}
+
+
+/* Mobile view */
+@media (max-width:720px) {
+  .avoid-group {
+    flex-direction: column;
+    position: relative;
+  }
   .avoid {
-    flex: 0 0 auto;
-    width: fit-content;
-    height: auto;
-    min-width: auto;
-    background: #0D1B2A;
-    color: white;
-    border-left: 4px solid var(--accent);
-    padding: 12px 14px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
-    border-radius: 0;
+    aspect-ratio: unset;
+    min-width: unset;
+    max-width: 100%;
   }
+}
 
-  .avoid h4 {
-    margin: 0 0 8px;
-    color: var(--accent);
-    font-size: 0.98rem;
+
+  .flow { /* Renamed from .section-grid for consistency with content3.html structure */
+    margin: 22px auto;
+    max-width: 1120px; /* Adjusted to match container width */
+    background: linear-gradient(180deg,#fff,#fcfffd); /* Changed from var(--soft) */
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06);
   }
+  .flow h2{ margin:0 0 10px 0; color:var(--navy); font-size:1.05rem } /* Adjusted font size */
+  /* .chain, .node, .num, .content, .node:not(:last-child) .content::after, .node.danger, .node.decision, .node.safe */
+  /* These are not directly used in your current HTML structure, but kept for reference if you add flow-style sections */
 
-  .avoid ul {
-    margin: 0;
-    padding-left: 18px;
-  }
-
-  .avoid li {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    line-height: 1.3;
-  }
-
-  /* Color variants */
-  .avoid-howto { background: #0D1B2A; }
-  .avoid-dos { background: #1b4332; border-left-color: #2a9d8f; }
-  .avoid-donts { background: #5c1a1a; border-left-color: #e63946; }
-
-  /* Mobile view for avoid-group */
-  @media (max-width:720px) {
-    .avoid-group { flex-direction: column; position: relative; }
-    .avoid { aspect-ratio: unset; min-width: unset; max-width: 100%; }
-  }
-
+  /* Golden rules (from content3.html) */
   .golden {
     margin-top: 22px;
     background: var(--soft);
@@ -155,8 +237,56 @@
   }
   .golden h2{ margin:0 0 10px 0; color:var(--navy) }
   .cards { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
-  .card-rule{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
+  .card-rule{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); } /* Added border */
   .card-rule .tick { font-size:18px; color:var(--teal); margin-top:2px; }
+
+  /* Section Grids (adapted from your original .section-grid, now using .flow for consistency) */
+  .section-grid{ /* This class now uses the .flow styles */
+    margin-top:22px;
+    background:var(--soft); /* Kept your original background for these sections */
+    padding:18px;
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    border: 1px solid rgba(13,27,42,0.06); /* Added border */
+  }
+  .section-grid h2{ margin:0 0 12px 0; color:var(--navy); font-size:1.05rem; } /* Adjusted font size */
+  .grid-cards{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); } /* Added border */
+  .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
+
+  /* Floating nav buttons (lower-right) */
+  .floating {
+    position: fixed;
+    right: 1.6%;
+    bottom: 1.6%;
+    display:flex;
+    flex-direction:column;
+    gap:0.9%;
+    z-index: 99999;
+  }
+.btn {
+  background: var(--navy);
+  color: #fff;
+  padding: .9em 1.2em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.btn:hover { background: var(--accent); }
+.btn.secondary {
+  background: #fff;
+  color: var(--navy);
+  border: 1px solid var(--soft);
+}
+
+  /* small screen adjustments */
+  @media (max-width:480px){
+    .header{ padding:20px; border-radius:10px }
+    .btn { padding:12px 14px; font-size:1rem }
+  }
 
   /* Section Grids */
   .section-grid{
@@ -172,71 +302,134 @@
   .grid-card{ background:var(--card); border-radius:10px; padding:12px; display:flex; gap:10px; align-items:flex-start; box-shadow:0 8px 26px rgba(2,9,23,0.04); border: 1px solid rgba(13,27,42,0.06); }
   .grid-icon{ font-size:18px; color:var(--teal); margin-top:2px; }
 
-  /* Floating nav buttons */
-  .floating {
-    position: fixed;
-    right: 1.6%;
-    bottom: 1.6%;
-    display:flex;
-    flex-direction:column;
-    gap:0.9%;
-    z-index: 99999;
-  }
-  .btn {
-    background:var(--navy); color:white; padding: 0.9em 1.2em;  border-radius:999px; box-shadow:0 8em 2.2em rgba(2,9,23,0.12);
-    font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition: background var(--transition) ;
-  }
-  .btn:hover{ background: var(--accent); }
-  .btn.secondary { background: white; color:var(--navy); border: 1px solid rgba(13,27,42,0.06); }
+/* ===== Modal (popup) ===== */
+.modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); z-index:999999; }
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: min(880px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: var(--radius);
+  padding: 24px 26px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--soft);
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  border: 0; background: transparent;
+  font-size: 28px; font-weight: 700;
+  cursor: pointer; color: var(--muted);
+}
 
-  /* Footer */
-  footer{background:var(--navy);color:#fff;text-align:center;padding:14px;border-radius:10px;margin-top:30px;font-size:.95rem}
+.modal-close:hover { color: var(--accent); }
+.modal-header{
+  font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
+  padding-bottom: 8px; border-bottom: 2px solid var(--soft);
+}
 
-  /* Modal */
-  .modal-overlay{
-    position:fixed; inset:0; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,.6); z-index:999999;
-  }
-  .modal-content{
-    position:relative; background:#fff; width:min(880px,92vw);
-    max-height:90vh; overflow:auto; border-radius:12px;
-    padding: 24px 26px 28px;
+/* Avoid boxes inside modal */
+.modal-content .avoid-group{
+  position:static; width:100%;
+  padding:0;
+  display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
+}
+.modal-content .avoid{
+  flex:1 1 260px; min-width:240px; border-radius:10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(2,9,23,.08);
+}
+.modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
+.modal-content .avoid ul{ padding-left:20px; margin:0; }
+.modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
+
+/* Prevent page scroll when modal is open */
+body.modal-open{ overflow:hidden; }
+/* Section blocks inside scam details */
+.details section {
+  margin-top: 14px 0;
+  padding: 12px;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+/* Section titles */
+.details section strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.details section-section {
+  border: top 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+}
+.highlight {
+   background:#fff8e6;
+   padding:12px;
+   border-left:4px solid #ffb86b;
+  border-radius:8px;
+}
+.example {
+   background:#f1faf8;
+   padding:12px;
+   border-left:4px solid #00aaff;
+   border-radius:8px;
+}
+.quick-tips {
+   background: #0D1B2A;
+   padding: 12px;
+   border-left: 4px solid #f1faf8;
+   color: #e6f7ff;
+   border-radius: 8px;
+}
+.steps {
+   background: #f1faf8;
+   border-left: 4px solid #2a9d8f;
+   color: #0d332f;
+   padding: 12px;
+   border-radius: 8px;
+}
+.key-takeaways {
+   background:#ffe6e6; 
+   padding:12px; 
+   border-left:4px solid #e63946; 
+   border-radius:8px;
+}
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif;
+  padding: 0 10px;
+}
+.card:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+
+
+/* Click tip */
+  .click-warning {
+    background: var(--soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-radius: 8px;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(13,27,42,0.06);
-  }
-  .modal-close{
-    position:absolute; top:14px; right:16px; border:0; background:transparent;
-    font-size:28px; font-weight:700; line-height:1; cursor:pointer; color:var(--muted);
-  }
-  .modal-close:hover { color: var(--accent); }
-  .modal-header{
-    font-weight:700; font-size:1.25rem; margin:0 0 16px 0;
-    padding-bottom: 8px; border-bottom: 2px solid var(--soft);
-  }
-  body.modal-open{ overflow:hidden; }
+    margin-bottom: 12px;}
 
-  /* Avoid boxes inside modal */
-  .modal-content .avoid-group{
-    position:static; width:100%;
-    padding:0;
-    display:flex !important; gap:20px; flex-wrap:wrap; justify-content:stretch;
-  }
-  .modal-content .avoid{
-    flex:1 1 260px; min-width:240px; border-radius:10px;
-    padding: 14px 16px;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 12px 30px rgba(2,9,23,.08);
-  }
-  .modal-content .avoid h4{ margin:0 0 8px; font-size:1rem; }
-  .modal-content .avoid ul{ padding-left:20px; margin:0; }
-  .modal-content .avoid li{ margin-bottom:8px; line-height:1.35; }
-
-  /* Mobile adjustments */
-  @media(max-width:480px){
-    .header{padding:20px;border-radius:10px}
-    .btn{padding:12px 14px;font-size:1rem}
-  }
+/* Footer */
+.footer {
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  padding: 12px;
+  text-align: center;
+  color: var(--muted);
+}
 </style>
 </head>
 <body>
@@ -253,175 +446,562 @@
 <p class="click-warning">💡 Click on cards to see full details and examples.</p>
 
 <!-- Basic Financial Terms Cards -->
-<section class="scams" aria-label="Basic Financial Terms">
+<section class="cards-list" style="margin-top: 18px;">
   <!-- Card 1 -->
-  <article class="scam-card" data-id="t1">
-    <div class="icon">💰</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Assets</h3></div>
-      <div class="scam-short">
-        Anything of economic value owned by an individual or company that can be converted into cash.
-        Assets can be current (liquid, short-term) or fixed (long-term, illiquid).
-      </div>
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#27ae60,#2ecc71);">💰</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Assets</h3></div>
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>Current Assets: Cash, savings accounts, inventory, accounts receivable.</li>
-          <li>Fixed Assets: Real estate, machinery, equipment, long-term investments.</li>
-          <li>Assets are listed on the balance sheet and represent what a company or individual owns.</li>
-          <li>Understanding your assets is crucial for calculating net worth.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
 
-  <!-- Card 2 -->
-  <article class="scam-card" data-id="t2">
-    <div class="icon">💸</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Liabilities</h3></div>
-      <div class="scam-short">
-        Financial obligations or debts owed to another party. Liabilities represent what a company or individual owes.
-        They can be current (short-term) or long-term.
-      </div>
+    <div class="scam-short">
+      Anything of economic value owned by an individual or company that can be converted into cash.
+      Assets can be current (liquid, short-term) or fixed (long-term, illiquid).
     </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>**Current Liabilities:** Accounts payable, short-term loans, utility bills.</li>
-          <li>**Long-term Liabilities:** Mortgages, car loans, student loans, bonds payable.</li>
-          <li>Liabilities are also listed on the balance sheet.</li>
-          <li>Managing liabilities is key to financial health and avoiding excessive debt.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
 
-  <!-- Card 3 -->
-  <article class="scam-card" data-id="t3">
-    <div class="icon">📊</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Net Worth</h3></div>
-      <div class="scam-short">
-        The value of all financial and non-financial assets owned, minus the value of all outstanding liabilities.
-        It's a key indicator of an individual's or company's financial health.
-      </div>
-    </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>Calculated as: Assets - Liabilities = Net Worth.</li>
-          <li>A positive net worth indicates more assets than debts.</li>
-          <li>A negative net worth indicates more debts than assets.</li>
-          <li>Tracking net worth over time helps assess financial progress.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
+    <div class="details">
 
-  <!-- Card 4 -->
-  <article class="scam-card" data-id="t4">
-    <div class="icon">📈</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Interest</h3></div>
-      <div class="scam-short">
-        The cost of borrowing money or the return on lending money. It is typically expressed as a percentage of the principal amount.
-        Can be simple or compound.
-      </div>
-    </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>**Simple Interest:** Calculated only on the principal amount. \$I = P \times R \times T\$</li>
-          <li>**Compound Interest:** Calculated on the principal amount and also on the accumulated interest of previous periods. This is often called "interest on interest."</li>
-          <li>Understanding interest is vital for loans, savings, and investments.</li>
-          <li>High interest rates on debt can significantly increase repayment costs.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Assets Matter</h3>
+        <p>
+          Assets are the foundation of wealth. They determine financial stability, creditworthiness, 
+          and net worth for individuals and companies.
+        </p>
+      </section>
 
-  <!-- Card 5 -->
-  <article class="scam-card" data-id="t5">
-    <div class="icon">🛡️</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Inflation</h3></div>
-      <div class="scam-short">
-        The rate at which the general level of prices for goods and services is rising, and subsequently,
-        purchasing power is falling. It erodes the value of money over time.
-      </div>
-    </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>Measured by indices like the Consumer Price Index (CPI).</li>
-          <li>High inflation reduces the real return on savings and investments.</li>
-          <li>Investors often seek assets that can outpace inflation to preserve purchasing power.</li>
-          <li>Central banks often manage interest rates to control inflation.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Insight</strong>
+        <p>
+          Assets represent <b>what you own</b> and are critical for financial planning and investment decisions.
+        </p>
+      </section>
 
-  <!-- Card 6 -->
-  <article class="scam-card" data-id="t6">
-    <div class="icon">💰</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Budget</h3></div>
-      <div class="scam-short">
-        A financial plan that estimates an individual's or company's income and expenses over a specific future period.
-        It helps in managing money effectively and achieving financial goals.
-      </div>
-    </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
-        <ul>
-          <li>Helps track where money comes from and where it goes.</li>
-          <li>Essential for identifying areas to save and reduce unnecessary spending.</li>
-          <li>Common budgeting methods include the 50/30/20 rule (Needs/Wants/Savings).</li>
-          <li>Regularly reviewing and adjusting your budget is crucial.</li>
-        </ul>
-      </div>
-    </div>
-  </article>
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          A house, car, bank savings, or stock investments are all considered assets.
+        </p>
+      </section>
 
-  <!-- Card 7 -->
-  <article class="scam-card" data-id="t7">
-    <div class="icon">🏦</div>
-    <div class="scam-main">
-      <div class="scam-title"><h3>Credit Score</h3></div>
-      <div class="scam-short">
-        A numerical expression based on a level analysis of a person's credit files,
-        to represent the creditworthiness of an individual. Lenders use it to assess risk.
-      </div>
-    </div>
-    <!-- Modal content source -->
-    <div class="avoid-group" aria-hidden="true">
-      <div class="avoid avoid-howto">
-        <h4>Details</h4>
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Facts</strong>
         <ul>
-          <li>Ranges typically from 300-850 (e.g., FICO score).</li>
-          <li>Higher scores indicate lower risk and can lead to better loan terms.</li>
-          <li>Factors include payment history, amounts owed, length of credit history, new credit, and credit mix.</li>
-          <li>Regularly checking your credit report for errors is important.</li>
+          <li><b>Current Assets:</b> Cash, savings, accounts receivable, inventory.</li>
+          <li><b>Fixed Assets:</b> Property, equipment, long-term investments.</li>
+          <li>Listed on the balance sheet as owned resources.</li>
         </ul>
-      </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Types of Assets</strong>
+        <ul>
+          <li><b>Liquid Assets</b> – Easily converted into cash (e.g., savings, stocks).</li>
+          <li><b>Fixed Assets</b> – Long-term and less liquid (e.g., real estate, machinery).</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Assets define ownership and wealth.</li>
+          <li>They impact creditworthiness and borrowing capacity.</li>
+          <li>Essential for calculating net worth.</li>
+        </ul>
+      </section>
+
     </div>
   </article>
 </section>
+
+
+  <!-- Card 2 -->
+<section class="cards-list" style="margin-top: 18px;">
+  <!-- Card 2 -->
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#e74c3c,#c0392b);">💸</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Liabilities</h3></div>
+    </div>
+
+    <div class="scam-short">
+      Financial obligations or debts owed to another party. Liabilities represent what a company or individual owes.
+      They can be current (short-term) or long-term.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Liabilities Matter</h3>
+        <p>
+          Liabilities show what must be repaid. They affect cash flow, credit rating, 
+          and long-term financial stability.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Insight</strong>
+        <p>
+          Liabilities represent <b>what you owe</b>, balancing the ownership of assets with obligations.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          Credit card bills, car loans, or a mortgage are all liabilities.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Facts</strong>
+        <ul>
+          <li><b>Current Liabilities:</b> Accounts payable, short-term loans, utility bills.</li>
+          <li><b>Long-term Liabilities:</b> Mortgages, student loans, bonds payable.</li>
+          <li>Listed on the balance sheet as obligations.</li>
+        </ul>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Types of Liabilities</strong>
+        <ul>
+          <li><b>Current</b> – Due within a year (e.g., supplier payments, credit card debt).</li>
+          <li><b>Long-term</b> – Due after a year (e.g., home loan, company bonds).</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Liabilities represent debts or obligations.</li>
+          <li>Managing them is crucial to avoid financial stress.</li>
+          <li>Balance with assets for healthy net worth.</li>
+        </ul>
+      </section>
+
+    </div>
+  </article>
+</section>
+
+  <!-- Card 3 -->
+<section class="cards-list" style="margin-top: 18px;">
+  <!-- Card 3 -->
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#2ecc71,#27ae60);">📊</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Net Worth</h3></div>
+    </div>
+
+    <div class="scam-short">
+      The value of all financial and non-financial assets owned, minus the value of all outstanding liabilities.
+      It's a key indicator of an individual's or company's financial health.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Net Worth Matters</h3>
+        <p>
+          Net worth reflects overall financial strength. It shows whether assets are sufficient 
+          to cover liabilities, and whether wealth is growing over time.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Formula</strong>
+        <p>
+          <b>Assets – Liabilities = Net Worth</b>
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If someone owns ₹20,00,000 in assets (house, savings, investments) 
+          and owes ₹8,00,000 in loans, their net worth is ₹12,00,000.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Facts</strong>
+        <ul>
+          <li>Positive net worth = more assets than debts.</li>
+          <li>Negative net worth = more debts than assets.</li>
+          <li>Tracking helps measure long-term financial growth.</li>
+        </ul>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>How to Improve</strong>
+        <ul>
+          <li>Increase savings & investments.</li>
+          <li>Pay down high-interest debts first.</li>
+          <li>Grow assets through education, business, or property.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Net worth = snapshot of financial health.</li>
+          <li>It balances what you own vs. what you owe.</li>
+          <li>Essential for setting and tracking financial goals.</li>
+        </ul>
+      </section>
+
+    </div>
+  </article>
+</section>
+
+  <!-- Card 4 -->
+<section class="cards-list" style="margin-top: 18px;">
+  <!-- Card 4 -->
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#f39c12,#e67e22);">📈</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Interest</h3></div>
+    </div>
+
+    <div class="scam-short">
+      The cost of borrowing money or the return on lending money. 
+      It is typically expressed as a percentage of the principal amount. 
+      Can be simple or compound.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Interest Matters</h3>
+        <p>
+          Interest is at the core of all financial transactions involving lending and borrowing. 
+          It affects loans, savings accounts, credit cards, and investments.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Types of Interest</strong>
+        <p>
+          <b>Simple Interest:</b> Based only on the principal amount. <br>
+          Formula: <code>I = P × R × T</code> <br><br>
+          <b>Compound Interest:</b> Calculated on both the principal and the accumulated interest 
+          ("interest on interest").
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If you invest ₹10,000 at 10% annual simple interest for 3 years:  
+          Interest = ₹10,000 × 10% × 3 = ₹3,000.  
+          <br><br>
+          If compounded annually:  
+          Future Value = ₹10,000 × (1 + 0.10)<sup>3</sup> = ₹13,310.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Facts</strong>
+        <ul>
+          <li>Simple interest benefits borrowers in short-term loans.</li>
+          <li>Compound interest grows wealth faster for investors.</li>
+          <li>High interest rates on debt can trap borrowers.</li>
+        </ul>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>How to Use Interest Wisely</strong>
+        <ul>
+          <li>Prefer compound interest when saving or investing.</li>
+          <li>Pay off high-interest debts quickly to avoid snowballing costs.</li>
+          <li>Compare rates before borrowing or investing.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Interest = cost of borrowing or reward for lending.</li>
+          <li>Can be simple (linear) or compound (exponential growth).</li>
+          <li>Understanding interest is essential for financial literacy.</li>
+        </ul>
+      </section>
+
+    </div>
+  </article>
+</section>
+
+  <!-- Card 5 -->
+<section class="cards-list" style="margin-top: 18px;">
+  <!-- Card 5 -->
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#ff6b6b,#e74c3c);">🛡️</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Inflation</h3></div>
+    </div>
+
+    <div class="scam-short">
+      The rate at which the general level of prices for goods and services rises, reducing the purchasing power of money.  
+      It erodes the value of savings and impacts investments.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Inflation Matters</h3>
+        <p>
+          Inflation affects everyone — from individuals buying daily groceries 
+          to governments managing the economy. 
+          A moderate inflation rate is normal in a growing economy, 
+          but too much (or too little) can be harmful.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Facts About Inflation</strong>
+        <p>
+          <b>Measurement:</b> Usually tracked using indices like the Consumer Price Index (CPI). <br><br>
+          <b>Impact:</b> High inflation reduces real returns on savings and investments. <br><br>
+          <b>Control:</b> Central banks adjust interest rates to keep inflation stable.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If inflation is 6% annually, something that costs ₹100 today 
+          will cost about ₹106 a year later.  
+          <br><br>
+          Over 10 years, that same item would cost nearly ₹179, 
+          meaning money loses almost half its value.
+        </p>
+      </section>
+
+      <!-- Quick Facts -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
+        <ul>
+          <li>Track inflation-adjusted (real) returns on investments.</li>
+          <li>Fixed deposits lose value during high inflation periods.</li>
+          <li>Assets like gold, equities, and real estate often hedge inflation.</li>
+        </ul>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>How to Beat Inflation</strong>
+        <ul>
+          <li>Invest in assets that historically outpace inflation (e.g., equity, REITs, gold).</li>
+          <li>Maintain a balanced portfolio — avoid relying only on cash.</li>
+          <li>Keep an eye on central bank policies.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>Inflation reduces purchasing power over time.</li>
+          <li>Measured by CPI and managed through monetary policy.</li>
+          <li>Invest smartly to preserve and grow wealth above inflation.</li>
+        </ul>
+      </section>
+
+    </div>
+  </article>
+</section>
+
+<!-- Card 6 -->
+<section class="cards-list" style="margin-top: 18px;">
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#00c6ff,#0072ff);">💰</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Budget</h3></div>
+    </div>
+
+    <div class="scam-short">
+      A financial plan that estimates income and expenses over a set period.  
+      It helps manage money effectively and achieve financial goals.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>Why Budgeting Matters</h3>
+        <p>
+          Budgeting ensures financial discipline by showing how much you earn,
+          spend, and save. A proper budget helps reduce stress, avoid debt,
+          and prepare for emergencies or long-term goals.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Facts About Budgeting</strong>
+        <p>
+          <b>Tracking:</b> Shows where your money is going each month. <br><br>
+          <b>Saving:</b> Identifies areas to cut unnecessary expenses. <br><br>
+          <b>Goal-Oriented:</b> Helps plan for big purchases, investments, or retirement.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example:</strong>
+        <p>
+          If your monthly income is ₹50,000:  
+          <ul>
+            <li>₹25,000 (50%) → Needs (rent, food, bills)</li>
+            <li>₹15,000 (30%) → Wants (shopping, entertainment)</li>
+            <li>₹10,000 (20%) → Savings & Investments</li>
+          </ul>
+          This follows the popular <b>50/30/20 rule</b>.
+        </p>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
+        <ul>
+          <li>Always plan your budget before the month begins.</li>
+          <li>Set aside money for emergencies (at least 3–6 months of expenses).</li>
+          <li>Use apps or spreadsheets to track your expenses daily.</li>
+        </ul>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Create a Budget</strong>
+        <ul>
+          <li>List your income sources.</li>
+          <li>Write down fixed and variable expenses.</li>
+          <li>Assign categories (Needs, Wants, Savings).</li>
+          <li>Review & adjust monthly to stay on track.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>A budget is a financial roadmap to achieve goals.</li>
+          <li>Helps control spending and boosts savings.</li>
+          <li>Regular review keeps your plan effective.</li>
+        </ul>
+      </section>
+
+    </div>
+  </article>
+</section>
+<section class="cards-list" style="margin-top: 18px;">
+  <!-- Card 7 -->
+  <article class="card">
+    <div class="icon" style="background: linear-gradient(135deg,#ff6a00,#ee0979);">🏦</div>
+    <div class="card-main">
+      <div class="card-title"><h3>Credit Score</h3></div>
+    </div>
+
+    <div class="scam-short">
+      A numerical expression that represents an individual's creditworthiness.
+      Lenders use it to assess the risk of lending money.
+    </div>
+
+    <div class="details">
+
+      <!-- Explanation -->
+      <section class="explanation">
+        <h3>What is a Credit Score?</h3>
+        <p>
+          A credit score is a 3-digit number that reflects your borrowing
+          and repayment behavior. It helps banks and lenders decide whether
+          to approve loans, credit cards, or mortgages.
+        </p>
+      </section>
+
+      <!-- Highlight -->
+      <section class="highlight">
+        <strong>Key Facts</strong>
+        <p>
+          <b>Range:</b> 300 to 850 (FICO model). <br>
+          <b>Higher Score:</b> Means lower lending risk and better loan terms. <br>
+          <b>Factors:</b> Payment history, debt levels, credit age, new credit, and credit mix.
+        </p>
+      </section>
+
+      <!-- Example -->
+      <section class="example">
+        <strong>Example</strong>
+        <ul>
+          <li>750+ → Excellent (easy approvals, best rates)</li>
+          <li>650–749 → Good (eligible for most loans)</li>
+          <li>550–649 → Fair (higher interest rates)</li>
+          <li>Below 550 → Poor (loan rejections likely)</li>
+        </ul>
+      </section>
+
+      <!-- Quick Tips -->
+      <section class="quick-tips">
+        <strong>Quick Tips</strong>
+        <ul>
+          <li>Always pay bills and EMIs on time.</li>
+          <li>Keep credit utilization below 30%.</li>
+          <li>Avoid too many loan/credit card applications at once.</li>
+          <li>Check your credit report regularly for errors.</li>
+        </ul>
+      </section>
+
+      <!-- Steps -->
+      <section class="steps">
+        <strong>Steps to Improve Your Score</strong>
+        <ul>
+          <li>Pay dues before the due date.</li>
+          <li>Maintain a healthy credit mix (secured + unsecured loans).</li>
+          <li>Limit new credit inquiries.</li>
+          <li>Keep old accounts open to build credit history.</li>
+        </ul>
+      </section>
+
+      <!-- Key Takeaways -->
+      <section class="key-takeaways">
+        <strong>Key Takeaways</strong>
+        <ul>
+          <li>A higher credit score = better financial opportunities.</li>
+          <li>Payment history is the most important factor.</li>
+          <li>Healthy credit habits over time build strong scores.</li>
+        </ul>
+      </section>
+
+    </div>
+  </article>
+</section>
+
+
 
 <!-- Key Concepts -->
 <section class="golden" aria-label="Key Financial Concepts">
@@ -464,7 +1044,6 @@
 </section>
 
 </main>
-
 <!-- floating nav buttons -->
 <div class="floating" aria-hidden="false">
   <button class="btn secondary" id="homeBtn" title="Go to home page"><a href="index.html" style="text-decoration: none; color:#000000;">Home</a></button>
@@ -477,54 +1056,15 @@
 </footer>
 
 <!-- Modal -->
-<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+<div id="scamModal" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal-content" role="document">
     <button class="modal-close" aria-label="Close">×</button>
     <div class="modal-header"></div>
     <div id="modalBody"></div>
   </div>
 </div>
-
 <script>
-
-const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 8,   // adjust to real number
-  quizzes: 0,
-  totalQuizzes: 8,   // since you have 8 quizzes
-  trading: 0,
-  tradingHistory: []
-};
-
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-  /* ===== Modal setup ===== */
   const modal = document.getElementById('scamModal');
   const modalBody = document.getElementById('modalBody');
   const modalHeader = modal.querySelector('.modal-header');
@@ -533,21 +1073,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openModal(card){
     lastFocused = document.activeElement;
-
-    // title for header
-    const title = card.querySelector('.scam-title h3')?.textContent || 'Details';
-
-    // clone the avoid-group content from this card
-    const avoidGroup = card.querySelector('.avoid-group').cloneNode(true);
-    avoidGroup.removeAttribute('aria-hidden'); // make it accessible
-    avoidGroup.style.display = '';             // let CSS control layout
-
-    // inject into modal
+    const title = card.querySelector('h3')?.textContent || 'Details';
+    const details = card.querySelector('.details').cloneNode(true);
+    details.style.display = 'block';
     modalHeader.textContent = title;
     modalBody.innerHTML = '';
-    modalBody.appendChild(avoidGroup);
-
-    // show modal
+    modalBody.appendChild(details);
     modal.style.display = 'flex';
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -562,34 +1093,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lastFocused) lastFocused.focus();
   }
 
-  // Open on click of any card
-  document.querySelectorAll('.scam-card').forEach(card => {
+  // ✅ Selector fix (#7)
+  const cards = document.querySelectorAll('.card');
+
+  // ✅ Accessibility (#6)
+  cards.forEach(card => {
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-haspopup', 'dialog');
+
+    const title = card.querySelector('h3')?.textContent?.trim();
+    if (title) card.setAttribute('aria-label', `Open details: ${title}`);
+
     card.addEventListener('click', () => openModal(card));
+
+    card.addEventListener('keydown', (e) => {
+      const tag = e.target.tagName;
+      if (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(tag)) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); // prevents Space from scrolling the page
+        openModal(card);
+      }
+    });
   });
 
-  // Close actions
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
-
-  /* ===== Floating buttons (dummy links, kept your original hrefs) ===== */
-  document.getElementById('homeBtn').addEventListener('click', () => {
-    // alert('Go to home page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    // alert('Go to next page (dummy link).'); // Removed alert to allow navigation
-  });
-  document.getElementById('returnBtn').addEventListener('click', () => {
-    // alert('Return to previous (dummy link).'); // Removed alert to allow navigation
-  });
-});
-
-// Auto-mark lesson as complete when opened
-document.addEventListener("DOMContentLoaded", () => {
-  MindStocks.completeLesson();
 });
 
 </script>
-
 </body>
+
 </html>
+
