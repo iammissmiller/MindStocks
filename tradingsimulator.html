@@ -15,6 +15,157 @@
 
     *{box-sizing:border-box}
     body{font-family: Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
+    
+    /* 🌙 Trading Simulator Dark Mode */
+[data-theme='dark'] {
+  --bg: #0b0f19;           /* deep navy background */
+  --card: #0c1326;         /* dark card color */
+  --text: #e2e2ec;         /* main text */
+  --muted: #9ca3af;        /* secondary text */
+  --accent: #818cf8;       /* indigo accent */
+  --success: #22c55e;
+  --danger: #ef4444;
+  --glass: rgba(255,255,255,0.03);
+  --shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+/* Body & Container */
+[data-theme='dark'] body {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme='dark'] .container {
+  color: var(--text);
+}
+
+/* Header & Navbar */
+[data-theme='dark'] header {
+  background: linear-gradient(90deg,#111827,#1e293b);
+  box-shadow: 0 2px 10px rgba(79,70,229,0.3);
+}
+[data-theme='dark'] header h1 a {
+  color: var(--accent);
+}
+[data-theme='dark'] nav a {
+  color: #d1d5db;
+}
+[data-theme='dark'] nav a:hover,
+[data-theme='dark'] nav a.active {
+  background-color: #312e81;
+  color: #ffffff;
+}
+
+/* Dropdown */
+[data-theme='dark'] .dropdown-content {
+  background: #1e1e2f;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+[data-theme='dark'] .dropdown-content a {
+  color: #d4d4d8;
+}
+[data-theme='dark'] .dropdown-content a:hover {
+  background: #2d2d44;
+  color: #f9fafb;
+}
+
+/* Cards & Panels */
+[data-theme='dark'] .card,
+[data-theme='dark'] .balance-card,
+[data-theme='dark'] .stat,
+[data-theme='dark'] .modal.card {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Buttons */
+[data-theme='dark'] button.btn {
+  background: #0b1730;
+  color: var(--text);
+  border-color: rgba(230,238,248,0.18);
+}
+[data-theme='dark'] button.btn:hover {
+  filter: brightness(1.08);
+}
+[data-theme='dark'] button.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Inputs */
+[data-theme='dark'] input[type=number],
+[data-theme='dark'] input {
+  background: #0b1730;
+  color: var(--text);
+  border-color: rgba(230,238,248,0.18);
+}
+
+/* Tables */
+[data-theme='dark'] thead th {
+  color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+[data-theme='dark'] tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+[data-theme='dark'] tbody tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Pills / Badges */
+[data-theme='dark'] .pill.up { background: rgba(34,197,94,0.12); }
+[data-theme='dark'] .pill.down { background: rgba(239,68,68,0.12); }
+
+/* Sparklines */
+[data-theme='dark'] canvas.spark {
+  background: #0b1326;
+}
+
+/* Toasts */
+[data-theme='dark'] .toast {
+  background: rgba(16,24,40,0.95);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+[data-theme='dark'] .toast.ok { border-left: 4px solid var(--success); }
+[data-theme='dark'] .toast.warn { border-left: 4px solid var(--danger); }
+
+/* Footer */
+[data-theme='dark'] footer {
+  background: #0b0f19;
+  color: #9ca3af;
+  border-top: 1px solid #2d2d44;
+}
+[data-theme='dark'] footer a {
+  color: var(--accent);
+}
+[data-theme='dark'] footer a:hover {
+  color: #c7d2fe;
+}
+
+/* Flash highlight animation */
+[data-theme='dark'] .flash {
+  animation: flash-dark 1200ms ease;
+}
+@keyframes flash-dark {
+  0% { box-shadow: 0 0 0 6px rgba(34,197,94,0.18); }
+  100% { box-shadow: none; }
+}
+
+/* Charts */
+[data-theme='dark'] #portfolioChart,
+[data-theme='dark'] #allocChart {
+  background: #0b1326;
+}
+
+/* Modal backdrop */
+[data-theme='dark'] .modal-backdrop {
+  background: rgba(0,0,0,0.6);
+}
+
+    
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
     .brand{display:flex; align-items:center; gap:12px}
