@@ -31,6 +31,121 @@ ul, ol { padding-left: 20px; }
     background:var(--bg); color:var(--navy); -webkit-font-smoothing:antialiased;
   }
 
+  /* Dark Mode Base */
+.dark-mode {
+  --bg: #0b0f19;        /* deep navy background */
+  --navy: #e2e2ec;      /* light text color */
+  --accent: #6366f1;    /* indigo accent */
+  --teal: #2acfcf;      /* teal accent */
+  --card: #1c1c2a;      /* card background */
+  --muted: #9ca3af;     /* muted text */
+  --soft: #111827;      /* soft panel background */
+  --shadow: 0 4px 14px rgba(0,0,0,0.7); /* card shadows */
+}
+
+/* Body */
+.dark-mode body {
+  background: var(--bg);
+  color: var(--navy);
+}
+
+/* Header */
+.dark-mode .header {
+  background: linear-gradient(90deg, #111827, #1a2639);
+  color: var(--navy);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+.dark-mode .header p {
+  color: rgba(226,226,236,0.8);
+}
+
+/* Cards */
+.dark-mode .card, 
+.dark-mode .grid-card, 
+.dark-mode .golden, 
+.dark-mode .flow {
+  background: var(--card);
+  color: var(--navy);
+  box-shadow: var(--shadow);
+}
+.dark-mode .card-title h3, .dark-mode .section-grid h2, 
+.dark-mode .golden h2 {
+  color: var(--accent);
+}
+.dark-mode .scam-short, .dark-mode .steps, 
+.dark-mode .quick-tips, .dark-mode .key-takeaways {
+  color: var(--muted);
+}
+.dark-mode .card:hover {
+  box-shadow: 0 8px 24px rgba(79,70,229,0.5);
+}
+
+/* Highlights & Examples */
+.dark-mode .highlight {
+  background: #1e1e2f;
+  border-left-color: var(--accent);
+  color: var(--navy);
+}
+.dark-mode .example {
+  background: #16202a;
+  border-left-color: var(--teal);
+  color: var(--navy);
+}
+.dark-mode .quick-tips {
+  background: #111827;
+  border-left-color: var(--teal);
+  color: #cbd5e1;
+}
+.dark-mode .steps {
+  background: #1c1c2a;
+  border-left-color: var(--accent);
+  color: #cbd5e1;
+}
+.dark-mode .key-takeaways {
+  background: #2d2d44;
+  border-left-color: #e63946;
+  color: #e2e2ec;
+}
+
+/* Footer */
+.dark-mode .footer {
+  background: #0f172a;
+  color: #9ca3af;
+}
+
+/* Floating buttons */
+.dark-mode .btn {
+  background: #111827;
+  color: #cbd5e1;
+}
+.dark-mode .btn:hover {
+  background: var(--accent);
+}
+
+/* Modal */
+.dark-mode .modal-content {
+  background: var(--card);
+  color: var(--navy);
+  box-shadow: var(--shadow);
+  border: 1px solid #2d2d44;
+}
+.dark-mode .modal-close {
+  color: var(--muted);
+}
+.dark-mode .modal-close:hover {
+  color: var(--accent);
+}
+
+/* Icons with gradient tweaks */
+.dark-mode .icon.d1 { background: linear-gradient(135deg,#2a9d8f,#1f7d6b); }
+.dark-mode .icon.d2 { background: linear-gradient(135deg,#e63946,#9b1c1c); }
+.dark-mode .icon.d3 { background: linear-gradient(135deg,#f59f00,#b36a00); }
+.dark-mode .icon.d4 { background: linear-gradient(135deg,#6b5bde,#5b49c7); }
+.dark-mode .icon.d5 { background: linear-gradient(135deg,#20c997,#0f7a6b); }
+.dark-mode .icon.d6 { background: linear-gradient(135deg,#d63384,#9b1c5c); }
+.dark-mode .icon.d7 { background: linear-gradient(135deg,#0dcaf0,#007b99); }
+
+
   /* Header */
 .header {
   background: linear-gradient(90deg, var(--navy), #123544);
@@ -1083,6 +1198,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+<script src="toggletheme.js"></script>
 </body>
 
 </html>
