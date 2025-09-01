@@ -6,6 +6,8 @@
 <title>Home - MindStocks</title>
 
 <style>
+
+  
 /* Base Styles */
 body {
   transition: background 0.3s, color 0.5s;
@@ -13,7 +15,101 @@ body {
   font-family: Arial, sans-serif;
   background: #f9fafb;
   color: #333;
+} 
+
+/* 🌙 Refined Dark Mode */
+.dark-mode {
+  background-color: #0b0f19; /* Deep navy instead of pure black */
+  color: #e2e2ec; /* Softer light text */
 }
+
+/* Header */
+.dark-mode header {
+  background-color: #111827; /* Dark slate */
+  color: #a5b4fc; /* Indigo-tinted text */
+  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.3);
+}
+.dark-mode header h1 a {
+  color: #a5b4fc; /* Indigo glow */
+}
+
+/* Navbar */
+.dark-mode nav a {
+  color: #d1d5db; /* Neutral gray links */
+}
+.dark-mode nav a:hover,
+.dark-mode nav a.active {
+  background-color: #312e81; /* Indigo hover */
+  color: #ffffff;
+}
+
+/* Dropdown */
+.dark-mode .dropdown-content {
+  background: #1e1e2f; /* Deep gray background */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+.dark-mode .dropdown-content a {
+  color: #d4d4d8;
+}
+.dark-mode .dropdown-content a:hover {
+  background: #2d2d44;
+  color: #f9fafb;
+}
+
+/* Cards */
+.dark-mode .feature-card {
+  background-color: #1c1c2a; /* Muted navy */
+  box-shadow: 0 4px 14px rgba(0,0,0,0.8);
+  color: #d1d5db;
+}
+.dark-mode .feature-card h3 {
+  color: #a5b4fc; /* Indigo accent */
+}
+.dark-mode .feature-card p {
+  color: #9ca3af; /* Softer gray */
+}
+.dark-mode .feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* Main Section */
+.dark-mode .main h2 {
+  color: #e5e7eb;
+}
+.dark-mode .main p {
+  color: #9ca3af;
+}
+.dark-mode .main a {
+  background: #4f46e5; /* Indigo button */
+  color: white;
+}
+.dark-mode .main a:hover {
+  background: #4338ca;
+}
+
+/* Steps (if used) */
+.dark-mode .steps li {
+  background-color: #262639;
+  border-left-color: #6366f1; /* Indigo border */
+  color: #d1d5db;
+}
+
+/* Footer */
+.dark-mode footer {
+  background-color: #0f172a;
+  color: #9ca3af;
+  border-top: 1px solid #2d2d44;
+}
+.dark-mode footer a {
+  color: #818cf8; /* Indigo link */
+}
+.dark-mode footer a:hover {
+  color: #c7d2fe;
+}
+
+
+
 
 header {
   position: sticky;
@@ -219,19 +315,6 @@ footer {
   }
 }
 
-/* Night Mode */
-.night-mode {
-  background: #0a0a0a;
-  color: #e5e5e5;
-}
-.night-mode header {
-  background: #000;
-  color: #e5e5e5;
-}
-.night-mode .feature-card {
-  background: #1c1c1c;
-  color: #e5e5e5;
-}
 </style>
 </head>
 
@@ -251,7 +334,7 @@ footer {
   <a href="#" class="dropbtn">Settings ▾</a>
   <div class="dropdown-content">
     <a href="#" id="switch-lang" onclick="switchLanguage()">🌐 Switch Language</a>
-    <a href="#" id="toggle-theme" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+    <a href=" " onclick="toggleNightMode()">🌓 Toggle Theme</a>
     <a href="#" id="reset-progress" onclick="resetProgress()">🔄 Reset Progress</a>
   </div>
 </div>
@@ -297,15 +380,15 @@ footer {
 
 <script src="translation.js"></script>
 
+<script src="toggletheme.js"></script>
+
+
 <script>
 function resetProgress() {
   if (confirm("Are you sure you want to reset all progress?")) {
     localStorage.clear();
     alert("Progress has been reset!");
   }
-}
-function toggleNightMode() {
-  document.body.classList.toggle("night-mode");
 }
 </script>
 
