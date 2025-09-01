@@ -14,6 +14,118 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--navy);display:flex;flex-direction:column;min-height:100vh;}
+
+/* 🌙 Refined Dark Mode for Quiz Pages */
+.dark-mode {
+  background-color: #0b0f19;
+  color: #e2e2ec;
+}
+
+/* Header */
+.dark-mode .header {
+  background: linear-gradient(90deg, #111827, #1e293b);
+  color: #a5b4fc;
+  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.3);
+}
+.dark-mode .header h1,
+.dark-mode .header p {
+  color: #c7d2fe;
+}
+
+/* Start & Quiz Cards */
+.dark-mode .start-screen,
+.dark-mode .quiz-card {
+  background-color: #1c1c2a;
+  color: #d1d5db;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.8);
+}
+.dark-mode .start-screen h2,
+.dark-mode .quiz-card h3 {
+  color: #a5b4fc;
+}
+.dark-mode .start-screen p {
+  color: #9ca3af;
+}
+
+/* Buttons */
+.dark-mode button,
+.dark-mode .start-btn,
+.dark-mode .btn-link {
+  background: #4f46e5;
+  color: white;
+}
+.dark-mode button:hover,
+.dark-mode .start-btn:hover,
+.dark-mode .btn-link:hover {
+  background: #4338ca;
+}
+.dark-mode button:disabled {
+  background: #374151;
+  color: #6b7280;
+}
+
+/* Options */
+.dark-mode .options label {
+  background: #262639;
+  color: #d1d5db;
+}
+.dark-mode .options label:hover {
+  background: #312e81;
+}
+
+/* Result */
+.dark-mode .result {
+  background: #1c1c2a;
+  color: #e2e2ec;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+}
+.dark-mode .score-counter {
+  color: #a5b4fc;
+}
+.dark-mode .message {
+  color: #9ca3af;
+}
+
+/* Review Section */
+.dark-mode .review-container {
+  background: #1c1c2a;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+.dark-mode .review-item {
+  background: #262639;
+  border-left-color: #4f46e5; /* default indigo border */
+}
+.dark-mode .review-item.correct {
+  border-left-color: #16a34a; /* green */
+}
+.dark-mode .review-item.wrong {
+  border-left-color: #dc2626; /* red */
+}
+.dark-mode .explanation {
+  color: #9ca3af;
+}
+
+/* Progress Circle */
+.dark-mode .progress-bg {
+  stroke: #2d2d44;
+}
+.dark-mode .progress-text {
+  color: #e2e2ec;
+}
+
+/* Footer */
+.dark-mode footer {
+  background-color: #0f172a;
+  color: #9ca3af;
+  border-top: 1px solid #2d2d44;
+}
+.dark-mode footer a {
+  color: #818cf8;
+}
+.dark-mode footer a:hover {
+  color: #c7d2fe;
+}
+
 .header{background:linear-gradient(90deg,var(--navy),#123544);color:#fff;padding:28px 18px;width:100%;display:flex;align-items:center;gap:14px;}
 .header img{width:50px;height:50px;border-radius:50%;background:white;padding:5px}
 .header h1{font-size:1.6rem;font-weight:700}
@@ -339,5 +451,6 @@ saveQuizResult("quiz8", score, quiz.length);
   animateProgress(percent);
 }
 </script>
+<script src="toggletheme.js"></script>
 </body>
 </html>
