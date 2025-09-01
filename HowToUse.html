@@ -208,23 +208,29 @@
 <body>
 
   <!-- Navbar -->
-  <header>
-    <h1><a href="index.html">MindStocks</a></h1>
-    <nav>
-      <a href="learning.html">Learning</a>
-      <a href="quizhub.html">Quiz</a>
-      <a href="tradingsimulator.html">Trading</a>
-      <a href="progresstracker.html">Progress</a>
-      <div class="dropdown">
-        <a href="#">⚙️ Settings ▾</a>
-        <div class="dropdown-content">
-          <a href="#" onclick="switchLanguage()">🌐 Switch Language</a>
-          <a href="#" onclick="toggleNightMode()">🌓 Toggle Theme</a>
-          <a href="#" onclick="resetProgress()">🔄 Reset Progress</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+<header>
+  <h1><a href="index.html" style="text-decoration:none; color:#4f46e5;">MindStocks</a></h1>
+  <!-- Navbar -->
+<nav>
+  <a href="learning.html" id="nav-learning">Learning</a>
+  <a href="quizhub.html" id="nav-quiz">Quiz</a>
+  <a href="tradingsimulator.html" id="nav-trading">Trading Simulation</a>
+  <a href="progresstracker.html" id="nav-progress">Progress Tracking</a>
+
+  <!-- Settings Dropdown -->
+  <!-- Settings Dropdown -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Settings ▾</a>
+  <div class="dropdown-content">
+    <a href="#" id="switch-lang" onclick="switchLanguage()">🌐 Switch Language</a>
+    <a href="#" id="toggle-theme" onclick="toggleNightMode()">🌓 Toggle Theme</a>
+    <a href="#" id="reset-progress" onclick="resetProgress()">🔄 Reset Progress</a>
+  </div>
+</div>
+
+</nav>
+
+</header>
 
   <!-- How to Use Section -->
   <div class="main">
