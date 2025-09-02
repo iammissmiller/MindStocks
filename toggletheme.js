@@ -1,21 +1,28 @@
-// toggletheme.js
+// Apply theme on load
+function applyThemeFromStorage() {
+  const isDark = localStorage.getItem("darkMode") === "enabled";
+  document.body.classList.toggle("dark-mode", isDark);
 
-// Apply saved theme mode on page load
-document.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
-  }
-});
-
-// Function to toggle dark mode and save preference
-function toggleNightMode() {
-  document.body.classList.toggle("dark-mode");
-  if (document.body.classList.contains("dark-mode")) {
-    localStorage.setItem("darkMode", "enabled");
-  } else {
-    localStorage.setItem("darkMode", "disabled");
-  }
+  // sync with simulator
+  localStorage.setItem("sim_theme", isDark ? "dark" : "light");
 }
 
-// Attach function to window for global access
+// Run when page loads
+document.addEventListener("DOMContentLoaded", applyThemeFromStorage);
+
+// Toggle theme manually
+function toggleNightMode() {
+  const isDark = !document.body.classList.contains("dark-mode");
+
+  document.body.classList.toggle("dark-mode", isDark);
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+  localStorage.setItem("sim_theme", isDark ? "dark" : "light");
+}
+
+// Sync across tabs/pages
+window.addEventListener("storage", (e) => {
+  if (e.key === "darkMode" || e.key === "sim_theme") applyThemeFromStorage();
+});
+
+// Expose toggle for onclick
 window.toggleNightMode = toggleNightMode;
