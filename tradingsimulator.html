@@ -11,18 +11,15 @@
       --bg:#f6f7fb; --card:#ffffff; --text:#0f172a; --muted:#6b7280; --accent:#2563eb; --success:#16a34a; --danger:#dc2626; --glass: rgba(255,255,255,0.6);
       --radius:12px; --shadow: 0 8px 24px rgba(16,24,40,0.06);
     }
-    [data-theme='dark']{ --bg:#071021; --card:#071427; --text:#e6eef8; --muted:#9aa6b2; --accent:#58a6ff; --glass: rgba(255,255,255,0.03); }
-
-    *{box-sizing:border-box}
-    body{font-family: Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
     
-    /* 🌙 Trading Simulator Dark Mode */
-[data-theme='dark'] {
-  --bg: #0b0f19;           /* deep navy background */
-  --card: #0c1326;         /* dark card color */
-  --text: #e2e2ec;         /* main text */
-  --muted: #9ca3af;        /* secondary text */
-  --accent: #818cf8;       /* indigo accent */
+
+    /* 🌙 Trading Simulator Dark Mode (using .dark-mode) */
+.dark-mode {
+  --bg: #0b0f19;
+  --card: #0c1326;
+  --text: #e2e2ec;
+  --muted: #9ca3af;
+  --accent: #818cf8;
   --success: #22c55e;
   --danger: #ef4444;
   --glass: rgba(255,255,255,0.03);
@@ -30,49 +27,49 @@
 }
 
 /* Body & Container */
-[data-theme='dark'] body {
+.dark-mode body {
   background: var(--bg);
   color: var(--text);
 }
-[data-theme='dark'] .container {
+.dark-mode .container {
   color: var(--text);
 }
 
 /* Header & Navbar */
-[data-theme='dark'] header {
+.dark-mode header {
   background: linear-gradient(90deg,#111827,#1e293b);
   box-shadow: 0 2px 10px rgba(79,70,229,0.3);
 }
-[data-theme='dark'] header h1 a {
+.dark-mode header h1 a {
   color: var(--accent);
 }
-[data-theme='dark'] nav a {
+.dark-mode nav a {
   color: #d1d5db;
 }
-[data-theme='dark'] nav a:hover,
-[data-theme='dark'] nav a.active {
+.dark-mode nav a:hover,
+.dark-mode nav a.active {
   background-color: #312e81;
   color: #ffffff;
 }
 
 /* Dropdown */
-[data-theme='dark'] .dropdown-content {
+.dark-mode .dropdown-content {
   background: #1e1e2f;
   box-shadow: 0 6px 18px rgba(0,0,0,0.6);
 }
-[data-theme='dark'] .dropdown-content a {
+.dark-mode .dropdown-content a {
   color: #d4d4d8;
 }
-[data-theme='dark'] .dropdown-content a:hover {
+.dark-mode .dropdown-content a:hover {
   background: #2d2d44;
   color: #f9fafb;
 }
 
 /* Cards & Panels */
-[data-theme='dark'] .card,
-[data-theme='dark'] .balance-card,
-[data-theme='dark'] .stat,
-[data-theme='dark'] .modal.card {
+.dark-mode .card,
+.dark-mode .balance-card,
+.dark-mode .stat,
+.dark-mode .modal.card {
   background: var(--card);
   color: var(--text);
   box-shadow: var(--shadow);
@@ -80,73 +77,73 @@
 }
 
 /* Buttons */
-[data-theme='dark'] button.btn {
+.dark-mode button.btn {
   background: #0b1730;
   color: var(--text);
   border-color: rgba(230,238,248,0.18);
 }
-[data-theme='dark'] button.btn:hover {
+.dark-mode button.btn:hover {
   filter: brightness(1.08);
 }
-[data-theme='dark'] button.primary {
+.dark-mode button.primary {
   background: var(--accent);
   color: #fff;
   border-color: transparent;
 }
 
 /* Inputs */
-[data-theme='dark'] input[type=number],
-[data-theme='dark'] input {
+.dark-mode input[type=number],
+.dark-mode input {
   background: #0b1730;
   color: var(--text);
   border-color: rgba(230,238,248,0.18);
 }
 
 /* Tables */
-[data-theme='dark'] thead th {
+.dark-mode thead th {
   color: var(--muted);
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-[data-theme='dark'] tbody tr {
+.dark-mode tbody tr {
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-[data-theme='dark'] tbody tr:hover {
+.dark-mode tbody tr:hover {
   background: rgba(255,255,255,0.05);
 }
 
 /* Pills / Badges */
-[data-theme='dark'] .pill.up { background: rgba(34,197,94,0.12); }
-[data-theme='dark'] .pill.down { background: rgba(239,68,68,0.12); }
+.dark-mode .pill.up { background: rgba(34,197,94,0.12); }
+.dark-mode .pill.down { background: rgba(239,68,68,0.12); }
 
 /* Sparklines */
-[data-theme='dark'] canvas.spark {
+.dark-mode canvas.spark {
   background: #0b1326;
 }
 
 /* Toasts */
-[data-theme='dark'] .toast {
+.dark-mode .toast {
   background: rgba(16,24,40,0.95);
   border-color: rgba(255,255,255,0.08);
   color: var(--text);
 }
-[data-theme='dark'] .toast.ok { border-left: 4px solid var(--success); }
-[data-theme='dark'] .toast.warn { border-left: 4px solid var(--danger); }
+.dark-mode .toast.ok { border-left: 4px solid var(--success); }
+.dark-mode .toast.warn { border-left: 4px solid var(--danger); }
 
 /* Footer */
-[data-theme='dark'] footer {
+.dark-mode footer {
   background: #0b0f19;
   color: #9ca3af;
   border-top: 1px solid #2d2d44;
 }
-[data-theme='dark'] footer a {
+.dark-mode footer a {
   color: var(--accent);
 }
-[data-theme='dark'] footer a:hover {
+.dark-mode footer a:hover {
   color: #c7d2fe;
 }
 
 /* Flash highlight animation */
-[data-theme='dark'] .flash {
+.dark-mode .flash {
   animation: flash-dark 1200ms ease;
 }
 @keyframes flash-dark {
@@ -155,16 +152,20 @@
 }
 
 /* Charts */
-[data-theme='dark'] #portfolioChart,
-[data-theme='dark'] #allocChart {
+.dark-mode #portfolioChart,
+.dark-mode #allocChart {
   background: #0b1326;
 }
 
 /* Modal backdrop */
-[data-theme='dark'] .modal-backdrop {
+.dark-mode .modal-backdrop {
   background: rgba(0,0,0,0.6);
 }
 
+
+    *{box-sizing:border-box}
+    body{font-family: Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
+    
     
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
@@ -220,39 +221,6 @@
     @keyframes flash{0%{box-shadow:0 0 0 6px rgba(34,197,94,0.12)}100%{box-shadow:none}}
 
     footer{padding:20px;text-align:center;color:var(--muted)}
-/* --- Dark mode contrast fixes --- */
-[data-theme='dark'] button.btn{
-  background: #0b1730;               /* slightly lighter than --card */
-  color: var(--text);
-  border-color: rgba(230,238,248,.18);
-}
-[data-theme='dark'] button.btn:hover{
-  filter: brightness(1.08);
-}
-[data-theme='dark'] button.primary{
-  background: var(--accent);
-  color: #fff;                        /* ensure white text on accent */
-  border-color: transparent;
-}
-
-/* Inputs + table lines/hover */
-[data-theme='dark'] input[type=number]{
-  background: #0b1730;
-  color: var(--text);
-  border-color: rgba(230,238,248,.18);
-}
-[data-theme='dark'] thead th,
-[data-theme='dark'] tbody tr{
-  border-bottom-color: rgba(230,238,248,.10);
-}
-[data-theme='dark'] tbody tr:hover{
-  background: rgba(255,255,255,.05);
-}
-
-/* Pills (move badges) */
-[data-theme='dark'] .pill.up  { background: rgba(34,197,94,.12);  }
-[data-theme='dark'] .pill.down{ background: rgba(239,68,68,.12); }
-/* Global site header (navbar) */
 
 header {
   position: sticky;
@@ -418,7 +386,7 @@ nav a.active {
       <a href="#" class="dropbtn" >Settings ▾</a>
       <div class="dropdown-content">
         <a href="#">🌐 Switch Language</a>
-        <a href="#" id="themeToggleNav">🌓 Toggle Theme</a>
+        <a href="#" id="themeToggleNav" onclick="toggleNightMode()">🌓 Toggle Theme</a>
         <a href="#" id="resetNav">🔄 Reset Progress</a>
       </div>
     </div>
@@ -563,6 +531,7 @@ nav a.active {
   <footer>Educational simulator • Brokerage simulated (0.10%) • GST on brokerage (18%) • Data stored locally</footer>
 
   <script src="translation.js"></script>
+  <script src="toggletheme.js"></script>
   <script>
     // ======= Initial data and state =======
     const DEFAULT_BALANCE = 1000000;
@@ -607,7 +576,17 @@ nav a.active {
       portfolio = JSON.parse(localStorage.getItem('sim_portfolio')||'{}');
       history = JSON.parse(localStorage.getItem('sim_history')||'[]');
       balance = +(localStorage.getItem('sim_balance')||DEFAULT_BALANCE);
-      theme = localStorage.getItem('sim_theme')||theme;
+      
+      //read theme from either key
+  const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+  theme = localStorage.getItem('sim_theme') || (darkModeEnabled ? 'dark' : 'light');
+
+  // apply theme
+  if (theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
     }
 
     // ======= Rendering =======
@@ -877,6 +856,13 @@ document.getElementById('themeToggleNav').onclick = (e)=>{
 
     // save state periodically
     setInterval(saveState,5000);
+
+    // Theme toggle button inside simulator page
+document.getElementById("themeToggleNav").addEventListener("click", (e) => {
+  e.preventDefault(); // stop page jump
+  toggleNightMode();  // call the global toggle from toggletheme.js
+});
+
 
   </script>
 </body>
