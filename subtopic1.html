@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Introduction to Stock Market</title>
+<link rel="icon" type="image/png" href="logo.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1251,6 +1252,32 @@ document.addEventListener('DOMContentLoaded', () => {
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
+});
+
+function markLessonComplete(id) {
+  let p = JSON.parse(localStorage.getItem("mindstocksProgress")) || {
+    lessons: 0,
+    totalLessons: 8,
+    quizzes: 0,
+    totalQuizzes: 8,
+    lessonsData: [],
+    quizzesData: []
+  };
+
+  if (!p.lessonsData.find(l => l.id === id)) {
+    p.lessons++;
+    p.lessonsData.push({
+      id: id,
+      completed: true,
+      date: new Date().toISOString().split("T")[0]
+    });
+    localStorage.setItem("mindstocksProgress", JSON.stringify(p));
+  }
+}
+
+// ✅ mark lesson complete as soon as the page is opened
+document.addEventListener("DOMContentLoaded", () => {
+  markLessonComplete("lesson1");
 });
 
 </script>
