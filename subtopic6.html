@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mutual Funds — Clear Guide</title>
+<link rel="icon" type="image/png" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -821,41 +822,32 @@ html {
 
 <script>
 
-  const DEFAULT_PROGRESS = {
-  lessons: 0,
-  totalLessons: 8,   // adjust to real number
-  quizzes: 0,
-  totalQuizzes: 8,   // since you have 8 quizzes
-  trading: 0,
-  tradingHistory: []
-};
+function markLessonComplete(id) {
+  let p = JSON.parse(localStorage.getItem("mindstocksProgress")) || {
+    lessons: 0,
+    totalLessons: 8,
+    quizzes: 0,
+    totalQuizzes: 8,
+    lessonsData: [],
+    quizzesData: []
+  };
 
-function getProgress() {
-  return JSON.parse(localStorage.getItem("mindstocksProgress")) || { ...DEFAULT_PROGRESS };
-}
-
-function saveProgress(p) {
-  localStorage.setItem("mindstocksProgress", JSON.stringify(p));
-}
-
-const MindStocks = {
-  completeLesson() {
-    const p = getProgress();
-    if (p.lessons < p.totalLessons) p.lessons++;
-    saveProgress(p);
-  },
-  completeQuiz() {
-    const p = getProgress();
-    if (p.quizzes < p.totalQuizzes) p.quizzes++;
-    saveProgress(p);
-  },
-  recordTrade() {
-    const p = getProgress();
-    p.trading++;
-    p.tradingHistory.push(Date.now());
-    saveProgress(p);
+  if (!p.lessonsData.find(l => l.id === id)) {
+    p.lessons++;
+    p.lessonsData.push({
+      id: id,
+      completed: true,
+      date: new Date().toISOString().split("T")[0]
+    });
+    localStorage.setItem("mindstocksProgress", JSON.stringify(p));
   }
-};
+}
+
+// ✅ mark lesson complete as soon as the page is opened
+document.addEventListener("DOMContentLoaded", () => {
+  markLessonComplete("lesson6");
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('scamModal');
@@ -895,10 +887,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display !== 'none') closeModal(); });
 });
 
-// Auto-mark lesson as complete when opened
-document.addEventListener("DOMContentLoaded", () => {
-  MindStocks.completeLesson();
-});
+
 
 </script>
 <script src="toggletheme.js"></script>
