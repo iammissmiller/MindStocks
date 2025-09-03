@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Final Quiz - MindStocks</title>
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Google Font Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Base */
+    body {
+      font-family: "Inter", Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f9fafb;
+      color: #333;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    h1 {
+      color: #4f46e5;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    /* Certificate */
+    #certificate {
+      background: linear-gradient(135deg, #ffffff, #f3f4f6);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 800px;
+      margin: 30px auto;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      border: 2px solid #e0e7ff;
+    }
+
+    #certificate h1 {
+      font-size: 2rem;
+      color: #4f46e5;
+      margin-bottom: 12px;
+    }
+
+    #certificate h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 12px 0;
+      color: #111827;
+    }
+
+    #certificate p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 6px 0;
+    }
+
+    .divider {
+      width: 60%;
+      margin: 15px auto;
+      border-top: 2px solid #e0e7ff;
+    }
+
+    .signature {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .signature div {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .signature span {
+      display: block;
+      margin-top: 5px;
+      border-top: 1px solid #9ca3af;
+      width: 140px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cert-footer {
+      margin-top: 25px;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    /* Buttons & Input */
+    button {
+      padding: 10px 22px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #4338ca;
+      transform: translateY(-2px);
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #4f46e5;
+      border-radius: 6px;
+      width: 90%;
+      max-width: 300px;
+      margin: 15px auto;
+      display: block;
+      text-align: center;
+    }
+
+    /* Dark Mode */
+    .dark-mode {
+      background: #0b0f19;
+      color: #e2e2ec;
+    }
+
+    .dark-mode #certificate {
+      background: linear-gradient(135deg, #1c1c2a, #111827);
+      border: 2px solid #312e81;
+      color: #e5e7eb;
+    }
+
+    .dark-mode #certificate h1 {
+      color: #a5b4fc;
+    }
+
+    .dark-mode .divider {
+      border-top: 2px solid #312e81;
+    }
+
+    .dark-mode .signature div {
+      color: #d1d5db;
+    }
+
+    .dark-mode .signature span {
+      border-top: 1px solid #4b5563;
+    }
+
+    .dark-mode .cert-footer {
+      color: #9ca3af;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      #certificate {
+        padding: 20px;
+      }
+      #certificate h1 {
+        font-size: 1.6rem;
+      }
+      #certificate h2 {
+        font-size: 1.2rem;
+      }
+      #certificate p {
+        font-size: 0.95rem;
+      }
+      .signature {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎓 Final Quiz Completed!</h1>
+  <p>Enter your name to generate your certificate.</p>
+
+  <input type="text" id="participantName" placeholder="Name of Participant">
+  <button onclick="createCertificate()">Generate Certificate</button>
+
+  <div id="certificateSection" style="display:none;">
+    <div id="certificate">
+      <h1>Certificate of Achievement</h1>
+      <div class="divider"></div>
+      <p>This is proudly presented to</p>
+      <h2 id="certName"></h2>
+      <p>
+        for successfully completing the <b>MindStocks - SEBI Hackathon 2025</b> learning modules & final quiz.
+      </p>
+      <p>
+        Through dedication and hard work, the participant has demonstrated outstanding knowledge in stock markets, SEBI guidelines, and ethical investing practices.
+      </p>
+      <div class="divider"></div>
+      <p><b>Date:</b> <span id="certDate"></span></p>
+      <p><b>Certificate ID:</b> <span id="certID" style="font-family:monospace; color:#4f46e5;"></span></p>
+
+      <div class="signature">
+        <div>
+          <span></span>
+          SEBI Mentor
+        </div>
+        <div>
+          <span></span>
+          MindStocks Coordinator
+        </div>
+      </div>
+
+      <div class="cert-footer">© 2025 MindStocks | SEBI Hackathon</div>
+    </div>
+    <br>
+    <button onclick="downloadCertificatePDF()">⬇ Download as PDF</button>
+  </div>
+
+  <!-- html2canvas + jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    function createCertificate() {
+      const name = document.getElementById("participantName").value.trim();
+      if (!name) {
+        alert("Please enter your name to generate certificate.");
+        return;
+      }
+      generateCertificate(name); 
+    }
+
+    function generateCertificate(userName) {
+      const certID = "CERT-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+      const today = new Date().toLocaleDateString();
+
+      document.getElementById("certName").textContent = userName; 
+      document.getElementById("certDate").textContent = today;
+      document.getElementById("certID").textContent = certID;
+
+      let certificates = JSON.parse(localStorage.getItem("certificates")) || [];
+      certificates.push({ name: userName, date: today, certID: certID });
+      localStorage.setItem("certificates", JSON.stringify(certificates));
+
+      document.getElementById("certificateSection").style.display = "block";
+    }
+
+    async function downloadCertificatePDF() {
+      const cert = document.getElementById("certificate");
+      const canvas = await html2canvas(cert, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const { jsPDF } = window.jspdf;
+
+      const pdfWidth = canvas.width * 0.264583;
+      const pdfHeight = canvas.height * 0.264583;
+      const orientation = pdfWidth > pdfHeight ? "l" : "p";
+      const pdf = new jsPDF(orientation, "mm", [pdfWidth, pdfHeight]);
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("MindStocks_Certificate.pdf");
+    }
+  </script>
+</body>
+</html>
