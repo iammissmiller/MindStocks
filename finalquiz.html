@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Final SEBI Quiz</title>
+<link rel="icon" type="image/png" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -466,11 +467,12 @@ function animateProgress(percent){
   setTimeout(()=>{circle.style.strokeDashoffset=circumference-(percent/100)*circumference;},100);
 }
 
+
 function showResult(){
   score = answers.reduce((acc,ans,i) => 
     ans === quiz[i].answer ? acc+1 : acc, 0
   );
-  
+
   document.getElementById("quiz-container").style.display="none";
   document.getElementById("prev-btn").style.display="none";
   document.getElementById("next-btn").style.display="none";
@@ -482,6 +484,12 @@ function showResult(){
   let message="😕 Needs Improvement. Keep practicing!";
   if(score===quiz.length) message="🎉 Perfect Score! Excellent job!";
   else if(score>=quiz.length/2) message="🙂 Good work! You're learning well.";
+
+  // 🟢 Add certificate unlock if >= 80%
+  let certificateBtn = "";
+  if(percent >= 80){
+    certificateBtn = `<a class="btn-link" href="certificate.html?score=${percent}">🎓 Get Your Certificate</a>`;
+  }
 
   resultDiv.innerHTML=`
     <div class="progress-container">
@@ -500,11 +508,14 @@ function showResult(){
     </div>
     <div class="score-counter" id="scoreCounter">0</div>
     <div class="message">${message}</div>
+    ${certificateBtn}
     <a class="btn-link" onclick="restartQuiz()">🔄 Restart Quiz</a>
     <a class="btn-link" onclick="reviewAnswers()">📖 Review Answers</a>`;
+    
   animateCounter(document.getElementById("scoreCounter"),score);
   animateProgress(percent);
 }
+
 
 function restartQuiz(){
   document.getElementById("result").style.display="none";
